@@ -3,7 +3,10 @@ package com.example.testdisasterevent.ui.login;
 import androidx.annotation.Nullable;
 
 /**
- * Authentication result : success (user details) or error message.
+ * Date: 23.01.28
+ * Function: Authentication result - success (user details) or error message of Login Process.
+ * Author: Siyu Liao
+ * Version: Week 1
  */
 class LoginResult {
     @Nullable

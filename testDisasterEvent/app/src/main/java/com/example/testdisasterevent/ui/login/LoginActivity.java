@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -20,15 +21,18 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.ui.login.LoginViewModel;
 import com.example.testdisasterevent.ui.login.LoginViewModelFactory;
 import com.example.testdisasterevent.databinding.ActivityLoginBinding;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -49,6 +53,10 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
+        final TextView registerButton = binding.register;
+        registerButton.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        final ImageView welcome_gif = (ImageView) findViewById(R.id.welcome);
+        Glide.with(this).load(R.drawable.test).into(welcome_gif);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -123,6 +131,14 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+            }
+        });
+
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
