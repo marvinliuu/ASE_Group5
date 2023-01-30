@@ -8,7 +8,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TestDisasterEvent">
+        android:theme="@style/Theme.NoTitle">
+        <activity
+            android:name=".ui.register.RegisterActivity"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -32,6 +32,7 @@ import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.ui.login.LoginViewModel;
 import com.example.testdisasterevent.ui.login.LoginViewModelFactory;
 import com.example.testdisasterevent.databinding.ActivityLoginBinding;
+import com.example.testdisasterevent.ui.register.RegisterActivity;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -138,7 +139,8 @@ public class LoginActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent register_intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(register_intent);
             }
         });
     }
