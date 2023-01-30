@@ -32,7 +32,6 @@ import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.ui.login.LoginViewModel;
 import com.example.testdisasterevent.ui.login.LoginViewModelFactory;
 import com.example.testdisasterevent.databinding.ActivityLoginBinding;
-import com.example.testdisasterevent.ui.register.RegisterActivity;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -52,10 +51,14 @@ public class LoginActivity extends AppCompatActivity {
 
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
-        final Button loginButton = binding.login;
+        final ImageView loginButton = (ImageView) findViewById(R.id.login);
+        Glide.with(this).load(R.drawable.verify_button).into(loginButton);
         final ProgressBar loadingProgressBar = binding.loading;
-        final TextView registerButton = binding.register;
-        registerButton.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        final ImageView logo = (ImageView) findViewById(R.id.app_logo);
+        Glide.with(this).load(R.drawable.disaster_fire_logo).into(logo);
+//        final TextView registerButton = binding.register;
+        // draw underline
+//        registerButton.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -132,23 +135,14 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
             }
         });
-
-
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent register_intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(register_intent);
-            }
-        });
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
         // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-        Intent login_intent = new Intent(LoginActivity.this,MainActivity.class);
-        startActivity(login_intent);
+        Intent main_intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(main_intent);
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {

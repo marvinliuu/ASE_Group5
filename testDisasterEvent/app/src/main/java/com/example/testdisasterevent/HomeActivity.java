@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.testdisasterevent.databinding.ActivityHomeBinding;
 import com.example.testdisasterevent.ui.login.LoginActivity;
+import com.example.testdisasterevent.ui.register.RegisterActivity;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -24,21 +25,22 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        final Button signInButton = binding.signIn;
-        final TextView registerButton = binding.register;
-        registerButton.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        final Button registerButton = binding.signUp;
+        final TextView loginButton = binding.logIn;
         final ImageView welcome_gif = (ImageView) findViewById(R.id.welcome);
         Glide.with(this).load(R.drawable.test).into(welcome_gif);
+        final ImageView logo = (ImageView) findViewById(R.id.app_logo);
+        Glide.with(this).load(R.drawable.disaster_fire_logo).into(logo);
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent login_intent = new Intent(HomeActivity.this,LoginActivity.class);
-                startActivity(login_intent);
+                Intent register_intent = new Intent(HomeActivity.this, RegisterActivity.class);
+                startActivity(register_intent);
             }
         });
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO: NEED TO BE CHANGE TO REGISTER PAGE
