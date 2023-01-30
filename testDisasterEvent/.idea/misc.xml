@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.18005354752342703" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.17930327868852458" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.19293478260869565" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.13333333333333333" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.23777173913043478" />

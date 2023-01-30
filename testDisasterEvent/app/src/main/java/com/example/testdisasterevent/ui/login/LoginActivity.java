@@ -56,8 +56,6 @@ public class LoginActivity extends AppCompatActivity {
         final ProgressBar loadingProgressBar = binding.loading;
         final TextView registerButton = binding.register;
         registerButton.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-        final ImageView welcome_gif = (ImageView) findViewById(R.id.welcome);
-        Glide.with(this).load(R.drawable.test).into(welcome_gif);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
