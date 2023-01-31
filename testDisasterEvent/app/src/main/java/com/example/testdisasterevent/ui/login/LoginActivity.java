@@ -115,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
+        // input enter then go into this listen
         passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
