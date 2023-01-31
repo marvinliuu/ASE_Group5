@@ -21,5 +21,6 @@
     <string name="register_phone">Phone</string>
     <string name="register_idCode">Identification Code</string>
     <string name="register_password">Password</string>
+    <string name="google_api_key">AIzaSyB0GgUei2Qryom8nshjzHxjbKjup77ISAo</string>
     <string name="register_password_comfirm">Password Confirmation</string>
 </resources>
