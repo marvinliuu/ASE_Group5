@@ -3,20 +3,28 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.17760416666666667" />
-        <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.17760416666666667" />
-        <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.17760416666666667" />
-        <entry key="app/src/main/res/drawable/sign_up_button.xml" value="0.17760416666666667" />
+        <entry key="app/src/main/res/drawable/bg_edittext.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/drawable/bg_edittext_focused.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/drawable/bg_edittext_normal.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/drawable/button_shape.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/drawable/sign_up_button.xml" value="0.5354166666666667" />
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.18005354752342703" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.3297384355004975" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.375" />
+        <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.17930327868852458" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.23777173913043478" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.19293478260869565" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.13333333333333333" />
-        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.14427083333333332" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.165" />
-        <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.14427083333333332" />
-        <entry key="app/src/main/res/layout/register_activity.xml" value="0.14635416666666667" />
-        <entry key="app/src/main/res/layout/register_fragment.xml" value="0.14635416666666667" />
-        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.16145833333333334" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.23777173913043478" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.23777173913043478" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.23777173913043478" />
+        <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.23777173913043478" />
+        <entry key="app/src/main/res/layout/register_activity.xml" value="0.4134963768115942" />
+        <entry key="app/src/main/res/layout/register_fragment.xml" value="0.3889278942208674" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.5161458333333333" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.25277777777777777" />
       </map>
     </option>
   </component>

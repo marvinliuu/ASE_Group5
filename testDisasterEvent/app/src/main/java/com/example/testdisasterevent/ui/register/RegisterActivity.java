@@ -20,12 +20,13 @@ public class RegisterActivity extends AppCompatActivity {
                     .replace(R.id.container, RegisterFragment.newInstance())
                     .commitNow();
         }
-        androidx.appcompat.widget.Toolbar toolbar=findViewById(R.id.topBar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//添加默认的返回图标
-        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
+//        androidx.appcompat.widget.Toolbar toolbar=findViewById(R.id.topBar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//添加默认的返回图标
+//        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
 
     }
+
     // listen the return(home) button on topBar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

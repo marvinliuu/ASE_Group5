@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.databinding.RegisterFragmentBinding;
@@ -18,6 +19,7 @@ import com.example.testdisasterevent.databinding.RegisterFragmentBinding;
 public class RegisterFragment extends Fragment {
 
     private RegisterViewModel mViewModel;
+    private RegisterFragmentBinding binding;
 
     public static RegisterFragment newInstance() {
         return new RegisterFragment();
@@ -27,7 +29,7 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
+//        final EditText nickNameText = binding.registerName;
         return inflater.inflate(R.layout.register_fragment, container, false);
     }
 

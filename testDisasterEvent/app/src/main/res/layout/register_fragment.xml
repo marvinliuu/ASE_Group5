@@ -7,43 +7,178 @@
     android:layout_height="match_parent"
     tools:context=".ui.register.RegisterFragment">
 
+    <ImageView
+        android:id="@+id/app_logo"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="13dp"
+        android:scaleType="fitXY"
+        android:background="@drawable/disaster_fire_logo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/registerNameText"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="132dp"
-        android:layout_marginLeft="16dp"
-        android:hint="@string/register_nickName"
-        app:layout_constraintEnd_toEndOf="@dimen/activity_horizontal_margin"
-        app:layout_constraintHorizontal_bias="0.135"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="@string/app_name"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <ImageView
+        android:id="@+id/mustFilledIn"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/star"
+        android:scaleType="fitXY"
+        app:layout_constraintRight_toLeftOf="@+id/registerName"
+        app:layout_constraintTop_toTopOf="@+id/registerName" />
+
+    <ImageView
+        android:id="@+id/mustFilledIn1"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/star"
+        android:scaleType="fitXY"
+        app:layout_constraintRight_toLeftOf="@+id/registerEmail"
+        app:layout_constraintTop_toTopOf="@+id/registerEmail" />
+
+    <ImageView
+        android:id="@+id/mustFilledIn2"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/star"
+        android:scaleType="fitXY"
+        app:layout_constraintRight_toLeftOf="@+id/registerPassword"
+        app:layout_constraintTop_toTopOf="@+id/registerPassword" />
+
+
+    <Button
+        android:id="@+id/registerFinish"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginRight="0dp"
+        android:scaleType="fitXY"
+        android:background="@drawable/verify_button"
+        app:layout_constraintRight_toRightOf="@+id/registerActivationCode"
+        app:layout_constraintTop_toBottomOf="@+id/registerActivationCode" />
+
+    <Button
+        android:id="@+id/registerBack"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginLeft="0dp"
+        android:scaleType="fitXY"
+        android:background="@drawable/register_back"
+        app:layout_constraintLeft_toLeftOf="@+id/registerActivationCode"
+        app:layout_constraintTop_toBottomOf="@+id/registerActivationCode" />
+
+    <Button
+        android:id="@+id/passwordVisible"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginRight="10dp"
+        android:scaleType="fitXY"
+        android:background="@drawable/password_visualization"
+        app:layout_constraintRight_toRightOf="@+id/registerPassword"
+        app:layout_constraintTop_toTopOf="@+id/registerPassword"
+        app:layout_constraintBottom_toBottomOf="@+id/registerPassword"/>
+
+    <Button
+        android:id="@+id/ActivationExplanation"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="0dp"
+        android:scaleType="fitXY"
+        android:background="@drawable/register_activation_explanation"
+        app:layout_constraintLeft_toRightOf="@+id/registerActivationCode"
+        app:layout_constraintTop_toTopOf="@+id/registerActivationCode" />
 
     <EditText
         android:id="@+id/registerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="16dp"
-        android:ems="10"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="104dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:textSize="20dp"
+        android:background="@drawable/bg_edittext"
+        android:ems="15"
         android:inputType="textPersonName"
-        android:text="Nickname"
+        android:hint="Username"
+        app:layout_constraintEnd_toEndOf="@dimen/activity_horizontal_margin"
+        app:layout_constraintHorizontal_bias="0.135"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/registerEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:textSize="20dp"
+        android:background="@drawable/bg_edittext"
+        android:ems="15"
+
+        android:hint="Email"
         app:layout_constraintBottom_toBottomOf="@dimen/activity_horizontal_margin"
         app:layout_constraintEnd_toEndOf="@dimen/activity_horizontal_margin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerNameText" />
+        app:layout_constraintTop_toBottomOf="@+id/registerName" />
 
-    <Button
-        android:id="@+id/button"
+
+    <EditText
+        android:id="@+id/registerPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:textSize="20dp"
+        android:background="@drawable/bg_edittext"
+        android:ems="15"
+
+        android:hint="Password"
+        app:layout_constraintBottom_toBottomOf="@dimen/activity_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="@dimen/activity_horizontal_margin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.856" />
+        app:layout_constraintTop_toBottomOf="@+id/registerEmail" />
+
+    <EditText
+        android:id="@+id/registerActivationCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:textSize="20dp"
+        android:background="@drawable/bg_edittext"
+        android:ems="15"
+        android:hint="Activation Code"
+        app:layout_constraintBottom_toBottomOf="@dimen/activity_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="@dimen/activity_horizontal_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerPassword" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
