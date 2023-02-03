@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "245184637334",
+    "project_id": "disasterresponse-24315",
+    "storage_bucket": "disasterresponse-24315.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:245184637334:android:044a5966dbe245f80a15b7",
+        "android_client_info": {
+          "package_name": "com.example.testdisasterevent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "245184637334-4miri10limngjofhlvfk9ncqci2deam5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5hmHe7htLvXdZULusLYP1KKI8zzpreT4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "245184637334-4miri10limngjofhlvfk9ncqci2deam5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

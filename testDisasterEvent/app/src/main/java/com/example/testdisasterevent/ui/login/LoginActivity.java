@@ -32,12 +32,22 @@ import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.ui.login.LoginViewModel;
 import com.example.testdisasterevent.ui.login.LoginViewModelFactory;
 import com.example.testdisasterevent.databinding.ActivityLoginBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
+
+    private TextView tv_date;
+    private TextView tv_content;
+    private DatabaseReference mReference;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,9 +66,13 @@ public class LoginActivity extends AppCompatActivity {
         final ProgressBar loadingProgressBar = binding.loading;
         final ImageView logo = (ImageView) findViewById(R.id.app_logo);
         Glide.with(this).load(R.drawable.disaster_fire_logo).into(logo);
+        tv_date = binding.tvDate;
+        tv_content = binding.tvContent;
 //        final TextView registerButton = binding.register;
         // draw underline
 //        registerButton.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+
+        initData();
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -137,6 +151,44 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void initData() {
+        //构建数据库实例对象，引用为mReference
+        mReference = FirebaseDatabase.getInstance().getReference();
+        //通过键名，获取数据库实例对象的子节点对象
+        DatabaseReference date = mReference.child("date");
+        DatabaseReference content = mReference.child("content");
+
+        //注册子第一个节点对象数据变化的监听者对象
+        date.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //数据库数据变化时调用此方法
+                String value = dataSnapshot.getValue(String.class);
+                tv_date.setText(value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //注册子第二个节点对象数据变化的监听者对象
+        content.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //数据库数据变化时调用此方法
+                String value = dataSnapshot.getValue(String.class);
+                tv_content.setText(value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();

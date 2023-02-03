@@ -1,10 +1,11 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
     compileSdk 33
-    buildToolsVersion "33.0.1"
+    buildToolsVersion '33.0.1'
 
     defaultConfig {
         applicationId "com.example.testdisasterevent"
@@ -29,6 +30,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+    compileSdkVersion 33
 }
 
 dependencies {
@@ -44,6 +46,12 @@ dependencies {
     implementation files('libs/glide-3.6.0.jar')
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation platform('com.google.firebase:firebase-bom:31.2.0')
+    implementation 'com.google.firebase:firebase-core:9.6.1'
+    implementation 'com.google.firebase:firebase-database:9.6.1'
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:31.2.0')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
