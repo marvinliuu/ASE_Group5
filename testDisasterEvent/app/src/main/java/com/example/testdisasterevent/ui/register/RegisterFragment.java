@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
-
+import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -28,20 +28,25 @@ import com.example.testdisasterevent.ui.login.LoginViewModel;
 import com.example.testdisasterevent.ui.login.LoginViewModelFactory;
 import com.example.testdisasterevent.ui.register.RegisterFormState;
 import com.example.testdisasterevent.ui.register.RegisterViewModel;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+
 
 public class RegisterFragment extends Fragment {
-
+    private ImageView imageView;
+    private HideReturnsTransformationMethod method_show;
     private RegisterViewModel mViewModel;
     private RegisterFragmentBinding binding;
     private Button registerBack;
     private Button registerFinish;
-    private Button pwdVisible;
+    private ImageView pwdVisible;
     private Button actDescription;
     private EditText nickNameText;
     private EditText registerName;
     private EditText registerEmail;
     private EditText registerPwd;
     private EditText registerActCode;
+    private boolean pwdFlag = false;
     public static RegisterFragment newInstance() {
         return new RegisterFragment();
     }
@@ -105,6 +110,27 @@ public class RegisterFragment extends Fragment {
                 startActivity(login_intent);
             }
         });
+
+        pwdVisible.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                PasswordTransformationMethod methodHide=PasswordTransformationMethod.getInstance();
+                registerPwd.setTransformationMethod(methodHide);
+                if(pwdFlag){
+                    pwdVisible.setImageResource(R.drawable.eye1);
+                    pwdFlag=false;
+                    PasswordTransformationMethod method_hide = PasswordTransformationMethod.getInstance();
+                    registerPwd.setTransformationMethod(method_hide);
+                }
+                else{
+                    pwdVisible.setImageResource(R.drawable.eye2);
+                    pwdFlag=true;
+                    method_show= HideReturnsTransformationMethod.getInstance();
+                    registerPwd.setTransformationMethod(method_show);
+                }
+            }
+        });
         registerFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +138,6 @@ public class RegisterFragment extends Fragment {
                 String email = registerEmail.getText().toString();
                 String pwd = registerPwd.getText().toString();
                 String actCode = registerActCode.getText().toString();
-
 
                 mViewModel.register(name, pwd, email, actCode);
 
@@ -142,6 +167,7 @@ public class RegisterFragment extends Fragment {
                 }
             }
         });
+
 
 
     }
