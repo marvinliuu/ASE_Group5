@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.graphics.Paint;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -16,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -43,11 +46,13 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+    private HideReturnsTransformationMethod method_show;
     private ActivityLoginBinding binding;
-
+    private ImageView pwdVisible;
     private TextView tv_date;
     private TextView tv_content;
     private DatabaseReference mReference;
+    private boolean pwdFlag = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         tv_date = binding.tvDate;
         tv_content = binding.tvContent;
         loginButton.setEnabled(false);
+        pwdVisible = binding.passwordVisible;
 
 
 
@@ -156,6 +162,27 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent home_intent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(home_intent);
+            }
+        });
+
+        pwdVisible.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                PasswordTransformationMethod methodHide=PasswordTransformationMethod.getInstance();
+                passwordEditText.setTransformationMethod(methodHide);
+                if(pwdFlag){
+                    pwdVisible.setImageResource(R.drawable.eye1);
+                    pwdFlag=false;
+                    PasswordTransformationMethod method_hide = PasswordTransformationMethod.getInstance();
+                    passwordEditText.setTransformationMethod(method_hide);
+                }
+                else{
+                    pwdVisible.setImageResource(R.drawable.eye2);
+                    pwdFlag=true;
+                    method_show= HideReturnsTransformationMethod.getInstance();
+                    passwordEditText.setTransformationMethod(method_show);
+                }
             }
         });
     }

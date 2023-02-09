@@ -76,7 +76,7 @@ public class RegisterFragment extends Fragment {
 
         pwdVisible = binding.passwordVisible;
         actDescription = binding.ActivationExplanation;
-
+        registerFinish.setEnabled(false);
 
         return root;
     }

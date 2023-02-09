@@ -14,10 +14,10 @@
         android:layout_height="64dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="13dp"
-        android:scaleType="fitXY"
         android:background="@drawable/disaster_fire_logo"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/textView"
@@ -29,6 +29,7 @@
         android:scaleType="fitXY"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 
     <ImageView
         android:id="@+id/mustFilledIn"
@@ -87,30 +88,31 @@
 
     <Button
         android:id="@+id/ActivationExplanation"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:layout_marginLeft="0dp"
-        android:scaleType="fitXY"
-        android:onClick="openPopWindow"
+        android:layout_marginRight="10dp"
         android:background="@drawable/register_activation_explanation"
+        android:onClick="openPopWindow"
+        android:scaleType="fitXY"
         app:layout_constraintLeft_toRightOf="@+id/registerActivationCode"
         app:layout_constraintTop_toTopOf="@+id/registerActivationCode" />
 
     <EditText
         android:id="@+id/registerEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="340dp"
+        android:layout_height="60dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="104dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:textSize="20dp"
         android:background="@drawable/bg_edittext"
         android:ems="15"
-        android:inputType="textPersonName"
         android:hint="Email"
+        android:textColorHint="@color/white"
+        android:inputType="textPersonName"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="@dimen/activity_horizontal_margin"
         app:layout_constraintHorizontal_bias="0.135"
         app:layout_constraintStart_toStartOf="parent"
@@ -119,18 +121,18 @@
 
     <EditText
         android:id="@+id/registerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="340dp"
+        android:layout_height="60dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:textSize="20dp"
         android:background="@drawable/bg_edittext"
         android:ems="15"
-
         android:hint="Name"
+        android:textColorHint="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@dimen/activity_horizontal_margin"
         app:layout_constraintEnd_toEndOf="@dimen/activity_horizontal_margin"
         app:layout_constraintStart_toStartOf="parent"
@@ -139,13 +141,14 @@
 
     <EditText
         android:id="@+id/registerPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_width="340dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/bg_edittext"
         android:ems="15"
         android:hint="Password"
+        android:textColorHint="@color/white"
         android:inputType="textPassword"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
@@ -158,17 +161,18 @@
 
     <EditText
         android:id="@+id/registerActivationCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="340dp"
+        android:layout_height="60dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:textSize="20dp"
         android:background="@drawable/bg_edittext"
         android:ems="15"
         android:hint="Activation Code"
+        android:textColorHint="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@dimen/activity_horizontal_margin"
         app:layout_constraintEnd_toEndOf="@dimen/activity_horizontal_margin"
         app:layout_constraintStart_toStartOf="parent"
@@ -176,13 +180,13 @@
 
     <ImageView
         android:id="@+id/passwordVisible"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:layout_marginRight="10dp"
-        android:scaleType="fitXY"
         android:background="@drawable/eye1"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/registerPassword"
         app:layout_constraintRight_toRightOf="@+id/registerPassword"
-        app:layout_constraintTop_toTopOf="@+id/registerPassword"
-        app:layout_constraintBottom_toBottomOf="@+id/registerPassword"/>
+        app:layout_constraintTop_toTopOf="@+id/registerPassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

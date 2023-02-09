@@ -35,8 +35,8 @@
 
     <EditText
         android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="340dp"
+        android:layout_height="60dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="104dp"
         android:paddingTop="10dp"
@@ -44,6 +44,7 @@
         android:paddingLeft="10dp"
         android:textSize="20dp"
         android:background="@drawable/bg_edittext"
+        android:textColorHint="@color/white"
         android:ems="15"
         android:inputType="textPersonName"
         android:hint="Username"
@@ -55,8 +56,8 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="340sp"
+        android:layout_height="60dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:paddingTop="10dp"
@@ -65,7 +66,9 @@
         android:textSize="20dp"
         android:background="@drawable/bg_edittext"
         android:ems="15"
+        android:textColorHint="@color/white"
         android:hint="Password"
+        android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="@dimen/activity_horizontal_margin"
         app:layout_constraintEnd_toEndOf="@dimen/activity_horizontal_margin"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,7 +96,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
-
+    <ImageView
+        android:id="@+id/passwordVisible"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/eye1"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/password"
+        app:layout_constraintRight_toRightOf="@+id/password"
+        app:layout_constraintTop_toTopOf="@+id/password" />
 
     <ProgressBar
         android:id="@+id/loading"
