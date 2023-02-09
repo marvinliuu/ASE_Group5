@@ -19,20 +19,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
+    <ImageView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="220dp"
+        android:layout_height="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
-        android:text="@string/app_name"
-        android:textSize="30sp"
-        android:textColor="#ffffff"
-        android:font="@font/alibaba_medium"
-        android:shadowColor="#ff000000"
-        android:shadowRadius="1"
-        android:shadowDx="2"
-        android:shadowDy="0"
+        android:background="@drawable/captain_irish"
+        android:scaleType="fitXY"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -53,8 +47,9 @@
         android:layout_height="50dp"
         android:layout_marginTop="200dp"
         android:text="@string/action_register"
-        android:font="@font/alibaba_medium"
-        android:elevation="100dp"
+        android:font="@font/alibaba_extrabold"
+        android:textSize="20dip"
+        android:textAllCaps="false"
         android:background="@drawable/sign_up_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"

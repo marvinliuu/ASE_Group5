@@ -22,20 +22,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
+    <ImageView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="220dp"
+        android:layout_height="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
-        android:text="@string/app_name"
-        android:textSize="30sp"
-        android:textColor="#ffffff"
-        android:font="@font/alibaba_medium"
-        android:shadowColor="#ff000000"
-        android:shadowRadius="1"
-        android:shadowDx="2"
-        android:shadowDy="0"
+        android:background="@drawable/captain_irish"
+        android:scaleType="fitXY"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -71,23 +65,35 @@
         android:textSize="20dp"
         android:background="@drawable/bg_edittext"
         android:ems="15"
-
         android:hint="Password"
         app:layout_constraintBottom_toBottomOf="@dimen/activity_horizontal_margin"
         app:layout_constraintEnd_toEndOf="@dimen/activity_horizontal_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
+    <Button
+        android:id="@+id/loginback"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/button_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
-    <ImageView
+    <Button
         android:id="@+id/login"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="13dp"
-        android:scaleType="fitXY"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/button_finish"
+        android:text="-&gt;"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password" />
+
+
 
     <ProgressBar
         android:id="@+id/loading"

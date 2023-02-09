@@ -7,6 +7,7 @@
         android:radius="15dp"
         />
     <!-- 背景颜色 -->
-    <solid android:color="@color/pink_define" />
+<!--    <solid android:color="@color/pink_define" />-->
+    >
 
 </shape>

@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.testdisasterevent.HomeActivity;
 import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.ui.login.LoginViewModel;
@@ -62,16 +63,14 @@ public class LoginActivity extends AppCompatActivity {
 
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
-        final ImageView loginButton = (ImageView) findViewById(R.id.login);
-        Glide.with(this).load(R.drawable.verify_button).into(loginButton);
+        final Button loginButton = binding.login;
+        final Button backButton = binding.loginback;
         final ProgressBar loadingProgressBar = binding.loading;
         final ImageView logo = (ImageView) findViewById(R.id.app_logo);
         Glide.with(this).load(R.drawable.disaster_fire_logo).into(logo);
         tv_date = binding.tvDate;
         tv_content = binding.tvContent;
-//        final TextView registerButton = binding.register;
-        // draw underline
-//        registerButton.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        loginButton.setEnabled(false);
 
 
 
@@ -149,6 +148,14 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent home_intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(home_intent);
             }
         });
     }
