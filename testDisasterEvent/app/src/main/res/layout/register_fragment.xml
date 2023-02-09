@@ -26,9 +26,16 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:text="@string/app_name"
-        android:textSize="24sp"
+        android:textSize="30sp"
+        android:textColor="#ffffff"
+        android:font="@font/alibaba_medium"
+        android:shadowColor="#ff000000"
+        android:shadowRadius="1"
+        android:shadowDx="2"
+        android:shadowDy="0"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
     <ImageView
         android:id="@+id/mustFilledIn"
         android:layout_width="15dp"
@@ -66,8 +73,10 @@
         android:layout_height="50dp"
         android:layout_marginTop="28dp"
         android:layout_marginRight="0dp"
-        android:scaleType="fitXY"
-        android:background="@drawable/verify_button"
+        android:background="@drawable/register_process_button"
+        android:elevation="100dp"
+        android:text="-&gt;"
+        android:textSize="30sp"
         app:layout_constraintRight_toRightOf="@+id/registerActivationCode"
         app:layout_constraintTop_toBottomOf="@+id/registerActivationCode" />
 
@@ -77,8 +86,10 @@
         android:layout_height="50dp"
         android:layout_marginTop="28dp"
         android:layout_marginLeft="0dp"
-        android:scaleType="fitXY"
-        android:background="@drawable/register_back"
+        android:background="@drawable/register_process_button"
+        android:elevation="100dp"
+        android:text="&lt;-"
+        android:textSize="30sp"
         app:layout_constraintLeft_toLeftOf="@+id/registerActivationCode"
         app:layout_constraintTop_toBottomOf="@+id/registerActivationCode" />
 
@@ -90,6 +101,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="0dp"
         android:scaleType="fitXY"
+        android:onClick="openPopWindow"
         android:background="@drawable/register_activation_explanation"
         app:layout_constraintLeft_toRightOf="@+id/registerActivationCode"
         app:layout_constraintTop_toTopOf="@+id/registerActivationCode" />

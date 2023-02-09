@@ -4,6 +4,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
@@ -12,11 +13,14 @@ import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.example.testdisasterevent.HomeActivity;
 import com.example.testdisasterevent.MainActivity;
@@ -47,6 +51,9 @@ public class RegisterFragment extends Fragment {
     private EditText registerPwd;
     private EditText registerActCode;
     private boolean pwdFlag = false;
+    private PopupWindow popupWindow;
+    private View contentView;
+
     public static RegisterFragment newInstance() {
         return new RegisterFragment();
     }
@@ -77,6 +84,7 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        showPopwindow();
         mViewModel = new ViewModelProvider(this, new RegisterViewModelFactory())
                 .get(RegisterViewModel.class);
         // TODO: Use the ViewModel
@@ -145,6 +153,12 @@ public class RegisterFragment extends Fragment {
                 startActivity(login_intent);
             }
         });
+        actDescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+            }
+        });
 
         mViewModel.getRegisterFormState().observe(getActivity(), new Observer<RegisterFormState>() {
             @Override
@@ -168,8 +182,30 @@ public class RegisterFragment extends Fragment {
             }
         });
 
-
-
     }
+
+    /**
+     * 显示popupWindow
+     */
+    private void showPopwindow() {
+        //加载弹出框的布局
+        contentView = LayoutInflater.from(getActivity()).inflate(
+                R.layout.register_popupwindow, null);
+        popupWindow = new PopupWindow(contentView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                700);
+        // 设置SelectPicPopupWindow弹出窗体的高
+        popupWindow.setHeight(700);
+        popupWindow.setFocusable(true);// 取得焦点
+        //注意  要是点击外部空白处弹框消息  那么必须给弹框设置一个背景色  不然是不起作用的
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        //点击外部消失
+        popupWindow.setOutsideTouchable(true);
+        //设置可以点击
+        popupWindow.setTouchable(true);
+        //进入退出的动画，指定刚才定义的style
+        popupWindow.setAnimationStyle(R.style.ipopwindow_anim_style);
+    }
+
 
 }

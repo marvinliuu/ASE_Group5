@@ -33,4 +33,12 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     </style>
 
+    <style name="ipopwindow_anim_style">
+        <item name="android:windowEnterAnimation">@anim/popshow_anim</item>
+        <!-- show animation xml -->
+        <item name="android:windowExitAnimation">@anim/pophidden_anim</item>
+        <!-- hidden animation xml -->
+    </style>
+
+
 </resources>

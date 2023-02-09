@@ -48,13 +48,14 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tv_content;
     private DatabaseReference mReference;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        initData();
 
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
@@ -72,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         // draw underline
 //        registerButton.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 
-        initData();
+
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -198,7 +199,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(main_intent);
     }
 
-    private void showLoginFailed(@StringRes Integer errorString) {
+    private void showLoginFailed(Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 }
