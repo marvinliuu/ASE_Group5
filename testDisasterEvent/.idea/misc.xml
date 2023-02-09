@@ -8,6 +8,9 @@
         <entry key="app/src/main/res/drawable/bg_edittext_normal.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/drawable/button_shape.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/drawable/button_shape_shadow.xml" value="0.14947916666666666" />
+        <entry key="app/src/main/res/drawable/gradient_center.xml" value="0.18611111111111112" />
+        <entry key="app/src/main/res/drawable/gradient_end.xml" value="0.18611111111111112" />
+        <entry key="app/src/main/res/drawable/gradient_start.xml" value="0.18611111111111112" />
         <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.36041666666666666" />
@@ -17,13 +20,14 @@
         <entry key="app/src/main/res/drawable/sign_up_button.xml" value="0.1" />
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.18005354752342703" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.17930327868852458" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.23777173913043478" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.19293478260869565" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.13333333333333333" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.23777173913043478" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.23777173913043478" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.23777173913043478" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.23777173913043478" />
+
         <entry key="app/src/main/res/layout/register_activity.xml" value="0.4134963768115942" />
         <entry key="app/src/main/res/layout/register_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/register_popupwindow.xml" value="0.18795289855072464" />
