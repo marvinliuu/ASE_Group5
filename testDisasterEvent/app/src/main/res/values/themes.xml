@@ -11,8 +11,28 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="selectableItemBackground">@android:color/transparent</item>
+        <item name="android:actionBarItemBackground">@android:color/transparent</item>
+        <item name="android:actionModeBackground">@android:color/transparent</item>
         <!-- Customize your theme here. -->
     </style>
+
+<!--    <style name="test">-->
+<!--        &lt;!&ndash;状态栏颜色&ndash;&gt;-->
+<!--        <item name="colorPrimaryDark">@color/nav_bar_red</item>-->
+<!--        &lt;!&ndash;控制各个控件被选中时的颜色&ndash;&gt;-->
+<!--        <item name="colorAccent">@color/nav_bar_red</item>-->
+<!--        &lt;!&ndash;页面背景色&ndash;&gt;-->
+<!--        <item name="android:windowBackground">@color/nav_bar_red</item>-->
+<!--        &lt;!&ndash;api 21 可用 底部导航栏颜色&ndash;&gt;-->
+<!--        <item name="android:navigationBarColor">@color/nav_bar_red</item>-->
+<!--        &lt;!&ndash;api 21 可用 Appbar背景色&ndash;&gt;-->
+<!--        <item name="android:colorPrimary">@color/md_green_50</item>-->
+<!--        &lt;!&ndash;ToolBar上的Title颜色&ndash;&gt;-->
+<!--        <item name="android:textColorPrimary">@color/textColorPrimary</item>-->
+<!--        &lt;!&ndash;api 21 可用 各个控制控件的默认颜色&ndash;&gt;-->
+<!--        <item name="android:colorControlNormal">@color/colorControlNormal</item>-->
+<!--    </style>-->
 
     <!-- No original bar setting -->
     <style name="Theme.NoTitle" parent="Theme.AppCompat.DayNight.NoActionBar">
@@ -31,6 +51,7 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:colorControlHighlight">@android:color/transparent</item>
     </style>
 
     <style name="ipopwindow_anim_style">
