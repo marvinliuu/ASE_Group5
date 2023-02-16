@@ -31,12 +31,12 @@
 
     <Button
         android:id="@+id/show_popwindow"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginBottom="100dp"
-        android:background="@drawable/button_finish"
-        android:text="^^"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/exclamation"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
