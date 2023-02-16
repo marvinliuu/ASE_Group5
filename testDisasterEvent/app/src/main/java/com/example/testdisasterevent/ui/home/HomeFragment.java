@@ -51,13 +51,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
 
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+//        final TextView textView = binding.textHome;
+//        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+//            @Override
+//            public void onChanged(@Nullable String s) {
+//                textView.setText(s);
+//            }
+//        });
         return root;
     }
 
@@ -71,9 +71,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         googleMap.addMarker(new MarkerOptions()
                 .position(sydney));
-
-
-
     }
 
     @Override

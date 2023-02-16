@@ -1,15 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/red_define"
     tools:context=".ui.AccountFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/account_topbar"
+        android:layout_width="376dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/account_topbar"
+        android:scaleType="fitXY"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/account_midbar"
+        android:layout_width="376dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/account_midbar"
+        android:scaleType="fitXY"
+        app:layout_constraintLeft_toLeftOf="@+id/account_topbar"
+        app:layout_constraintTop_toBottomOf="@+id/account_topbar" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    tools:context=".ui.AccountFragment">-->
+
+<!--    &lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/account_topbar"-->
+<!--        android:layout_width="360dp"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:layout_marginLeft="30dp"-->
+<!--        android:layout_marginTop="50dp"-->
+<!--        android:background="@drawable/nav_bar_shape"-->
+<!--        android:scaleType="fitXY"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/account_midbar"-->
+<!--        android:layout_width="300dp"-->
+<!--        android:layout_height="200dp"-->
+<!--        android:layout_marginTop="50dp"-->
+<!--        android:background="@drawable/nav_bar_shape"-->
+<!--        android:scaleType="fitXY"-->
+<!--        app:layout_constraintLeft_toLeftOf="@+id/account_topbar"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/account_topbar" />-->
+<!--</FrameLayout>-->
