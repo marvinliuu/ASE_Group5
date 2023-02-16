@@ -184,25 +184,26 @@ public class RegisterFragment extends Fragment {
     }
 
     /**
-     * 显示popupWindow
+     * show popupWindow
      */
     private void showPopwindow() {
-        //加载弹出框的布局
+        //load popup window layout
         contentView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.register_popupwindow, null);
         popupWindow = new PopupWindow(contentView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 700);
-        // 设置SelectPicPopupWindow弹出窗体的高
+        // set SelectPicPopupWindow height
         popupWindow.setHeight(700);
-        popupWindow.setFocusable(true);// 取得焦点
-        //注意  要是点击外部空白处弹框消息  那么必须给弹框设置一个背景色  不然是不起作用的
+        // get focus point
+        popupWindow.setFocusable(true);
+        // set background color of blank area
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        //点击外部消失
+        // Click outside to disappear
         popupWindow.setOutsideTouchable(true);
-        //设置可以点击
+        // Settings can be clicked
         popupWindow.setTouchable(true);
-        //进入退出的动画，指定刚才定义的style
+        // hidden animation
         popupWindow.setAnimationStyle(R.style.ipopwindow_anim_style);
     }
 

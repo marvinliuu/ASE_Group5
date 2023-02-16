@@ -19,6 +19,7 @@
         <entry key="app/src/main/res/drawable/nav_bar_shape.xml" value="0.25104166666666666" />
         <entry key="app/src/main/res/drawable/nav_item.xml" value="0.25104166666666666" />
         <entry key="app/src/main/res/drawable/register_process_button.xml" value="0.25104166666666666" />
+        <entry key="app/src/main/res/drawable/popup_window_bg.xml" value="0.2833333333333333" />
         <entry key="app/src/main/res/drawable/sign_up_button.xml" value="0.5354166666666667" />
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.18005354752342703" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.17930327868852458" />
@@ -30,7 +31,8 @@
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.23777173913043478" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.23777173913043478" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.23777173913043478" />
-        <entry key="app/src/main/res/layout/register_activity.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/message_popupwindow.xml" value="0.18931159420289856" />
+        <entry key="app/src/main/res/layout/register_activity.xml" value="0.4134963768115942" />
         <entry key="app/src/main/res/layout/register_fragment.xml" value="0.3889278942208674" />
         <entry key="app/src/main/res/layout/register_popupwindow.xml" value="0.31657608695652173" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
