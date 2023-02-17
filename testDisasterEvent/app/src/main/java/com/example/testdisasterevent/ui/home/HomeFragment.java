@@ -1,10 +1,13 @@
 package com.example.testdisasterevent.ui.home;
 
 import android.Manifest;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +31,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
+    private SupportMapFragment mapFragment;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,36 +45,35 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                         Manifest.permission.ACCESS_BACKGROUND_LOCATION,
                         Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
 
-        SupportMapFragment mapFragment= (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        mapFragment= (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if(mapFragment == null){
             FragmentManager fm= getFragmentManager();
             FragmentTransaction ft= fm.beginTransaction();
             mapFragment= SupportMapFragment.newInstance();
-            ft.replace(R.id.map, mapFragment).commit();
+            ft.add(R.id.map, mapFragment).commit();
         }
         mapFragment.getMapAsync(this);
-
-
-//        final TextView textView = binding.textHome;
-//        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
         return root;
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         /**
-         * 在这里传经纬度即可
+         * set lat/long here
          */
         LatLng sydney = new LatLng(-37.812439, 144.972755);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
 
         googleMap.addMarker(new MarkerOptions()
                 .position(sydney));
+
+        GradientDrawable shapeDrawable = new GradientDrawable();
+        shapeDrawable.setShape(GradientDrawable.RECTANGLE);
+        shapeDrawable.setCornerRadii(new float[] { 16, 16, 16, 16, 0, 0, 0, 0 });
+
+        FrameLayout overlay = binding.mapOverlay;
+        overlay.setBackground(shapeDrawable);
+
     }
 
     @Override

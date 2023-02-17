@@ -64,16 +64,7 @@ public class RegisterViewModel extends ViewModel {
         Matcher m = p.matcher(email);
         return m.matches();
     }
-//    public boolean isEmailValid(String email) {
-//        if (email == null) {
-//            return false;
-//        }
-//        if (email.contains("@")) {
-//            return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-//        } else {
-//            return !email.trim().isEmpty();
-//        }
-//    }
+
 
     // A placeholder password validation check
     public boolean isPasswordValid(String password) {

@@ -33,14 +33,7 @@ import com.bumptech.glide.Glide;
 import com.example.testdisasterevent.HomeActivity;
 import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
-import com.example.testdisasterevent.ui.login.LoginViewModel;
-import com.example.testdisasterevent.ui.login.LoginViewModelFactory;
 import com.example.testdisasterevent.databinding.ActivityLoginBinding;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -49,37 +42,37 @@ public class LoginActivity extends AppCompatActivity {
     private HideReturnsTransformationMethod method_show;
     private ActivityLoginBinding binding;
     private ImageView pwdVisible;
-    private TextView tv_date;
-    private TextView tv_content;
-    private DatabaseReference mReference;
     private boolean pwdFlag = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // bind the certain activity xml
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        initData();
-
+        // create new object of the view model
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
+        // get the certain widget in the activity xml
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
         final Button backButton = binding.loginback;
         final ProgressBar loadingProgressBar = binding.loading;
+        // set image of the imageview
         final ImageView logo = (ImageView) findViewById(R.id.app_logo);
         Glide.with(this).load(R.drawable.disaster_fire_logo).into(logo);
-        tv_date = binding.tvDate;
-        tv_content = binding.tvContent;
         loginButton.setEnabled(false);
         pwdVisible = binding.passwordVisible;
 
 
-
+        /**
+         * Observer
+         * Function: observe the LoginFormState class data change signal
+         */
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
             public void onChanged(@Nullable LoginFormState loginFormState) {
@@ -96,6 +89,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Observer
+         * Function: observe the LoginResult class data change signal
+         */
         loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
             @Override
             public void onChanged(@Nullable LoginResult loginResult) {
@@ -116,6 +113,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Listener
+         * Function: listen the edittext widget input data change signal
+         */
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -135,6 +136,7 @@ public class LoginActivity extends AppCompatActivity {
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
+
         // input enter then go into this listen
         passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -148,6 +150,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Listener
+         * Function: listen the login button click event
+         */
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,6 +163,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Listener
+         * Function: listen the back button click event
+         */
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,8 +175,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Listener
+         * Function: listen the pwdVisible button click event
+         */
         pwdVisible.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 PasswordTransformationMethod methodHide=PasswordTransformationMethod.getInstance();
@@ -187,44 +200,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void initData() {
-        //构建数据库实例对象，引用为mReference
-        mReference = FirebaseDatabase.getInstance().getReference();
-        //通过键名，获取数据库实例对象的子节点对象
-        DatabaseReference date = mReference.child("date");
-        DatabaseReference content = mReference.child("content");
-
-        //注册子第一个节点对象数据变化的监听者对象
-        date.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //数据库数据变化时调用此方法
-                String value = dataSnapshot.getValue(String.class);
-                tv_date.setText(value);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        //注册子第二个节点对象数据变化的监听者对象
-        content.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //数据库数据变化时调用此方法
-                String value = dataSnapshot.getValue(String.class);
-                tv_content.setText(value);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-
+    /**
+     * process the valid user login event - page jump & show dialog
+     * @param model
+     */
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
         // TODO : initiate successful logged in experience
@@ -233,6 +212,10 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(main_intent);
     }
 
+    /**
+     * process the invalid user login event - show dialog
+     * @param errorString
+     */
     private void showLoginFailed(Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }

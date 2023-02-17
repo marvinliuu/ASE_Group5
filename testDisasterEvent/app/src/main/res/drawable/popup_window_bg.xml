@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!-- 圆角半径 -->
-    <!-- android:radius 圆角的半径 -->
+    <!-- corner raidus -->
+    <!-- android:radius corner raidus -->
     <corners
         android:topLeftRadius="10dp"
         android:topRightRadius="10dp"
         android:bottomRightRadius="0dp"
         android:bottomLeftRadius="0dp"
         />
-    <!-- 背景颜色 -->
+    <!-- background color -->
     <solid android:color="#ffffff" />
 
 </shape>

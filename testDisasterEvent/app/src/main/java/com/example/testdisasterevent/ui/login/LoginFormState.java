@@ -3,7 +3,10 @@ package com.example.testdisasterevent.ui.login;
 import androidx.annotation.Nullable;
 
 /**
+ * Date: 23.01.28
  * Data validation state of the login form.
+ * Author: Siyu Liao
+ * Version: Week 1
  */
 class LoginFormState {
     @Nullable

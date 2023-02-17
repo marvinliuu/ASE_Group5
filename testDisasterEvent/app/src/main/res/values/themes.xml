@@ -1,8 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-     Base application theme.
+    Base application theme.
+
     <style name="Theme.TestDisasterEvent" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/blue_define</item>
+        <item name="colorPrimary">@color/light_blue_define</item>
         <item name="colorPrimaryVariant">@color/red_define</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -44,6 +45,15 @@
         <item name="android:windowExitAnimation">@anim/pophidden_anim</item>
         <!-- hidden animation xml -->
     </style>
+
+    <style name="Theme.TestDisasterEvent.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.TestDisasterEvent.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.TestDisasterEvent.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>

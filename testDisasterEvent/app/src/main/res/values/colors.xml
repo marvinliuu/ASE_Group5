@@ -12,6 +12,7 @@
     <color name="grey_define">#D9D9D9</color>
     <color name="orange_define">#FF8A00</color>
     <color name="blue_define">#385DE2</color>
+    <color name="light_blue_define">#34C2FF</color>
     <color name="white_transparent">#00FFFFFF</color>
     <color name="nav_bar_red">#FFE23838</color>
 </resources>
