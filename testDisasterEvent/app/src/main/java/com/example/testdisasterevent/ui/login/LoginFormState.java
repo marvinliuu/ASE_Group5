@@ -1,6 +1,5 @@
 package com.example.testdisasterevent.ui.login;
 
-import androidx.annotation.Nullable;
 
 /**
  * Date: 23.01.28
@@ -9,13 +8,11 @@ import androidx.annotation.Nullable;
  * Version: Week 1
  */
 class LoginFormState {
-    @Nullable
     private Integer usernameError;
-    @Nullable
     private Integer passwordError;
     private boolean isDataValid;
 
-    LoginFormState(@Nullable Integer usernameError, @Nullable Integer passwordError) {
+    LoginFormState( Integer usernameError, Integer passwordError) {
         this.usernameError = usernameError;
         this.passwordError = passwordError;
         this.isDataValid = false;
@@ -27,12 +24,10 @@ class LoginFormState {
         this.isDataValid = isDataValid;
     }
 
-    @Nullable
     Integer getUsernameError() {
         return usernameError;
     }
 
-    @Nullable
     Integer getPasswordError() {
         return passwordError;
     }

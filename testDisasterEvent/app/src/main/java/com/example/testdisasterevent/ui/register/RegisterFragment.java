@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.widget.ImageView;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
@@ -20,18 +18,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.example.testdisasterevent.HomeActivity;
-import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
-import com.example.testdisasterevent.databinding.FragmentHomeBinding;
 import com.example.testdisasterevent.databinding.RegisterFragmentBinding;
 import com.example.testdisasterevent.ui.login.LoginActivity;
-import com.example.testdisasterevent.ui.login.LoginViewModel;
-import com.example.testdisasterevent.ui.login.LoginViewModelFactory;
-import com.example.testdisasterevent.ui.register.RegisterFormState;
-import com.example.testdisasterevent.ui.register.RegisterViewModel;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 
@@ -58,10 +49,9 @@ public class RegisterFragment extends Fragment {
         return new RegisterFragment();
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView( LayoutInflater inflater,  ViewGroup container,
+                              Bundle savedInstanceState) {
 
         binding = RegisterFragmentBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -82,7 +72,7 @@ public class RegisterFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated( Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         showPopwindow();
         mViewModel = new ViewModelProvider(this, new RegisterViewModelFactory())
@@ -162,7 +152,7 @@ public class RegisterFragment extends Fragment {
 
         mViewModel.getRegisterFormState().observe(getActivity(), new Observer<RegisterFormState>() {
             @Override
-            public void onChanged(@Nullable RegisterFormState registerFormState) {
+            public void onChanged( RegisterFormState registerFormState) {
                 if (registerFormState == null) {
                     return;
                 }

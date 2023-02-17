@@ -1,6 +1,5 @@
 package com.example.testdisasterevent.ui.login;
 
-import androidx.annotation.Nullable;
 
 /**
  * Date: 23.01.28
@@ -9,25 +8,21 @@ import androidx.annotation.Nullable;
  * Version: Week 1
  */
 class LoginResult {
-    @Nullable
     private LoggedInUserView success;
-    @Nullable
     private Integer error;
 
-    LoginResult(@Nullable Integer error) {
+    LoginResult( Integer error) {
         this.error = error;
     }
 
-    LoginResult(@Nullable LoggedInUserView success) {
+    LoginResult( LoggedInUserView success) {
         this.success = success;
     }
 
-    @Nullable
     LoggedInUserView getSuccess() {
         return success;
     }
 
-    @Nullable
     Integer getError() {
         return error;
     }

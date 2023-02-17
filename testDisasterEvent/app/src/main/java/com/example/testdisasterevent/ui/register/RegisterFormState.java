@@ -1,17 +1,14 @@
 package com.example.testdisasterevent.ui.register;
 
-import androidx.annotation.Nullable;
 
 public class RegisterFormState {
-    @Nullable
     private Integer usernameError;
-    @Nullable
     private Integer passwordError;
     private Integer emailError;
     private Integer actCodeError;
     private boolean isDataValid;
 
-    RegisterFormState(@Nullable Integer usernameError, @Nullable Integer passwordError, @Nullable Integer emailError, @Nullable Integer actCodeError) {
+    RegisterFormState( Integer usernameError,  Integer passwordError,  Integer emailError,  Integer actCodeError) {
         this.usernameError = usernameError;
         this.passwordError = passwordError;
         this.emailError = emailError;
@@ -27,12 +24,10 @@ public class RegisterFormState {
         this.isDataValid = isDataValid;
     }
 
-    @Nullable
     Integer getUsernameError() {
         return usernameError;
     }
 
-    @Nullable
     Integer getPasswordError() {
         return passwordError;
     }

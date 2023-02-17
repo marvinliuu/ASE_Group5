@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,7 +17,7 @@ public class ReportFragment extends Fragment {
     private ReportViewModel reportViewModel;
     private FragmentReportBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
+    public View onCreateView( LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         reportViewModel =
                 new ViewModelProvider(this).get(ReportViewModel.class);
@@ -30,7 +28,7 @@ public class ReportFragment extends Fragment {
         final TextView textView = binding.textNotifications;
         reportViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
-            public void onChanged(@Nullable String s) {
+            public void onChanged( String s) {
                 textView.setText(s);
             }
         });

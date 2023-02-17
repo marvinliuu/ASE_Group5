@@ -7,12 +7,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
-import android.graphics.Paint;
-import android.media.Image;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
@@ -75,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
          */
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
-            public void onChanged(@Nullable LoginFormState loginFormState) {
+            public void onChanged( LoginFormState loginFormState) {
                 if (loginFormState == null) {
                     return;
                 }
@@ -95,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
          */
         loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
             @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
+            public void onChanged( LoginResult loginResult) {
                 if (loginResult == null) {
                     return;
                 }

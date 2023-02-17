@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.testdisasterevent.R;
-import com.example.testdisasterevent.ui.register.RegisterFragment;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 

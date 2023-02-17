@@ -1,9 +1,5 @@
 package com.example.testdisasterevent.ui.register;
 
-import android.os.Bundle;
-import android.util.Patterns;
-import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -11,11 +7,9 @@ import androidx.lifecycle.ViewModel;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.example.testdisasterevent.R;
-import com.example.testdisasterevent.data.LoginRepository;
 import com.example.testdisasterevent.data.RegisterRepository;
 import com.example.testdisasterevent.data.Result;
 
-import org.jetbrains.annotations.Nullable;
 
 
 
