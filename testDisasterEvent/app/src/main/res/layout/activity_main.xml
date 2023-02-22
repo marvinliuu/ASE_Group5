@@ -27,11 +27,11 @@
     android:id="@+id/nav_host_fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/map_bg"
     android:layout_marginLeft="15dp"
     android:layout_marginTop="15dp"
     android:layout_marginRight="15dp"
-    android:layout_marginBottom="100dp">
+    android:layout_marginBottom="100dp"
+    android:background="@drawable/map_bg">
 
     <fragment
         android:id="@+id/nav_host_fragment_activity_main"
@@ -40,6 +40,10 @@
         android:layout_height="match_parent"
         app:navGraph="@navigation/mobile_navigation" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/map_bg" />
 </FrameLayout>
 
 

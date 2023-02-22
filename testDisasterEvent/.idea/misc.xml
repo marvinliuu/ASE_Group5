@@ -37,6 +37,8 @@
         <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/drawable/map_bg.xml" value="0.25104166666666666" />
+        <entry key="app/src/main/res/drawable/map_bg_rounded.xml" value="0.25104166666666666" />
         <entry key="app/src/main/res/drawable/nav_bar_shape.xml" value="0.25104166666666666" />
         <entry key="app/src/main/res/drawable/nav_item.xml" value="0.25104166666666666" />
         <entry key="app/src/main/res/drawable/popup_window_bg.xml" value="0.25104166666666666" />
@@ -44,7 +46,7 @@
         <entry key="app/src/main/res/drawable/sign_up_button.xml" value="0.5354166666666667" />
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.18005354752342703" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.17930327868852458" />
-        <entry key="app/src/main/res/layout/activity_disaster_details2.xml" value="0.1546875" />
+        <entry key="app/src/main/res/layout/account_fragment.xml" value="0.23489583333333333" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.23777173913043478" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.19293478260869565" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
