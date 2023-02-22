@@ -9,15 +9,34 @@ import java.io.IOException;
  */
 public class LoginDataSource {
 
-    public Result<LoggedInUser> login(String username, String password) {
+    public Result<LoggedInUser> login(int loginStatus, String displayName, long loginUserID) {
 
         try {
             // TODO: handle loggedInUser authentication
-            LoggedInUser fakeUser =
-                    new LoggedInUser(
-                            java.util.UUID.randomUUID().toString(),
-                            "Jane Doe");
-            return new Result.Success<>(fakeUser);
+            if(loginStatus == 2){
+                LoggedInUser loggedUser =
+                        new LoggedInUser(
+                                Long.toString(loginUserID),
+                                "Welcome! " + displayName);
+                return new Result.Success<>(loggedUser);
+            }
+            else if(loginStatus == 1){
+                LoggedInUser wrongPwdUser =
+                        new LoggedInUser(
+                                Long.toString(loginUserID),
+                                "Wrong username or wrong password."
+                        );
+                return new Result.Success<>(wrongPwdUser);
+            }
+            else{
+                LoggedInUser noUser =
+                        new LoggedInUser(
+                                Long.toString(loginUserID),
+                                "User doesn't exist."
+                        );
+                return new Result.Success<>(noUser);
+            }
+
         } catch (Exception e) {
             return new Result.Error(new IOException("Error logging in", e));
         }

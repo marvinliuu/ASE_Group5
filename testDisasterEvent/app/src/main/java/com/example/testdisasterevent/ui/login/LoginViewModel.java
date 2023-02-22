@@ -8,6 +8,11 @@ import com.example.testdisasterevent.data.LoginRepository;
 import com.example.testdisasterevent.data.Result;
 import com.example.testdisasterevent.data.model.LoggedInUser;
 import com.example.testdisasterevent.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,14 +37,48 @@ public class LoginViewModel extends ViewModel {
 
     public void login(String username, String password) {
         // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
+        DatabaseReference mReference;
+        mReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference users = mReference.child("UserInfo");
+        users.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int loginStatus = 0;
+                String displayName = "";
+                long loginUserID = -1;
+                for(DataSnapshot user : dataSnapshot.getChildren()){
+                    if(user.child("mail").getValue(String.class).equals(username)){
+                        loginStatus = 1;
+                        if(user.child("password").getValue(String.class).equals(password)){
+                            displayName = user.child("name").getValue(String.class);
+                            loginUserID = user.child("uid").getValue((long.class));
+                            loginStatus = 2;
+                        }
+                        break;
+                    }
+                }
+                Result<LoggedInUser> result = loginRepository.login(loginStatus, displayName, loginUserID);
+                if (result instanceof Result.Success) {
+                    LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
+                    loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
+                } else {
+                    loginResult.setValue(new LoginResult(R.string.login_failed));
+                }
+            }
 
-        if (result instanceof Result.Success) {
-            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
-        } else {
-            loginResult.setValue(new LoginResult(R.string.login_failed));
-        }
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
+//        Result<LoggedInUser> result = loginRepository.login(loginStatus, displayName, loginUserID);
+
+//        if (result instanceof Result.Success) {
+//            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
+//            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
+//        } else {
+//            loginResult.setValue(new LoginResult(R.string.login_failed));
+//        }
     }
 
     /**
