@@ -24,9 +24,11 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.testdisasterevent.R;
+import com.example.testdisasterevent.data.model.DisasterDetail;
 import com.example.testdisasterevent.databinding.FragmentDisasterBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,6 +38,15 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 
 /**
@@ -89,6 +100,18 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        disaterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
+            @Override
+            public void onChanged(DisasterDetail[] posts) {
+                if (posts.length > 0) {
+                    showPopwindow();
+                    popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+                    // Update the UI with the new data
+                    createDisasterPopupWindow(posts);
+                }
+            }
+        });
+
         return root;
     }
 
@@ -133,6 +156,9 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         txt_show.setTypeface(topTitleType);
         txt_show.setTextSize(25);
 
+    }
+
+    public void createDisasterPopupWindow(DisasterDetail[] details) {
         // Find the ScrollView in the layout and add content to it
         ScrollView scrollView = contentView.findViewById(R.id.disasterScrollView);
         LinearLayout linearLayout = new LinearLayout(getContext());
@@ -140,19 +166,20 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
 
         // Add the LinearLayout to the ScrollView
         scrollView.addView(linearLayout);
-
         // Create multiple RelativeLayouts with multiple views and add them to the LinearLayout
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 0; i < details.length; i++) {
             RelativeLayout relativeLayout = new RelativeLayout(getContext());
             RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             params2.addRule(RelativeLayout.BELOW, relativeLayout.getId());
             params2.setMargins(0, 0, 0, 16); // set a top margin of 16dp
             relativeLayout.setLayoutParams(params2);
+            relativeLayout.setId(i);
 
             // Create and add a TextView to the RelativeLayout - Title
             TextView title = new TextView(getContext());
-            title.setText("Fire");
+            String titleText = details[i].getDisasterTitle();
+            title.setText(titleText);
             title.setId(View.generateViewId());
             title.setTextColor(Color.BLACK);
             title.setTextSize(20);
@@ -168,7 +195,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
 
             // Create and add a TextView to the RelativeLayout - Location
             TextView location = new TextView(getContext());
-            location.setText("Trinity College Dublin");
+            location.setText(details[i].getLocation());
             location.setId(View.generateViewId());
             location.setTextColor(Color.BLACK);
 
@@ -179,7 +206,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
 
             // Create and add a TextView to the RelativeLayout - Time
             TextView time = new TextView(getContext());
-            time.setText("Item " + i);
+            time.setText(details[i].getHappenTime());
             time.setId(View.generateViewId());
             time.setTextColor(Color.BLACK);
 
@@ -187,15 +214,13 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                     RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             timeParams.addRule(RelativeLayout.BELOW, location.getId());
 
-            // Create and add an ImageView to the RelativeLayout - disaster logo
-            ImageView imageView = new ImageView(getContext());
-            imageView.setImageResource(R.drawable.fire_logo);
+            ImageView imageView = createDisIconOnWindow(titleText);
             RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(
                     70, 70);
             imageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fire_logo);
+            Bitmap bitmap = createDisIconOnMap(titleText);
             int width = bitmap.getWidth();
             int height = bitmap.getHeight();
             float scaledWidth = width * 0.5f;
@@ -215,13 +240,13 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                 public void onClick(View v) {
 //                    Intent disaster_detail_intent = new Intent(getActivity(), DisasterDetailsActivity.class);
 //                    startActivity(disaster_detail_intent);
-
-                    LatLng center = new LatLng(37.7749, -122.4194);
+                    int index = v.getId();
+                    DisasterDetail[] item = disaterViewModel.getDisasterDetails().getValue();
+                    LatLng center = new LatLng(item[index].getLatitude(), item[index].getLongtitude());
                     float zoomLevel = 15f;
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
                     MarkerOptions markerOptions = new MarkerOptions()
                             .position(center)
-                            .title("San Francisco")
                             .snippet("A beautiful city!")
                             .icon(markerIcon);
                     map.addMarker(markerOptions);
@@ -231,15 +256,40 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             // Add the RelativeLayout to the LinearLayout
             linearLayout.addView(relativeLayout);
         }
+    }
 
-        showPopwindow();
-        popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+    public ImageView createDisIconOnWindow (String title) {
+        // Create and add an ImageView to the RelativeLayout - disaster logo
+        ImageView imageView = new ImageView(getContext());
+        if (title.equals("Fire")) {
+            imageView.setImageResource(R.drawable.fire_logo);
+        } else if (title.equals("Water")) {
+            imageView.setImageResource(R.drawable.water_logo);
+        } else {
+            imageView.setImageResource(R.drawable.other_logo);
+        }
+        return imageView;
+    }
+
+    public Bitmap createDisIconOnMap (String title) {
+        // Create and add an ImageView to the RelativeLayout - disaster logo
+        Bitmap bitmap;
+        if (title.equals("Fire")) {
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fire_logo);
+        } else if (title.equals("Water")) {
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.water_logo);
+        } else {
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.other_logo);
+        }
+        return bitmap;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        popupWindow.dismiss();
+        disaterViewModel.getDisasterDetails().removeObservers(this);
     }
 
     /**
