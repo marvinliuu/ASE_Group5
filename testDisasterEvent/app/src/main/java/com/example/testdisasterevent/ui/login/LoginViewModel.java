@@ -35,12 +35,17 @@ public class LoginViewModel extends ViewModel {
         return loginResult;
     }
 
+    /**
+     * process of login, with checking username and password
+     * @param username - user's email address
+     * @param password - user's password
+     */
     public void login(String username, String password) {
         // can be launched in a separate asynchronous job
         DatabaseReference mReference;
         mReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference users = mReference.child("UserInfo");
-        users.addValueEventListener(new ValueEventListener() {
+        users.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 int loginStatus = 0;
@@ -61,7 +66,12 @@ public class LoginViewModel extends ViewModel {
                 if (result instanceof Result.Success) {
                     LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
                     loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
-                } else {
+                }
+                else if(result instanceof Result.Failure) {
+                    String data = ((Result.Failure) result).getStatus();
+                    loginResult.setValue(new LoginResult(data));
+                }
+                else {
                     loginResult.setValue(new LoginResult(R.string.login_failed));
                 }
             }
@@ -71,14 +81,7 @@ public class LoginViewModel extends ViewModel {
 
             }
         });
-//        Result<LoggedInUser> result = loginRepository.login(loginStatus, displayName, loginUserID);
 
-//        if (result instanceof Result.Success) {
-//            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-//            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
-//        } else {
-//            loginResult.setValue(new LoginResult(R.string.login_failed));
-//        }
     }
 
     /**

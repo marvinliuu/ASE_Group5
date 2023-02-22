@@ -33,6 +33,15 @@ public class Result<T> {
         }
     }
 
+    // Fail login sub-class
+    public final static class Failure extends Result{
+        private String str;
+
+        public Failure(String str) { this.str = str; }
+
+        public String  getStatus() { return this.str; }
+    }
+
     // Error sub-class
     public final static class Error extends Result {
         private Exception error;

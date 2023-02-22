@@ -106,6 +106,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginResult.getError() != null) {
                     showLoginFailed(loginResult.getError());
                 }
+                if(loginResult.getWrong() != null) {
+                    showLoginFailed(loginResult.getWrong());
+                }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
                 }
@@ -203,17 +206,19 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * function of building dialog
+     * @param str
+     */
     private void midToast(String str)
     {
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.view_toast_custom,
                 (ViewGroup) findViewById(R.id.lly_toast));
-        //ImageView img_logo = (ImageView) view.findViewById(R.id.img_logo);
         TextView tv_msg = (TextView) view.findViewById(R.id.tv_msg);
         tv_msg.setText(str);
         Toast toast = new Toast(getApplicationContext());
-        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setGravity(Gravity.CENTER, 0, 10);
         toast.setDuration(Toast.LENGTH_LONG);
         toast.setView(view);
         toast.show();
@@ -231,7 +236,13 @@ public class LoginActivity extends AppCompatActivity {
         Intent main_intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(main_intent);
     }
-
+    /**
+     * process the failed login
+     * @param failure
+     */
+    private void showLoginFailed(String failure){
+        midToast(failure);
+    }
     /**
      * process the invalid user login event - show dialog
      * @param errorString

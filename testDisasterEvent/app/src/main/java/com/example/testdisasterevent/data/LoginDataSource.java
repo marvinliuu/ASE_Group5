@@ -21,20 +21,10 @@ public class LoginDataSource {
                 return new Result.Success<>(loggedUser);
             }
             else if(loginStatus == 1){
-                LoggedInUser wrongPwdUser =
-                        new LoggedInUser(
-                                Long.toString(loginUserID),
-                                "Wrong username or wrong password."
-                        );
-                return new Result.Success<>(wrongPwdUser);
+                return new Result.Failure("Wrong username or wrong password.");
             }
             else{
-                LoggedInUser noUser =
-                        new LoggedInUser(
-                                Long.toString(loginUserID),
-                                "User doesn't exist."
-                        );
-                return new Result.Success<>(noUser);
+                return new Result.Failure("User doesn't exist.");
             }
 
         } catch (Exception e) {

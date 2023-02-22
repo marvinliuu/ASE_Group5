@@ -3,7 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-
         <entry key="../../../../layout/custom_preview.xml" value="0.14166666666666666" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/drawable/bg_edittext.xml" value="0.2796296296296296" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/drawable/bg_edittext_focused.xml" value="0.37135416666666665" />
@@ -11,11 +10,13 @@
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.37135416666666665" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/drawable/nav_bar_shape.xml" value="0.37135416666666665" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/drawable/nav_item.xml" value="0.37135416666666665" />
+        <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/activity_disaster_details2.xml" value="0.31521739130434784" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/activity_home.xml" value="0.3070652173913043" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/activity_login.xml" value="0.3070652173913043" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/fragment_account.xml" value="0.3070652173913043" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/fragment_disaster.xml" value="0.1" />
+        <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/fragment_home.xml" value="0.31521739130434784" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/fragment_report.xml" value="0.1" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/layout.xml" value="0.1" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/message_popupwindow.xml" value="0.3070652173913043" />
@@ -24,7 +25,6 @@
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/register_popupwindow.xml" value="0.1" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/view_toast_custom.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.26851851851851855" />
-
         <entry key="app/src/main/res/drawable/bg_edittext.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/drawable/bg_edittext_focused.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/drawable/bg_edittext_normal.xml" value="0.36041666666666666" />
