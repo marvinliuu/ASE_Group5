@@ -2,9 +2,13 @@ package com.example.testdisasterevent;
 
 import android.os.Bundle;
 
+import com.example.testdisasterevent.ui.disaster.DisasterDetailsFragment;
+import com.example.testdisasterevent.ui.disaster.DisasterFragment;
+import com.example.testdisasterevent.ui.disaster.DisaterViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -15,6 +19,7 @@ import com.example.testdisasterevent.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private DisaterViewModel sharedViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,21 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        bindViewModel();
     }
+
+    public void bindViewModel() {
+        // Create an instance of the SharedViewModel
+        sharedViewModel = new ViewModelProvider(this).get(DisaterViewModel.class);
+
+        // Pass the SharedViewModel instance to each of the fragments -- disasterBrief and
+        DisasterFragment disasterBrief = new DisasterFragment();
+        disasterBrief.setSharedViewModel(sharedViewModel);
+
+        DisasterDetailsFragment disasterDetail = new DisasterDetailsFragment();
+        disasterDetail.setSharedViewModel(sharedViewModel);
+    }
+
 
 }

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/popup_window_bg"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+
+    <ImageView
+        android:id="@+id/disaster_logo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="13dp"
+        android:scaleType="fitXY" />
+
+
+    <TextView
+        android:id="@+id/tv_pop_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="2dp"
+        android:text="Disaster in Dublin"
+        android:textColor="@color/black"
+        android:layout_toRightOf="@+id/disaster_logo" />
+
+    <ImageButton
+        android:id="@+id/close_btn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/closebutton"
+        android:layout_alignParentRight="true"/>
+
+    <View
+        android:id="@+id/divide_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tv_pop_name"
+        android:layout_marginBottom="10dp"
+        android:background="@color/grey_define" />
+
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:fillViewport="false"
+        android:id="@+id/disasterScrollView"
+        android:layout_below="@+id/divide_line"
+        android:layout_marginBottom="10dp">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/disasterrelativeLayout">
+
+            <TextView
+                android:id="@+id/location_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:text="Location:"
+                android:textColor="@color/black"
+                android:layout_alignParentLeft="true" />
+
+            <TextView
+                android:id="@+id/location_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@+id/location_intro" />
+
+            <TextView
+                android:id="@+id/ftime_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:text="First report time:"
+                android:textColor="@color/black"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/location_intro"/>
+
+            <TextView
+                android:id="@+id/ftime_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@+id/ftime_intro"
+                android:layout_below="@+id/location_details"/>
+
+            <TextView
+                android:id="@+id/type_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:text="Type:"
+                android:textColor="@color/black"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/ftime_intro"/>
+
+            <TextView
+                android:id="@+id/type_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@+id/type_intro"
+                android:layout_below="@+id/ftime_intro"/>
+
+            <TextView
+                android:id="@+id/update_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:text="Updated:"
+                android:textColor="@color/black"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/type_intro"/>
+
+            <TextView
+                android:id="@+id/update_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@+id/update_intro"
+                android:layout_below="@+id/type_intro"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+</RelativeLayout>

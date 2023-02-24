@@ -1,5 +1,7 @@
 package com.example.testdisasterevent.ui.disaster;
 
+import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
+
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -38,15 +40,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 
 /**
@@ -66,7 +60,9 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap map;
     private ImageButton closeBtn;
 
-
+    public void setSharedViewModel(DisaterViewModel disasterViewModel) {
+        this.disaterViewModel = disasterViewModel;
+    }
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -103,18 +99,20 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         disaterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
             @Override
             public void onChanged(DisasterDetail[] posts) {
+                showPopwindow();
+                popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
                 if (posts.length > 0) {
-                    showPopwindow();
-                    popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
                     // Update the UI with the new data
                     createDisasterPopupWindow(posts);
+                } else {
+                    // Update the UI when no disaste happen
+                    createNoDisasterPopWindow();
                 }
             }
         });
 
         return root;
     }
-
 
 
 
@@ -155,7 +153,33 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         // Set the font of the TextView to the custom font
         txt_show.setTypeface(topTitleType);
         txt_show.setTextSize(25);
+    }
 
+    public void createNoDisasterPopWindow() {
+        // Find the ScrollView in the layout and add content to it
+        ScrollView scrollView = contentView.findViewById(R.id.disasterScrollView);
+        LinearLayout linearLayout = new LinearLayout(getContext());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        // Add the LinearLayout to the ScrollView
+        scrollView.addView(linearLayout);
+
+        // Create and add a TextView to the RelativeLayout - Title
+        TextView title = new TextView(getContext());
+        title.setText("No Disaster in Dublin");
+        title.setTextColor(Color.BLACK);
+        title.setTextSize(20);
+
+        // Load the custom font from the assets folder
+        Typeface customFont = Typeface.createFromAsset(getContext().getAssets(), "alibaba_regular.ttf");
+
+        // Set the font of the TextView to the custom font
+        title.setTypeface(customFont);
+        RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        titleParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+
+        linearLayout.addView(title, titleParams);
     }
 
     public void createDisasterPopupWindow(DisasterDetail[] details) {
@@ -171,6 +195,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             RelativeLayout relativeLayout = new RelativeLayout(getContext());
             RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            relativeLayout.setId(i);
             params2.addRule(RelativeLayout.BELOW, relativeLayout.getId());
             params2.setMargins(0, 0, 0, 16); // set a top margin of 16dp
             relativeLayout.setLayoutParams(params2);
@@ -228,6 +253,15 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
             BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
 
+            LatLng center = new LatLng(details[i].getLatitude(), details[i].getLongtitude());
+            float zoomLevel = 13f;
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
+            map.setMapType(MAP_TYPE_NORMAL);
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(center)
+                    .icon(markerIcon);
+            map.addMarker(markerOptions);
+
             // add view by order
             relativeLayout.addView(title, titleParams);
             relativeLayout.addView(location, locationParams);
@@ -238,18 +272,23 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Intent disaster_detail_intent = new Intent(getActivity(), DisasterDetailsActivity.class);
-//                    startActivity(disaster_detail_intent);
-                    int index = v.getId();
-                    DisasterDetail[] item = disaterViewModel.getDisasterDetails().getValue();
-                    LatLng center = new LatLng(item[index].getLatitude(), item[index].getLongtitude());
-                    float zoomLevel = 15f;
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
-                    MarkerOptions markerOptions = new MarkerOptions()
-                            .position(center)
-                            .snippet("A beautiful city!")
-                            .icon(markerIcon);
-                    map.addMarker(markerOptions);
+                    popupWindow.dismiss();
+                    disaterViewModel.indexOfDisasterDetails = v.getId();
+                    // Get a reference to the child FragmentManager
+                    FragmentManager fragmentManager = getChildFragmentManager();
+
+                    // Start a new FragmentTransaction
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    // Replace the current fragment with the new fragment
+                    Fragment newFragment = new DisasterDetailsFragment();
+                    fragmentTransaction.replace(R.id.disaster_container, newFragment);
+
+                    // Add the transaction to the back stack
+                    fragmentTransaction.addToBackStack(null);
+
+                    // Commit the transaction
+                    fragmentTransaction.commit();
                 }
             });
 

@@ -4,7 +4,25 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="97330892-c278-4e6f-b24b-ad2547638c43" name="Default Changelist" comment="" />
+    <list default="true" id="97330892-c278-4e6f-b24b-ad2547638c43" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/ui/disaster/DisasterDetailsFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/disasterdetails_popupwindow.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/fragment_disaster_details.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data_generate.py" beforeDir="false" afterPath="$PROJECT_DIR$/Data_generate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/DisasterDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/DisasterDataSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/ui/disaster/DisasterDetailsActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/ui/disaster/DisasterFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/ui/disaster/DisasterFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/ui/disaster/DisaterViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/ui/disaster/DisaterViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/activity_disaster_details2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/fragment_disaster.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/fragment_disaster.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/register_popupwindow.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/register_popupwindow.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/values/dimens.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,18 +31,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2LT2bqAQUy0b3hQ9sNR0aJnLFGd" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false"
+  }
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -33,7 +54,22 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1675880827829</updated>
+      <workItem from="1677236751346" duration="775000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

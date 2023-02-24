@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/disaster_container"
+    android:id="@+id/disasterdetails_container"
     tools:context=".ui.disaster.DisasterFragment">
 
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:id="@+id/map"
+        android:id="@+id/detailsMap"
         android:layout_width="match_parent"
         android:layout_height="650dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,13 +18,15 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageButton
-        android:id="@+id/show_popwindow"
+        android:id="@+id/back_brief"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/exclamation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

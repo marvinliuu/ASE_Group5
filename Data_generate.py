@@ -55,7 +55,7 @@ def otime_generate():
 
 
 data = {}
-for i in range(100):
+for i in range(1000):
     temp = {}
     temp['did'] = i + 1
     temp['disasterType'] = disaster_type[random.randint(0, 2)]
