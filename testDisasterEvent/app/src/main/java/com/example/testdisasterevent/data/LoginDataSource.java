@@ -9,14 +9,14 @@ import java.io.IOException;
  */
 public class LoginDataSource {
 
-    public Result<LoggedInUser> login(int loginStatus, String displayName, long loginUserID) {
+    public Result<LoggedInUser> login(int loginStatus, String displayName, String loginUserID) {
 
         try {
             // TODO: handle loggedInUser authentication
             if(loginStatus == 2){
                 LoggedInUser loggedUser =
                         new LoggedInUser(
-                                Long.toString(loginUserID),
+                                loginUserID,
                                 "Welcome! " + displayName);
                 return new Result.Success<>(loggedUser);
             }

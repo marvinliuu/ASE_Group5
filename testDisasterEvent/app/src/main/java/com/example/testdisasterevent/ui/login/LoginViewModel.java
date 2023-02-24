@@ -50,13 +50,13 @@ public class LoginViewModel extends ViewModel {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 int loginStatus = 0;
                 String displayName = "";
-                long loginUserID = -1;
+                String loginUserID = "-1";
                 for(DataSnapshot user : dataSnapshot.getChildren()){
                     if(user.child("mail").getValue(String.class).equals(username)){
                         loginStatus = 1;
                         if(user.child("password").getValue(String.class).equals(password)){
                             displayName = user.child("name").getValue(String.class);
-                            loginUserID = user.child("uid").getValue((long.class));
+                            loginUserID = user.child("uid").getValue((String.class));
                             loginStatus = 2;
                         }
                         break;
