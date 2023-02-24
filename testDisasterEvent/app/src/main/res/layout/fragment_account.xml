@@ -104,15 +104,15 @@
             android:id="@+id/account_login_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
+            android:layout_below="@+id/account_mid_icon"
+            android:layout_alignLeft="@+id/account_mid_icon"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
+            android:fontFamily="@font/alibaba_light"
             android:text="Name:"
             android:textAlignment="textStart"
             android:textColor="@color/white"
-            android:textSize="18dp"
-            android:fontFamily="@font/alibaba_regular"
-            android:layout_alignLeft="@+id/account_mid_icon"
-            android:layout_below="@+id/account_mid_icon" />
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/account_name_info"
@@ -122,7 +122,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="5dp"
             android:layout_marginRight="40dp"
-            android:fontFamily="@font/alibaba_regular"
+            android:fontFamily="@font/alibaba_light"
             android:text="Haoxian Liu"
             android:textAlignment="center"
             android:textColor="@color/white"
@@ -132,15 +132,15 @@
             android:id="@+id/account_login_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
+            android:layout_below="@+id/account_login_name"
+            android:layout_alignLeft="@+id/account_mid_icon"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
+            android:fontFamily="@font/alibaba_light"
             android:text="E-mail:"
             android:textAlignment="textStart"
             android:textColor="@color/white"
-            android:textSize="18dp"
-            android:fontFamily="@font/alibaba_regular"
-            android:layout_alignLeft="@+id/account_mid_icon"
-            android:layout_below="@+id/account_login_name" />
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/account_email_info"
@@ -150,7 +150,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="5dp"
             android:layout_marginRight="40dp"
-            android:fontFamily="@font/alibaba_regular"
+            android:fontFamily="@font/alibaba_light"
             android:text="liuha@tcd.ie"
             android:textAlignment="center"
             android:textColor="@color/white"
@@ -160,15 +160,15 @@
             android:id="@+id/account_login_mobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
+            android:layout_below="@+id/account_login_email"
+            android:layout_alignLeft="@+id/account_mid_icon"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
+            android:fontFamily="@font/alibaba_light"
             android:text="Mobile:"
             android:textAlignment="textStart"
             android:textColor="@color/white"
-            android:textSize="18dp"
-            android:fontFamily="@font/alibaba_regular"
-            android:layout_alignLeft="@+id/account_mid_icon"
-            android:layout_below="@+id/account_login_email" />
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/account_mobile_info"
@@ -177,7 +177,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="5dp"
             android:layout_marginRight="40dp"
-            android:fontFamily="@font/alibaba_regular"
+            android:fontFamily="@font/alibaba_light"
             android:text="+353(87)1234567"
             android:textAlignment="center"
             android:textColor="@color/white"

@@ -14,7 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class AccountViewModel extends ViewModel {
     private MutableLiveData<AccountUserInfo> accountUserInfo = new MutableLiveData<>();
-
+    public long uid;
 
     public LiveData<AccountUserInfo> getAccountUserInfo() {
         if (accountUserInfo == null) {
@@ -36,13 +36,13 @@ public class AccountViewModel extends ViewModel {
                     String email = postShot.child("mail").getValue(String.class);
                     String name = postShot.child("name").getValue(String.class);
                     String mobile = postShot.child("phone").getValue(String.class);
-                    long userTypeID = postShot.child("uid").getValue(long.class);
+                    int userTypeID = postShot.child("uid").getValue(int.class);
                     String userType = "";
                     if (userTypeID == 1) userType = "Citizen";
                     else if (userTypeID == 2) userType = "Doctor";
                     else if (userTypeID == 3) userType = "Fireman";
                     else userType = "Police";
-                    userInfo = new AccountUserInfo(name, email, mobile, userType);
+                    userInfo = new AccountUserInfo(email, name, "", mobile, "", userTypeID, 0, userType);
                     break;
                 }
                 accountUserInfo.setValue(userInfo);

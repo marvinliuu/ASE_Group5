@@ -1,6 +1,10 @@
 package com.example.testdisasterevent;
 
 import android.os.Bundle;
+import android.app.Activity;
+import android.content.Intent;
+import com.example.testdisasterevent.data.model.AccountUserInfo;
+
 
 import com.example.testdisasterevent.ui.disaster.DisasterDetailsFragment;
 import com.example.testdisasterevent.ui.disaster.DisasterFragment;
@@ -15,11 +19,17 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.testdisasterevent.databinding.ActivityMainBinding;
+import com.google.gson.Gson;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private DisaterViewModel sharedViewModel;
+    public String accountUserInfoJson;
+    Gson gson = new Gson();
+    public AccountUserInfo accountUserInfo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +39,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getSupportActionBar().hide();
+        //        Intent intent;
+//        if (savedInstanceState != null) {
+//            accountUserInfoJson = savedInstanceState.getString("my_key");
+//            Gson gson = new Gson();
+//            accountUserInfo = gson.fromJson(accountUserInfoJson, AccountUserInfo.class);
+//        } else {
+//            intent = getIntent();
+//            accountUserInfoJson = intent.getStringExtra("accountUserInfoJson");
+//            Gson gson = new Gson();
+//            accountUserInfo = gson.fromJson(accountUserInfoJson, AccountUserInfo.class);
+//        }
+
+        Intent intent = getIntent();
+        accountUserInfoJson = intent.getStringExtra("accountUserInfoJson");
+        Gson gson = new Gson();
+        accountUserInfo = gson.fromJson(accountUserInfoJson, AccountUserInfo.class);
+
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -55,5 +82,14 @@ public class MainActivity extends AppCompatActivity {
         disasterDetail.setSharedViewModel(sharedViewModel);
     }
 
+    public AccountUserInfo getAccountUserInfo() {
+        return accountUserInfo;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
 
 }

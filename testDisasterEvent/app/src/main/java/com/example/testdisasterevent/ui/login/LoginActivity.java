@@ -34,11 +34,14 @@ import com.bumptech.glide.Glide;
 import com.example.testdisasterevent.HomeActivity;
 import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
+import com.example.testdisasterevent.data.model.AccountUserInfo;
 import com.example.testdisasterevent.databinding.ActivityLoginBinding;
+import com.google.gson.Gson;
 
 
 public class LoginActivity extends AppCompatActivity {
 
+    private String accountUserInfoJson;
     private LoginViewModel loginViewModel;
     private HideReturnsTransformationMethod method_show;
     private ActivityLoginBinding binding;
@@ -89,6 +92,17 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginFormState.getPasswordError() != null) {
                     passwordEditText.setError(getString(loginFormState.getPasswordError()));
                 }
+            }
+        });
+
+        loginViewModel.getMyData().observe(this, new Observer<AccountUserInfo>() {
+            @Override
+            public void onChanged(AccountUserInfo accountUserInfo) {
+//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Gson gson = new Gson();
+                accountUserInfoJson = gson.toJson(accountUserInfo);
+//                intent.putExtra("accountUserInfoJson", accountUserInfoJson);
+//                startActivityForResult(intent, 1);
             }
         });
 
@@ -204,7 +218,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
+
+
 
     /**
      * function of building dialog
@@ -247,6 +264,10 @@ public class LoginActivity extends AppCompatActivity {
         midToast(welcome);
         Intent main_intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(main_intent);
+
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.putExtra("accountUserInfoJson", accountUserInfoJson);
+        startActivity(intent);
     }
     /**
      * process the failed login

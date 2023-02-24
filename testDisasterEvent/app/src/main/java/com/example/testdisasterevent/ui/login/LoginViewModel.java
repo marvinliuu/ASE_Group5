@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.testdisasterevent.data.LoginRepository;
 import com.example.testdisasterevent.data.Result;
+import com.example.testdisasterevent.data.model.AccountUserInfo;
 import com.example.testdisasterevent.data.model.LoggedInUser;
 import com.example.testdisasterevent.R;
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +21,7 @@ import java.util.regex.Pattern;
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
+    private MutableLiveData<AccountUserInfo> accountUserInfoMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
     private LoginRepository loginRepository;
 
@@ -48,15 +50,31 @@ public class LoginViewModel extends ViewModel {
         users.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                AccountUserInfo accountUserInfo;
                 int loginStatus = 0;
                 String displayName = "";
                 long loginUserID = -1;
+                  String email = "";
+                String mobile = "";
+                String registerTime = "";
+                String userType = "";
+                int userTypeId;
                 for(DataSnapshot user : dataSnapshot.getChildren()){
                     if(user.child("mail").getValue(String.class).equals(username)){
                         loginStatus = 1;
                         if(user.child("password").getValue(String.class).equals(password)){
                             displayName = user.child("name").getValue(String.class);
                             loginUserID = user.child("uid").getValue((long.class));
+                            email = user.child("mail").getValue(String.class);
+                            mobile = user.child("phone").getValue(String.class);
+                            registerTime = user.child("r-time").getValue(String.class);
+                            userTypeId = user.child("type").getValue(int.class);
+                            if (userTypeId == 1) userType = "Citizen";
+                            else if (userTypeId == 2) userType = "Doctor";
+                            else if (userTypeId == 3) userType = "Fireman";
+                            else userType = "Police";
+                            accountUserInfo = new AccountUserInfo(email, displayName, password, mobile, registerTime, userTypeId, loginUserID, userType);
+                            accountUserInfoMutableLiveData.setValue(accountUserInfo);
                             loginStatus = 2;
                         }
                         break;
@@ -109,6 +127,10 @@ public class LoginViewModel extends ViewModel {
         Pattern p = Pattern.compile(str);
         Matcher m = p.matcher(email);
         return m.matches();
+    }
+
+    public LiveData<AccountUserInfo> getMyData() {
+        return accountUserInfoMutableLiveData;
     }
 
     /**
