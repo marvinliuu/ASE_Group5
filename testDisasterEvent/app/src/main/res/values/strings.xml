@@ -11,6 +11,8 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="invalid_email">Invalid E-mail Format</string>
     <string name="invalid_actCode">Invalid Activation Code</string>
+    <string name="login_wrong">Wrong username or wrong password</string>
+    <string name="no_user">User doesn\'t exist</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Maps</string>

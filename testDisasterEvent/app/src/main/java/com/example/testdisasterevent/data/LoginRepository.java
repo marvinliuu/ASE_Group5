@@ -43,7 +43,7 @@ public class LoginRepository {
         // @see https://developer.android.com/training/articles/keystore
     }
 
-    public Result<LoggedInUser> login(int loginStatus, String displayName, String loginUserID) {
+    public Result<LoggedInUser> login(int loginStatus, String displayName, long loginUserID) {
         // handle login
         Result<LoggedInUser> result = dataSource.login(loginStatus, displayName, loginUserID);
         if (result instanceof Result.Success) {

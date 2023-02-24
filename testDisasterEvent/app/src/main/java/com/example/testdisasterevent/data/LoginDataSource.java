@@ -1,5 +1,6 @@
 package com.example.testdisasterevent.data;
 
+import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.data.model.LoggedInUser;
 
 import java.io.IOException;
@@ -9,22 +10,22 @@ import java.io.IOException;
  */
 public class LoginDataSource {
 
-    public Result<LoggedInUser> login(int loginStatus, String displayName, String loginUserID) {
+    public Result<LoggedInUser> login(int loginStatus, String displayName, long loginUserID) {
 
         try {
             // TODO: handle loggedInUser authentication
             if(loginStatus == 2){
                 LoggedInUser loggedUser =
                         new LoggedInUser(
-                                loginUserID,
+                                Long.toString(loginUserID),
                                 "Welcome! " + displayName);
                 return new Result.Success<>(loggedUser);
             }
             else if(loginStatus == 1){
-                return new Result.Failure("Wrong username or wrong password.");
+                return new Result.Failure(R.string.login_wrong);
             }
             else{
-                return new Result.Failure("User doesn't exist.");
+                return new Result.Failure(R.string.no_user);
             }
 
         } catch (Exception e) {

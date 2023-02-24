@@ -10,13 +10,11 @@ package com.example.testdisasterevent.ui.login;
 class LoginResult {
     private LoggedInUserView success;
     private Integer error;
-    private String faillure;
+    private String failure;
 
-    LoginResult( String faillure) { this.faillure = faillure; }
+    LoginResult( String failure) { this.failure = failure; }
 
-    LoginResult( Integer error) {
-        this.error = error;
-    }
+    LoginResult( Integer error) { this.error = error; }
 
     LoginResult( LoggedInUserView success) {
         this.success = success;
@@ -30,5 +28,5 @@ class LoginResult {
         return error;
     }
 
-    String  getWrong() { return faillure; }
+    String  getWrong() { return failure; }
 }

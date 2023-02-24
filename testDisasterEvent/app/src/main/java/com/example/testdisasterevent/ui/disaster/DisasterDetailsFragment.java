@@ -42,6 +42,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -196,7 +197,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
         BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
 
-        LatLng center = new LatLng(details[i].getLatitude(), details[i].getLongtitude());
+        LatLng center = new LatLng(details[i].getLongitude(), details[i].getLatitude());
         float zoomLevel = 13f;
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
         System.out.println("get here:" + center);
@@ -205,6 +206,13 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
                 .position(center)
                 .icon(markerIcon);
         map.addMarker(markerOptions);
+        CircleOptions circleOptions = new CircleOptions()
+                .center(center)
+                .radius(details[i].getRadius())
+                .fillColor(0x0FF00000)
+                .strokeWidth(0f);
+        //.fillOpacity();
+        map.addCircle(circleOptions);
     }
 
     public void setDisIconResource (String title) {

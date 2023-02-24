@@ -48,17 +48,25 @@ final_data['Bus'] = data
 disaster_type = ["fire", "water", "general"]
 radius = [5, 10, 20, 50, 100, 200]
 
+def location_generate():
+    letter_set = [chr(i) for i in range(65, 91)]
+    letter_set.extend([chr(i) for i in range(97, 123)])
+    length = random.randint(4, 16)
+    return ''.join(random.choices(letter_set, k=length))
+
 
 def otime_generate():
     random_time = time.time() - random.randint(0, 86400) * 60
-    return time.strftime("%d-%m-%y %H-%M-%S", time.localtime(random_time))
+    return int(random_time) * 1000
 
 
 data = {}
 for i in range(1000):
     temp = {}
     temp['did'] = i + 1
-    temp['disasterType'] = disaster_type[random.randint(0, 2)]
+    temp['location'] = location_generate()
+    temp['radius'] = radius[random.randint(0,5)]
+    temp['disasterType'] = random.randint(1,3)
     temp['otime'] = otime_generate()
     temp['longitude'] = 53.35 + random.random() - 0.5
     temp['latitude'] = -6.26 + random.random() - 0.5

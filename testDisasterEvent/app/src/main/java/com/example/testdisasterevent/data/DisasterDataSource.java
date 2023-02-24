@@ -28,7 +28,7 @@ public class DisasterDataSource {
         DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference("DisasterInfo");
         // real data
         long startOfDay = System.currentTimeMillis() - 43200000;
-        // fack and test data
+        // fake and test data
         startOfDay = System.currentTimeMillis() - 43200000 * 10;
         long endOfDay = startOfDay + 86400000;
 
@@ -45,16 +45,15 @@ public class DisasterDataSource {
                 int count = 0;
                 // Process the retrieved data here
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Long htime = postSnapshot.child("otime").getValue(Long.class);
-                    String happenTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(htime));
-
+                    Long otime = postSnapshot.child("otime").getValue(Long.class);
+                    String happenTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(otime));
+                    int radius = postSnapshot.child("radius").getValue(int.class);
                     float latitude = postSnapshot.child("latitude").getValue(float.class);
-                    float longtitude = postSnapshot.child("longitude").getValue(float.class);
-
+                    float longitude = postSnapshot.child("longitude").getValue(float.class);
                     String location = postSnapshot.child("location").getValue(String.class);
                     int rtype = postSnapshot.child("disasterType").getValue(int.class);
-                    details[count++] = new DisasterDetail(location, happenTime, latitude, longtitude, disasterTitles[rtype - 1]);
-                }
+                    details[count++] = new DisasterDetail(radius, location, happenTime, latitude,
+                            longitude, disasterTitles[rtype - 1]);                }
                 disasterLiveData.setValue(details);
             }
 

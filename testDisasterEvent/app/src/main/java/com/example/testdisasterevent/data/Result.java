@@ -35,11 +35,11 @@ public class Result<T> {
 
     // Fail login sub-class
     public final static class Failure extends Result{
-        private String str;
+        private Integer str;
 
-        public Failure(String str) { this.str = str; }
+        public Failure(Integer str) { this.str = str; }
 
-        public String  getStatus() { return this.str; }
+        public Integer  getStatus() { return this.str; }
     }
 
     // Error sub-class

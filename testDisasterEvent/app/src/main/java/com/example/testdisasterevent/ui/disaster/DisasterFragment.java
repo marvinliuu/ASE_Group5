@@ -38,6 +38,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -253,7 +255,8 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
             BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
 
-            LatLng center = new LatLng(details[i].getLatitude(), details[i].getLongtitude());
+
+            LatLng center = new LatLng(details[i].getLatitude(), details[i].getLongitude());
             float zoomLevel = 13f;
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
             map.setMapType(MAP_TYPE_NORMAL);
@@ -261,6 +264,20 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                     .position(center)
                     .icon(markerIcon);
             map.addMarker(markerOptions);
+
+//            // Create scalable disaster range
+//            Bitmap rangeBitmap = createDisRangeOnMap();
+//            CameraPosition cameraPosition = map.getCameraPosition();
+//            float zoom = cameraPosition.zoom;
+//            float rr = details[i].getRadius();
+//            double scale = 156543.03392f / (Math.pow(2.0, (double)zoom));
+//            //int rangeWidth = rangeBitmap.getWidth();
+//            //int rangeHeight = rangeBitmap.getHeight();
+//            double scaledRange =  details[i].getRadius();
+//            Bitmap scaledRangeBitmap = Bitmap.createScaledBitmap(rangeBitmap, (int) (2 * scaledRange), (int) (2 * scaledRange), false);
+//            BitmapDescriptor markerIconRange = BitmapDescriptorFactory.fromBitmap(scaledRangeBitmap);
+
+
 
             // add view by order
             relativeLayout.addView(title, titleParams);
@@ -272,6 +289,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     popupWindow.dismiss();
                     disaterViewModel.indexOfDisasterDetails = v.getId();
                     // Get a reference to the child FragmentManager
@@ -289,6 +307,8 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
 
                     // Commit the transaction
                     fragmentTransaction.commit();
+
+
                 }
             });
 
@@ -322,6 +342,13 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         }
         return bitmap;
     }
+
+//    public Bitmap createDisRangeOnMap () {
+//        // Create and add an ImageView to the RelativeLayout - disaster range
+//        Bitmap bitmap;
+//        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.disaster_range);
+//        return bitmap;
+//    }
 
     @Override
     public void onDestroyView() {

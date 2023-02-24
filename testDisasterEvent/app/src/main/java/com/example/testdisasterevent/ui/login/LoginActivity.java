@@ -223,6 +223,18 @@ public class LoginActivity extends AppCompatActivity {
         toast.setView(view);
         toast.show();
     }
+    private void midToast(int strID){
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.view_toast_custom,
+                (ViewGroup) findViewById(R.id.lly_toast));
+        TextView tv_msg = (TextView) view.findViewById(R.id.tv_msg);
+        tv_msg.setText(strID);
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER, 0, 10);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(view);
+        toast.show();
+    }
     /**
      * process the valid user login event - page jump & show dialog
      * @param model
@@ -248,6 +260,11 @@ public class LoginActivity extends AppCompatActivity {
      * @param errorString
      */
     private void showLoginFailed(Integer errorString) {
-        Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+        if(errorString != R.string.login_failed){
+            midToast(errorString);
+        }
+        else{
+            Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+        }
     }
 }
