@@ -66,10 +66,12 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     private TextView typeDetail;
     private TextView upIntro;
     private TextView upDetail;
+    private int index;
 
-    public void setSharedViewModel(DisaterViewModel disasterViewModel) {
-        this.disaterViewModel = disasterViewModel;
-    }
+
+//    public void setSharedViewModel(DisaterViewModel disasterViewModel) {
+//        this.disaterViewModel = disasterViewModel;
+//    }
 
 
     public View onCreateView(LayoutInflater inflater,
@@ -79,6 +81,12 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
 
         binding = FragmentDisasterDetailsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            index = bundle.getInt("data_key");
+            // Use the data as needed
+        }
 
         backBriefBtn = binding.backBrief;
 
@@ -147,8 +155,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     }
 
     public void createDisasterDetailsPopupWindow(DisasterDetail[] details) {
-        int i = disaterViewModel.indexOfDisasterDetails;
-        String titleText = details[i].getDisasterTitle();
+        String titleText = details[index].getDisasterTitle();
         // Load the custom font from the assets folder
         Typeface topTitleType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
         // Set the font of the TextView to the custom font
@@ -171,16 +178,16 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         Typeface detailsType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_regular.ttf");
         locDetail.setTypeface(detailsType);
         locDetail.setTextSize(15);
-        locDetail.setText(details[i].getLocation());
+        locDetail.setText(details[index].getLocation());
         ftDetail.setTypeface(detailsType);
         ftDetail.setTextSize(15);
-        ftDetail.setText(details[i].getHappenTime());
+        ftDetail.setText(details[index].getHappenTime());
         typeDetail.setTypeface(detailsType);
         typeDetail.setTextSize(15);
         typeDetail.setText("unknown");
         upDetail.setTypeface(detailsType);
         upDetail.setTextSize(15);
-        upDetail.setText(details[i].getHappenTime());
+        upDetail.setText(details[index].getHappenTime());
 
         // set the title icon resource
         setDisIconResource(titleText);
@@ -197,7 +204,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
         BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
 
-        LatLng center = new LatLng(details[i].getLongitude(), details[i].getLatitude());
+        LatLng center = new LatLng(details[index].getLatitude(), details[index].getLongtitude());
         float zoomLevel = 13f;
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
         System.out.println("get here:" + center);

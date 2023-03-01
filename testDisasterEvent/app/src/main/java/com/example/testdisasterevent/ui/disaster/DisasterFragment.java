@@ -62,9 +62,9 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap map;
     private ImageButton closeBtn;
 
-    public void setSharedViewModel(DisaterViewModel disasterViewModel) {
-        this.disaterViewModel = disasterViewModel;
-    }
+//    public void setSharedViewModel(DisaterViewModel disasterViewModel) {
+//        this.disaterViewModel = disasterViewModel;
+//    }
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -289,6 +289,9 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    int index = v.getId();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("data_key", index);
 
                     popupWindow.dismiss();
                     disaterViewModel.indexOfDisasterDetails = v.getId();
@@ -300,6 +303,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
 
                     // Replace the current fragment with the new fragment
                     Fragment newFragment = new DisasterDetailsFragment();
+                    newFragment.setArguments(bundle);
                     fragmentTransaction.replace(R.id.disaster_container, newFragment);
 
                     // Add the transaction to the back stack

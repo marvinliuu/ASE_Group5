@@ -67,20 +67,20 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        bindViewModel();
+//        bindViewModel();
     }
 
-    public void bindViewModel() {
-        // Create an instance of the SharedViewModel
-        sharedViewModel = new ViewModelProvider(this).get(DisaterViewModel.class);
-
-        // Pass the SharedViewModel instance to each of the fragments -- disasterBrief and
-        DisasterFragment disasterBrief = new DisasterFragment();
-        disasterBrief.setSharedViewModel(sharedViewModel);
-
-        DisasterDetailsFragment disasterDetail = new DisasterDetailsFragment();
-        disasterDetail.setSharedViewModel(sharedViewModel);
-    }
+//    public void bindViewModel() {
+//        // Create an instance of the SharedViewModel
+//        sharedViewModel = new ViewModelProvider(this).get(DisaterViewModel.class);
+//
+//        // Pass the SharedViewModel instance to each of the fragments -- disasterBrief and
+//        DisasterFragment disasterBrief = new DisasterFragment();
+//        disasterBrief.setSharedViewModel(sharedViewModel);
+//
+//        DisasterDetailsFragment disasterDetail = new DisasterDetailsFragment();
+//        disasterDetail.setSharedViewModel(sharedViewModel);
+//    }
 
     public AccountUserInfo getAccountUserInfo() {
         return accountUserInfo;
