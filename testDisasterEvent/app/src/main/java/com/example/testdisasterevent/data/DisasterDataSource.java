@@ -29,8 +29,8 @@ public class DisasterDataSource {
         // real data
         long startOfDay = System.currentTimeMillis() - 43200000;
         // fake and test data
-        startOfDay = System.currentTimeMillis() - 43200000 * 10;
-        long endOfDay = startOfDay + 86400000;
+        startOfDay = System.currentTimeMillis() - 43200000 * 30;
+        long endOfDay = System.currentTimeMillis() + 86400000;
 
 //        long startOfDay = new GregorianCalendar(2023, Calendar.MARCH, 17).getTimeInMillis();
 //        long endOfDay = new GregorianCalendar(2023, Calendar.MARCH, 18).getTimeInMillis();

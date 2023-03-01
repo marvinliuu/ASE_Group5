@@ -16,6 +16,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -262,6 +263,7 @@ public class LoginActivity extends AppCompatActivity {
         // TODO : initiate successful logged in experience
         //Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
         midToast(welcome);
+
         Intent main_intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(main_intent);
 
