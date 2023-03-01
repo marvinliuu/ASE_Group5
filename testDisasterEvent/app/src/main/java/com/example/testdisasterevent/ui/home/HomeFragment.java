@@ -20,6 +20,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -38,9 +39,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         View root = binding.getRoot();
 
         requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
-
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
+// Initialize map fragment
         mapFragment= (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if(mapFragment == null){
             FragmentManager fm= getFragmentManager();
@@ -52,12 +53,32 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         return root;
     }
 
+    //When map id loaded
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                MarkerOptions markerOptions=new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.title(latLng.latitude+" : "+latLng.longitude);
+                CircleOptions circleOptions=new CircleOptions();
+                circleOptions.center(latLng);
+                circleOptions.radius(100);
+                circleOptions.strokeColor(Color.RED);
+                circleOptions.strokeWidth(2);
+                circleOptions.fillColor(Color.argb(70, 255, 0, 0));
+                googleMap.addCircle(circleOptions);
+                googleMap.clear();
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
+                googleMap.addMarker(markerOptions);
+                googleMap.addCircle(circleOptions);
+            }
+        });
         /**
          * set lat/long here
          */
-        LatLng sydney = new LatLng(-37.812439, 144.972755);
+        LatLng sydney = new LatLng(53.3442016, -6.2544264);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
 
         googleMap.addMarker(new MarkerOptions()
@@ -70,8 +91,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         FrameLayout overlay = binding.mapOverlay;
         overlay.setBackground(shapeDrawable);
 
-    }
 
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

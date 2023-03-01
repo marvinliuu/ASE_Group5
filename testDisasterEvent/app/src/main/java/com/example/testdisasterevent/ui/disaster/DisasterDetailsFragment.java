@@ -35,7 +35,7 @@ import com.example.testdisasterevent.data.model.DisasterDetail;
 import com.example.testdisasterevent.databinding.FragmentDisasterBinding;
 import com.example.testdisasterevent.databinding.FragmentDisasterDetailsBinding;
 import com.example.testdisasterevent.databinding.FragmentHomeBinding;
-import com.example.testdisasterevent.ui.home.HomeViewModel;
+//import com.example.testdisasterevent.ui.home.HomeViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -204,7 +204,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
         BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
 
-        LatLng center = new LatLng(details[index].getLatitude(), details[index].getLongtitude());
+        LatLng center = new LatLng(details[index].getLatitude(), details[index].getLongitude());
         float zoomLevel = 13f;
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
         System.out.println("get here:" + center);
@@ -215,7 +215,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         map.addMarker(markerOptions);
         CircleOptions circleOptions = new CircleOptions()
                 .center(center)
-                .radius(details[i].getRadius())
+                .radius(details[index].getRadius())
                 .fillColor(0x0FF00000)
                 .strokeWidth(0f);
         //.fillOpacity();
