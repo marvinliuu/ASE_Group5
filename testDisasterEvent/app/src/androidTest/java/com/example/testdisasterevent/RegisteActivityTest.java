@@ -35,4 +35,23 @@ public class RegisteActivityTest {
         onView(withId(R.id.registerFinish)).perform(click());
         onView(withId(R.id.container)).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void testRegistrationWithDefaultActdode() {
+        onView(withId(R.id.registerName)).perform(typeText("John Doe"));
+        onView(withId(R.id.registerEmail)).perform(typeText("johndoe@example.com"));
+        onView(withId(R.id.registerPassword)).perform(typeText("P@ssw0rd"));
+
+        onView(withId(R.id.registerFinish)).perform(click());
+        onView(withId(R.id.container)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testRegistrationBack() {
+        onView(withId(R.id.registerName)).perform(typeText("John Doe"));
+        onView(withId(R.id.registerEmail)).perform(typeText("johndoe@example.com"));
+        onView(withId(R.id.registerPassword)).perform(typeText("P@ssw0rd"));
+        onView(withId(R.id.registerBack)).perform(click());
+        onView(withId(R.id.app_logo)).check(matches(isDisplayed()));
+    }
 }

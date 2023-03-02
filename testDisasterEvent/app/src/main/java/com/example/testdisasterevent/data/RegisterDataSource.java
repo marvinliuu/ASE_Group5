@@ -10,6 +10,8 @@ import java.util.Map;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
+
+import com.google.firebase.FirebaseException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,12 +23,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 public class RegisterDataSource {
-    private static DatabaseReference mDatabase, UserDatabase, CountDatabase;
+    private DatabaseReference mDatabase;
     private int userType;
-    public static final String TAG = "YOUR-TAG-NAME";
+    public final String TAG = "RegisterDataSource";
     private String userId;
-    private static long count;
-
+    private long count;
 
     /**
      * process of register, with writing sequentially into firebase
@@ -35,57 +36,52 @@ public class RegisterDataSource {
      * @param email - user's email
      * @param actCode - Activation Code for type
      */
-    public Result<String>  register(String username, String password, String email, String actCode) {
+    public Result<String> register(String username, String password, String email, String actCode) {
         try {
             // Write user data to Firebase Realtime Database
-            userId  = "UserInfo";
             mDatabase = FirebaseDatabase.getInstance().getReference();
-            UserDatabase = FirebaseDatabase.getInstance().getReference().child("UserInfo");
-            CountDatabase = mDatabase.child("count");
-            UserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            DatabaseReference userDatabase = mDatabase.child("UserInfo");
+            DatabaseReference countDatabase = mDatabase.child("count");
+            userId = "UserInfo";
+
+            userDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    // save the number of count
+                    // Save the number of users
                     count = dataSnapshot.getChildrenCount() + 1;
-                    CountDatabase.setValue(count);
+                    countDatabase.setValue(count);
 
-                    CountDatabase.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            // Get the value from the DataSnapshot object
-                            Long value = dataSnapshot.getValue(Long.class);
+                    // Write user data into the database
+                    Map<String, Object> userData = new HashMap<>();
+                    userData.put("mail", email);
+                    userData.put("name", username);
+                    userData.put("password", password);
+                    userData.put("uid", count);
+                    userData.put("r-time", generateRandomTime());
 
-                            //write data into real time database
-                            Map<String, String> userData = new HashMap<>();
-                            userData.put("mail", email);
-                            userData.put("name", username);
-                            userData.put("password", password);
-                            userData.put("uid", value.toString());
-                            userData.put("r-time", generateRandomTime());
-                            userData.put("type",actCode);
-                            userData.put("phone","877022342");
+                    // Check if actCode is null or empty, and assign 0 as default
+                    if (actCode == null || actCode.isEmpty()) {
+                        userData.put("type", 0);
+                    } else {
+                        int actCodeInt = Integer.parseInt(actCode);
+                        userData.put("type", actCodeInt); // Change to int
+                    }
 
-                            userId += value;
-                            mDatabase.child("UserInfo").child(userId).setValue(userData);
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                            // Failed to read value
-                            Log.w(TAG, "Failed to read value.", error.toException());
-                        }
-                    });
+                    userData.put("phone", "877022342");
+
+                    userId += count;
+                    userDatabase.child(userId).setValue(userData);
                 }
+
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     Log.w(TAG, "onCancelled", databaseError.toException());
                 }
             });
 
-
             return new Result.Success<>("Register Success" + username);
         } catch (Exception e) {
-            return new Result.Error(new IOException("Error register", e));
+            return new Result.Error(new IOException("Error registering user", e));
         }
     }
 
@@ -102,5 +98,5 @@ public class RegisterDataSource {
         // TODO: check if type valid
         this.userType = userType;
     }
-
 }
+
