@@ -100,10 +100,11 @@
 
     <EditText
         android:id="@+id/registerEmail"
-        android:layout_width="340dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="104dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/bg_edittext"
         android:ems="15"
         android:hint="Email"
@@ -113,7 +114,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="@dimen/activity_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.135"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -121,10 +122,11 @@
 
     <EditText
         android:id="@+id/registerName"
-        android:layout_width="340dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/bg_edittext"
         android:ems="15"
         android:hint="Name"
@@ -134,17 +136,18 @@
         android:paddingBottom="10dp"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@dimen/activity_horizontal_margin"
-        app:layout_constraintEnd_toEndOf="@dimen/activity_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerEmail" />
 
 
     <EditText
         android:id="@+id/registerPassword"
-        android:layout_width="340dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/bg_edittext"
         android:ems="15"
         android:hint="Password"
@@ -155,16 +158,17 @@
         android:paddingBottom="10dp"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@dimen/activity_horizontal_margin"
-        app:layout_constraintEnd_toEndOf="@dimen/activity_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerName" />
 
     <EditText
         android:id="@+id/registerActivationCode"
-        android:layout_width="340dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/bg_edittext"
         android:ems="15"
         android:hint="Activation Code"
@@ -174,7 +178,7 @@
         android:paddingBottom="10dp"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@dimen/activity_horizontal_margin"
-        app:layout_constraintEnd_toEndOf="@dimen/activity_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerPassword" />
 
