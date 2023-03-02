@@ -143,6 +143,27 @@
                 android:layout_toRightOf="@+id/update_intro"
                 android:layout_below="@+id/type_intro"/>
 
+            <TextView
+                android:id="@+id/radius_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:text="Radius:"
+                android:textColor="@color/black"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/update_intro"/>
+
+            <TextView
+                android:id="@+id/radius_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@+id/radius_intro"
+                android:layout_below="@+id/update_intro"/>
+
         </RelativeLayout>
 
     </ScrollView>

@@ -256,8 +256,8 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
 
 
-            LatLng center = new LatLng(details[i].getLatitude(), details[i].getLongitude());
-            float zoomLevel = 13f;
+            LatLng center = new LatLng(details[i].getLongitude(), details[i].getLatitude());
+            float zoomLevel = 15f;
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
             map.setMapType(MAP_TYPE_NORMAL);
             MarkerOptions markerOptions = new MarkerOptions()

@@ -66,6 +66,8 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     private TextView typeDetail;
     private TextView upIntro;
     private TextView upDetail;
+    private TextView radiusIntro;
+    private TextView radiusDetail;
     private int index;
 
 
@@ -106,6 +108,8 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         typeDetail = contentView.findViewById(R.id.type_details);
         upIntro = contentView.findViewById(R.id.update_intro);
         upDetail = contentView.findViewById(R.id.update_details);
+        radiusIntro = contentView.findViewById(R.id.radius_intro);
+        radiusDetail = contentView.findViewById(R.id.radius_details);
 
         requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
@@ -174,6 +178,8 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         typeIntro.setTextSize(15);
         upIntro.setTypeface(generalType);
         upIntro.setTextSize(15);
+        radiusIntro.setTypeface(generalType);
+        radiusIntro.setTextSize(15);
 
         Typeface detailsType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_regular.ttf");
         locDetail.setTypeface(detailsType);
@@ -188,6 +194,9 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         upDetail.setTypeface(detailsType);
         upDetail.setTextSize(15);
         upDetail.setText(details[index].getHappenTime());
+        radiusDetail.setTypeface(detailsType);
+        radiusDetail.setTextSize(15);
+        radiusDetail.setText(Integer.toString(details[index].getRadius()) + " m");
 
         // set the title icon resource
         setDisIconResource(titleText);
@@ -204,8 +213,18 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
         BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
 
-        LatLng center = new LatLng(details[index].getLatitude(), details[index].getLongitude());
-        float zoomLevel = 13f;
+        LatLng center = new LatLng(details[index].getLongitude(), details[index].getLatitude());
+        float zoomLevel;
+        int radius = details[index].getRadius();
+        if(radius >= 100){
+            zoomLevel = 17f;
+        }
+        else if(radius >= 20){
+            zoomLevel = 19f;
+        }
+        else{
+            zoomLevel = 20f;
+        }
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
         System.out.println("get here:" + center);
         map.setMapType(MAP_TYPE_NORMAL);
@@ -216,7 +235,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         CircleOptions circleOptions = new CircleOptions()
                 .center(center)
                 .radius(details[index].getRadius())
-                .fillColor(0x0FF00000)
+                .fillColor(0x40FF0000)
                 .strokeWidth(0f);
         //.fillOpacity();
         map.addCircle(circleOptions);

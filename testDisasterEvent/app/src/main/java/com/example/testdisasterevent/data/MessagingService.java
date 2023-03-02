@@ -91,7 +91,7 @@ public class MessagingService extends FirebaseMessagingService {
 
     private void sendNotification(Context iContext, String messageTitle, String messageBody) {
         NotificationManager notificationManager = (NotificationManager) iContext.getSystemService(Context.NOTIFICATION_SERVICE);
-//        Intent intent = new Intent(this, MessageActivity.class); // 接收到通知后，点击通知，启动 MessageActivity
+//        Intent intent = new Intent(this, MessageActivity.class);
 
 //        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         long[] pattern = {500, 500, 500, 500, 500};
@@ -107,7 +107,7 @@ public class MessagingService extends FirebaseMessagingService {
         builder.setDefaults(NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE);
 
 //        builder.setContentIntent(pendingIntent);
-//        builder.setFullScreenIntent(pendingIntent, true);//将一个Notification变成悬挂式Notification
+//        builder.setFullScreenIntent(pendingIntent, true);
 
         if (notificationManager != null) {
             notificationManager.notify(0, builder.build());
@@ -115,7 +115,7 @@ public class MessagingService extends FirebaseMessagingService {
     }
 
     private void sendRegistrationToServer(String token){
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("Token");
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 }
 
