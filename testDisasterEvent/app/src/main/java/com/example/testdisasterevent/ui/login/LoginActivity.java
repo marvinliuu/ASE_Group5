@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = binding.login;
         final Button backButton = binding.loginback;
         final ProgressBar loadingProgressBar = binding.loading;
+
         // set image of the imageview
         final ImageView logo = (ImageView) findViewById(R.id.app_logo);
         Glide.with(this).load(R.drawable.disaster_fire_logo).into(logo);

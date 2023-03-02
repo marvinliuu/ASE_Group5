@@ -22,10 +22,16 @@ public class AccountViewModel extends ViewModel {
         }
         return accountUserInfo;
     }
+
+
     public AccountViewModel() {
         readUserInfo();
     }
     public AccountUserInfo userInfo;
+
+
+
+
     private void readUserInfo() {
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("UserInfo");
         Query userQuery = userRef.orderByChild("uid").equalTo(1);

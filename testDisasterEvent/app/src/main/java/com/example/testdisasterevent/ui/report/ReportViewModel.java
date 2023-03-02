@@ -1,19 +1,26 @@
 package com.example.testdisasterevent.ui.report;
 
+import android.text.Editable;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+
+import com.example.testdisasterevent.data.model.AccountUserInfo;
+import com.example.testdisasterevent.data.model.ReportFromCitizen;
+
 public class ReportViewModel extends ViewModel {
+    private MutableLiveData<ReportFromCitizen> ReportFromC = new MutableLiveData<>();
+    public ReportFromCitizen report;
 
-    private MutableLiveData<String> mText;
 
-    public ReportViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+
+    public void editTextChanged(String injuredNum){
+        report.injuredNum=injuredNum;
+        //report.otherInfo=otherInfo;
+
+
     }
 
-    public LiveData<String> getText() {
-        return mText;
-    }
 }

@@ -1,43 +1,151 @@
 package com.example.testdisasterevent.ui.report;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import android.text.InputType;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.testdisasterevent.databinding.FragmentReportBinding;
+import com.example.testdisasterevent.R;
+import com.example.testdisasterevent.ui.account.AccountViewModel;
 
 public class ReportFragment extends Fragment {
 
     private ReportViewModel reportViewModel;
-    private FragmentReportBinding binding;
+
+
 
     public View onCreateView( LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        reportViewModel =
-                new ViewModelProvider(this).get(ReportViewModel.class);
+        View rootView = inflater.inflate(R.layout.fragment_report,container,false);
 
-        binding = FragmentReportBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
 
-        final TextView textView = binding.textNotifications;
-        reportViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+
+
+        /**
+         * enter injuredNum string
+         * */
+        EditText injuredNumEditText = rootView.findViewById(R.id.report_injured);
+        String injuredNum=injuredNumEditText.getText().toString();
+
+
+        TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
-            public void onChanged( String s) {
-                textView.setText(s);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // ignore
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // ignore
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                reportViewModel.editTextChanged(injuredNum);
+            }
+        };
+
+        injuredNumEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    Log.d("input", "other info num enter");
+                }
+                return false;
             }
         });
-        return root;
+
+
+
+        /**
+         * pulldown Button click
+         * */
+
+        ImageView pulldownIcon = rootView.findViewById(R.id.report_pulldown_icon);
+        pulldownIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Button click", "Button clicked!");
+            }
+        });
+
+        /**
+         * map Button click
+         * */
+
+        ImageView mapIcon = rootView.findViewById(R.id.report_mark_map_icon);
+        mapIcon.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View rootView){
+                Log.d("Button click", "map clicked!");
+            }
+        });
+
+        /**
+         * camera Button click
+         * */
+        ImageView cameraIcon = rootView.findViewById(R.id.report_camera);
+        cameraIcon.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View rootView){
+                Log.d("Button click", "camera clicked!");
+            }
+        });
+
+        /**
+         * submit Button click
+         * */
+        ImageView submitButton = rootView.findViewById(R.id.report_submit);
+        submitButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View rootView){
+                Log.d("Button click", "submit clicked!");
+            }
+        });
+
+
+        /**
+         * cancel Button click
+         * */
+        ImageView cancelButton = rootView.findViewById(R.id.report_cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View rootView){
+                Log.d("Button click", "cancel clicked!");
+            }
+        });
+
+
+
+        return rootView;
     }
 
+
+
+
+
+
+
+
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
+
     }
+
 }
