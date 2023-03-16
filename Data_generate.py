@@ -175,7 +175,7 @@ for i in range(200):
     temp['rtime'] = times[1]
     temp['longitude'] = 37.7749 + random.random() % 0.05
     temp['latitude'] = -122.4194 + random.random() % 0.05
-    temp['report_state'] = random.randint(-1, 1)
+    temp['report_state'] = random.randint(0, 1)
     data['Report' + str(i + 1)] = temp
 final_data['Report'] = data
 
