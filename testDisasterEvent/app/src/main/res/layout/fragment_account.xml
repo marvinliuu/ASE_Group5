@@ -55,7 +55,6 @@
             android:layout_marginTop="30dp"
             android:layout_marginRight="40dp"
             android:fontFamily="@font/alibaba_regular"
-            android:text="citizen"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20dp"
@@ -123,7 +122,6 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="40dp"
             android:fontFamily="@font/alibaba_light"
-            android:text="Haoxian Liu"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="18dp" />
@@ -151,7 +149,6 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="40dp"
             android:fontFamily="@font/alibaba_light"
-            android:text="liuha@tcd.ie"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="18dp" />
@@ -174,15 +171,14 @@
             android:id="@+id/account_mobile_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/account_email_info"
             android:layout_alignParentRight="true"
             android:layout_marginTop="5dp"
             android:layout_marginRight="40dp"
             android:fontFamily="@font/alibaba_light"
-            android:text="+353(87)1234567"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="18dp"
-            android:layout_below="@+id/account_email_info" />
+            android:textSize="18dp" />
 
     </RelativeLayout>
 

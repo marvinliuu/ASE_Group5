@@ -24,7 +24,7 @@
     <string name="register_phone">Phone</string>
     <string name="register_idCode">Identification Code</string>
     <string name="register_password">Password</string>
-    <string name="api_key">AIzaSyB0GgUei2Qryom8nshjzHxjbKjup77ISAo</string>
+    <string name="api_key">AIzaSyDrYjvowVSGRHTyi5vO7CZx2Py32G1BoaY</string>
     <string name="register_password_comfirm">Password Confirmation</string>
     <string name="activation_code">Activation code is used to activate officer account, Users without activation codes are automatically registered as citizen accounts.</string>
     <!-- TODO: Remove or change this placeholder text -->

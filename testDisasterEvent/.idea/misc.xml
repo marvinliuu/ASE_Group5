@@ -4,41 +4,6 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.14166666666666666" />
-<<<<<<< Updated upstream
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/bg_edittext.xml" value="0.22447916666666667" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/bg_edittext_focused.xml" value="0.18177083333333333" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/bg_edittext_normal.xml" value="0.18177083333333333" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/bg_toast.xml" value="0.18177083333333333" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/button_shape_shadow.xml" value="0.18177083333333333" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/gradient_center.xml" value="0.18177083333333333" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/gradient_end.xml" value="0.18177083333333333" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/gradient_start.xml" value="0.18177083333333333" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.18177083333333333" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/ic_launcher_background.xml" value="0.18177083333333333" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.18177083333333333" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/map_bg.xml" value="0.18177083333333333" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/map_bg_rounded.xml" value="0.18177083333333333" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/nav_bar_shape.xml" value="0.18177083333333333" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/nav_item.xml" value="0.18177083333333333" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/register_process_button.xml" value="0.18177083333333333" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/report_input.xml" value="0.203125" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/drawable/sign_up_button.xml" value="0.18177083333333333" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/activity_home.xml" value="0.20677083333333332" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/activity_login.xml" value="0.20208333333333334" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/activity_main.xml" value="0.18704710144927536" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/content_scrolling.xml" value="0.165625" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/fragment_account.xml" value="0.20677083333333332" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/fragment_disaster.xml" value="0.20677083333333332" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/fragment_home.xml" value="0.20677083333333332" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/fragment_report.xml" value="0.2" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/message_popupwindow.xml" value="0.20677083333333332" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/register_activity.xml" value="0.20677083333333332" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/register_fragment.xml" value="0.2265625" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/register_popupwindow.xml" value="0.20677083333333332" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/view_toast_custom.xml" value="0.165625" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/menu/bottom_nav_menu.xml" value="0.165625" />
-        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/menu/menu_disaster_details.xml" value="0.165625" />
-=======
         <entry key="..\:/Android/Android Project/1/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.11151797603195739" />
         <entry key="..\:/Android/Android Project/1/app/src/main/res/layout-w936dp/activity_login.xml" value="0.130859375" />
         <entry key="..\:/Android/Android Project/1/app/src/main/res/layout/activity_home.xml" value="0.17447916666666666" />
@@ -57,10 +22,8 @@
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/activity_home.xml" value="0.3070652173913043" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/activity_login.xml" value="0.3070652173913043" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/disasterdetails_popupwindow.xml" value="0.4466666666666667" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/fragment_account.xml" value="0.3070652173913043" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/fragment_disaster.xml" value="0.1" />
-        <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/fragment_disaster_details.xml" value="0.1" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/fragment_home.xml" value="0.31521739130434784" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/fragment_report.xml" value="0.1" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/layout.xml" value="0.1" />
@@ -70,29 +33,45 @@
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/register_popupwindow.xml" value="0.1" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/view_toast_custom.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.26851851851851855" />
->>>>>>> Stashed changes
         <entry key="app/src/main/res/drawable/bg_edittext.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/drawable/bg_edittext_focused.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/drawable/bg_edittext_normal.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/drawable/button_shape.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/drawable/button_shape_shadow.xml" value="0.25104166666666666" />
+        <entry key="app/src/main/res/drawable/gradient_center.xml" value="0.25104166666666666" />
+        <entry key="app/src/main/res/drawable/gradient_end.xml" value="0.25104166666666666" />
+        <entry key="app/src/main/res/drawable/gradient_start.xml" value="0.25104166666666666" />
         <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/drawable/nav_bar_shape.xml" value="0.25104166666666666" />
+        <entry key="app/src/main/res/drawable/nav_item.xml" value="0.25104166666666666" />
+        <entry key="app/src/main/res/drawable/popup_window_bg.xml" value="0.25104166666666666" />
+        <entry key="app/src/main/res/drawable/register_process_button.xml" value="0.25104166666666666" />
         <entry key="app/src/main/res/drawable/sign_up_button.xml" value="0.5354166666666667" />
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.18005354752342703" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.17930327868852458" />
+        <entry key="app/src/main/res/layout/account_fragment.xml" value="0.22644927536231885" />
+        <entry key="app/src/main/res/layout/activity_disaster_details2.xml" value="0.1546875" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.23777173913043478" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.19293478260869565" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.13333333333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.23777173913043478" />
+        <entry key="app/src/main/res/layout/disasterdetails_popupwindow.xml" value="0.23446342713560878" />
+        <entry key="app/src/main/res/layout/fragment_account.xml" value="0.22083333333333333" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.23777173913043478" />
+        <entry key="app/src/main/res/layout/fragment_disaster.xml" value="0.23489583333333333" />
+        <entry key="app/src/main/res/layout/fragment_disaster_details.xml" value="0.15" />
+        <entry key="app/src/main/res/layout/fragment_disaster_details_list_dialog.xml" value="0.19021739130434784" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.23777173913043478" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.23777173913043478" />
-        <entry key="app/src/main/res/layout/register_activity.xml" value="0.4134963768115942" />
+        <entry key="app/src/main/res/layout/fragment_report.xml" value="0.23489583333333333" />
+        <entry key="app/src/main/res/layout/message_popupwindow.xml" value="0.23489583333333333" />
+        <entry key="app/src/main/res/layout/register_activity.xml" value="0.1" />
         <entry key="app/src/main/res/layout/register_fragment.xml" value="0.3889278942208674" />
         <entry key="app/src/main/res/layout/register_popupwindow.xml" value="0.31657608695652173" />
-        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.5161458333333333" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.25277777777777777" />
       </map>
     </option>
