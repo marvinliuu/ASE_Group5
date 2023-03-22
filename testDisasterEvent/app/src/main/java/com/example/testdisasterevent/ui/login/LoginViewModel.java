@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.testdisasterevent.algorithms.PasswordEncryption;
 import com.example.testdisasterevent.data.LoginRepository;
 import com.example.testdisasterevent.data.Result;
 import com.example.testdisasterevent.data.model.AccountUserInfo;
@@ -62,7 +63,8 @@ public class LoginViewModel extends ViewModel {
                 for(DataSnapshot user : dataSnapshot.getChildren()){
                     if(user.child("mail").getValue(String.class).equals(username)){
                         loginStatus = 1;
-                        if(user.child("password").getValue(String.class).equals(password)){
+                        String new_pwd = PasswordEncryption.encryptPassword(password);
+                        if(user.child("password").getValue(String.class).equals(new_pwd)){
                             displayName = user.child("name").getValue(String.class);
                             loginUserID = user.child("uid").getValue((long.class));
                             email = user.child("mail").getValue(String.class);

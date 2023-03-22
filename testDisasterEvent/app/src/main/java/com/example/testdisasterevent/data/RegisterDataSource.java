@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
+import com.example.testdisasterevent.algorithms.PasswordEncryption;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -55,7 +56,8 @@ public class RegisterDataSource {
                     Map<String, Object> userData = new HashMap<>();
                     userData.put("mail", email);
                     userData.put("name", username);
-                    userData.put("password", password);
+                    String encrypt_pwd = PasswordEncryption.encryptPassword(password);
+                    userData.put("password", encrypt_pwd);
                     userData.put("uid", count);
                     userData.put("r-time", generateRandomTime());
 
