@@ -1,0 +1,101 @@
+package com.example.testdisasterevent.ui.report;
+
+import android.Manifest;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.testdisasterevent.R;
+import com.example.testdisasterevent.databinding.FragmentReportMapBinding;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class ReportMapFragment extends Fragment implements OnMapReadyCallback {
+
+    private ReportViewModel reportViewModel;
+    private FragmentReportMapBinding binding;
+    private SupportMapFragment mapFragment;
+
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        reportViewModel =
+                new ViewModelProvider(this).get(ReportViewModel.class);
+
+        binding = FragmentReportMapBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
+// Initialize map fragment
+        mapFragment= (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.R_map);
+        if(mapFragment == null){
+            FragmentManager fm= getFragmentManager();
+            FragmentTransaction ft= fm.beginTransaction();
+            mapFragment= SupportMapFragment.newInstance();
+            ft.add(R.id.map, mapFragment).commit();
+        }
+        mapFragment.getMapAsync(this);
+        return root;
+    }
+
+    //When map id loaded
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                MarkerOptions markerOptions=new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.title(latLng.longitude+" : "+latLng.latitude);
+                CircleOptions circleOptions=new CircleOptions();
+                circleOptions.center(latLng);
+                circleOptions.radius(100);
+                circleOptions.strokeColor(Color.RED);
+                circleOptions.strokeWidth(2);
+                circleOptions.fillColor(Color.argb(70, 255, 0, 0));
+                googleMap.addCircle(circleOptions);
+                googleMap.clear();
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
+                googleMap.addMarker(markerOptions);
+                googleMap.addCircle(circleOptions);
+            }
+        });
+        /**
+         * set lat/long here
+         */
+        LatLng sydney = new LatLng(53.3442016, -6.2544264);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
+
+        googleMap.addMarker(new MarkerOptions()
+                .position(sydney));
+
+        GradientDrawable shapeDrawable = new GradientDrawable();
+        shapeDrawable.setShape(GradientDrawable.RECTANGLE);
+        shapeDrawable.setCornerRadii(new float[] { 16, 16, 16, 16, 0, 0, 0, 0 });
+
+//        FrameLayout overlay = binding.;
+//        overlay.setBackground(shapeDrawable);
+
+
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+}

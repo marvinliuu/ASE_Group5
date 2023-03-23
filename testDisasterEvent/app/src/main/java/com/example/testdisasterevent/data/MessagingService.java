@@ -8,8 +8,11 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 
 import com.example.testdisasterevent.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -34,7 +37,7 @@ public class MessagingService extends FirebaseMessagingService {
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // FCM registration token to your app server.
-        //sendRegistrationToServer(token);
+        sendRegistrationToServer(token);
     }
 
 
@@ -115,7 +118,21 @@ public class MessagingService extends FirebaseMessagingService {
     }
 
     private void sendRegistrationToServer(String token){
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("FCMToken");
+        mDatabase.child(token.substring(0,6)).child("Token").setValue(token);
+        mDatabase.child(token.substring(0,6)).child("rTime").setValue(System.currentTimeMillis());
+        //        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snapshot) {
+//                snapshot.child("").
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError error) {
+//
+//            }
+//        });
+
     }
 }
 

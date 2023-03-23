@@ -1,5 +1,9 @@
 package com.example.testdisasterevent.ui.report;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,9 +20,12 @@ import android.widget.TextView;
 
 import android.text.InputType;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.ui.account.AccountViewModel;
 
@@ -92,6 +99,16 @@ public class ReportFragment extends Fragment {
             @Override
             public void onClick(View rootView){
                 Log.d("Button click", "map clicked!");
+                int index = rootView.getId();
+                Bundle bundle = new Bundle();
+                bundle.putInt("data_key", index);
+                FragmentManager fragmentManager = getChildFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                Fragment reportMapFragment = new ReportMapFragment();
+                reportMapFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.report_content, reportMapFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
@@ -103,6 +120,17 @@ public class ReportFragment extends Fragment {
             @Override
             public void onClick(View rootView){
                 Log.d("Button click", "camera clicked!");
+                NotificationManager manager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                String channelId = "AAA";
+                Notification notification = new Notification.Builder(getActivity(), channelId)
+                        .setContentTitle("This is a title")
+                        .setContentText("This is a text")
+                        .setWhen(System.currentTimeMillis())
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .build();
+                NotificationChannel channel = new NotificationChannel(channelId, "channelName", NotificationManager.IMPORTANCE_DEFAULT);
+                manager.createNotificationChannel(channel);
+                manager.notify(1123, notification);
             }
         });
 
