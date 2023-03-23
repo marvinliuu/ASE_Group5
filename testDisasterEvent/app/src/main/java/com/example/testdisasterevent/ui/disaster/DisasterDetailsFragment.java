@@ -9,6 +9,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -29,8 +32,10 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.testdisasterevent.R;
+import com.example.testdisasterevent.data.RerouteDataSource;
 import com.example.testdisasterevent.data.model.DisasterDetail;
 import com.example.testdisasterevent.databinding.FragmentDisasterBinding;
 import com.example.testdisasterevent.databinding.FragmentDisasterDetailsBinding;
@@ -43,10 +48,27 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.RoundCap;
+import com.google.maps.DirectionsApi;
+import com.google.maps.GeoApiContext;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.TravelMode;
 
-public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallback {
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallback, RerouteDataSource.RouteCallback  {
 
     private DisaterViewModel disaterViewModel;
     private FragmentDisasterDetailsBinding binding;
@@ -68,12 +90,19 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     private TextView upDetail;
     private TextView radiusIntro;
     private TextView radiusDetail;
+    private ImageButton firstBtn;
+    private ImageButton exitBtn;
     private int index;
+    private Set<LatLng> roadSet;
+    private List<LatLng> selectedRoad;
+    private float zoomLevel;
+    private LatLng test;
+    private int clickType;
+    private Polyline prePolyLine;
+    private String showingRoute;
+    private List<LatLng> exitsFirst = new ArrayList<LatLng>();
+    private  List<LatLng> exitsExit = new ArrayList<LatLng>();
 
-
-//    public void setSharedViewModel(DisaterViewModel disasterViewModel) {
-//        this.disaterViewModel = disasterViewModel;
-//    }
 
 
     public View onCreateView(LayoutInflater inflater,
@@ -110,6 +139,9 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         upDetail = contentView.findViewById(R.id.update_details);
         radiusIntro = contentView.findViewById(R.id.radius_intro);
         radiusDetail = contentView.findViewById(R.id.radius_details);
+
+        firstBtn = binding.firstAidBtn;
+        exitBtn = binding.exitBtn;
 
         requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
@@ -157,6 +189,29 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
 
         return root;
     }
+
+    private final LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            // 获取当前位置
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            test = new LatLng(latitude, longitude);
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+        }
+    };
+
 
     public void createDisasterDetailsPopupWindow(DisasterDetail[] details) {
         String titleText = details[index].getDisasterTitle();
@@ -213,8 +268,10 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
         BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
 
-        LatLng center = new LatLng(details[index].getLongitude(), details[index].getLatitude());
-        float zoomLevel;
+        LatLng center = new LatLng(details[index].getLatitude(), details[index].getLongitude());
+        test = center;
+
+
         int radius = details[index].getRadius();
         if(radius >= 100){
             zoomLevel = 17f;
@@ -226,7 +283,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
             zoomLevel = 20f;
         }
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
-        System.out.println("get here:" + center);
+
         map.setMapType(MAP_TYPE_NORMAL);
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(center)
@@ -283,11 +340,6 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
          * set lat/long here
          */
         map = googleMap;
-        LatLng sydney = new LatLng(-37.812439, 144.972755);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
-
-        googleMap.addMarker(new MarkerOptions()
-                .position(sydney));
 
         disaterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
             @Override
@@ -296,9 +348,163 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
                     showPopwindow();
                     popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
                     createDisasterDetailsPopupWindow(posts);
+                    selectRoadFromData(posts[index].getLatitude(), posts[index].getLongitude(), posts[index].getRadius());
                 }
             }
         });
+    }
+
+    void resetUserLocationToRoad() {
+        disaterViewModel.getUserNearbyRoads(test.latitude, test.longitude).observe(getActivity(), new Observer<List<LatLng>>() {
+            @Override
+            public void onChanged(List<LatLng> latLngs) {
+                if (latLngs.size() > 0) {
+                    test = latLngs.get(0);
+                }
+                observeButtonClick(selectedRoad);
+            }
+        });
+    }
+
+    void observeButtonClick(List<LatLng> selectedRoad) {
+        firstBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedRoad.size() == 0) {
+                    return;
+                }
+                clickType = 1;
+                if (exitsFirst.size() <= 0) {
+                    for (int i = 0; i < selectedRoad.size(); i = i + 2) {
+                        exitsFirst.add(selectedRoad.get(i));
+                    }
+                }
+                DirectionsRoute route = null;
+                try {
+                    route = disaterViewModel.findOptimalRoute(exitsFirst, test);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                onOptimalRouteReady(route);
+            }
+        });
+        exitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedRoad.size() == 0) {
+                    return;
+                }
+                clickType = 2;
+                if (exitsExit.size() <= 0) {
+                    for (int i = 1; i < selectedRoad.size(); i = i + 2) {
+                        exitsExit.add(selectedRoad.get(i));
+                    }
+                }
+                DirectionsRoute route = null;
+                try {
+                    route = disaterViewModel.findOptimalRoute(exitsExit, test);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                onOptimalRouteReady(route);
+            }
+        });
+    }
+
+    void rerouteSetting(LatLng start, LatLng end) {
+        // Set up the GeoApiContext with your API key
+        GeoApiContext context = new GeoApiContext.Builder()
+                .apiKey("AIzaSyDrYjvowVSGRHTyi5vO7CZx2Py32G1BoaY")
+                .build();
+
+        // Set the travel mode
+        TravelMode travelMode = TravelMode.WALKING;
+
+        // Set the route restrictions
+        DirectionsApi.RouteRestriction[] restrictions = { DirectionsApi.RouteRestriction.FERRIES };
+
+        // Get the route information
+        RerouteDataSource rerouteDataDataSource = new RerouteDataSource(context);
+        rerouteDataDataSource.getRoute(start, end, travelMode, restrictions, this);
+    }
+
+    void selectRoadFromData(double latitute, double longitude, double radius) {
+        disaterViewModel.getNearbyRoads(latitute, longitude, radius).observe(getActivity(), new Observer<List<LatLng>>() {
+            @Override
+            public void onChanged(List<LatLng> latLngs) {
+                if (latLngs.size() > 0) {
+                    roadSet = new HashSet<>(latLngs);
+                } else {
+                    roadSet = new HashSet<>(disaterViewModel.getSelectedPoints(latitute, longitude, radius));
+                }
+                selectedRoad = disaterViewModel.selectEntries(roadSet, radius);
+                createEntriesView(selectedRoad);
+                resetUserLocationToRoad();
+            }
+        });
+    }
+
+    void createEntriesView(List<LatLng> selectedRoad) {
+        int count = 0;
+        Marker[] markers = new Marker[selectedRoad.size()];
+        for (LatLng ll : selectedRoad) {
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(ll)
+                    .title(Integer.toString(count))
+                    .icon(createMakerIcon((count++)))
+                    .anchor(0.5f, 0.5f);
+            map.addMarker(markerOptions);
+
+        }
+
+        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                for (int i = 0; i < selectedRoad.size(); i++) {
+                    if (marker.getTitle().equals(Integer.toString(i))) {
+                        if (marker.getTitle().equals(showingRoute) && prePolyLine != null) {
+                            prePolyLine.remove();
+                            showingRoute = "0";
+                            return true;
+                        }
+                        if (i % 2 == 0) {
+                            clickType = 1;
+                        } else {
+                            clickType = 2;
+                        }
+                        showingRoute = marker.getTitle();
+                        rerouteSetting(test, selectedRoad.get(i));
+                    }
+                }
+                return true;
+            }
+        });
+    }
+
+    BitmapDescriptor createMakerIcon(int count) {
+        // Create and add an ImageView to the RelativeLayout - disaster logo
+        Bitmap bitmap;
+        if (count % 2 == 0) {
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.firstaid);
+        } else {
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.exit);
+        }
+
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        float scaledWidth = width * 0.2f;
+        float scaledHeight = height * 0.2f;
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
+        BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
+        return markerIcon;
     }
 
     @Override
@@ -330,5 +536,73 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         // hidden animation
         popupWindow.setAnimationStyle(R.style.ipopwindow_anim_style);
     }
+
+    @Override
+    public void onRouteReady(DirectionsResult result) {
+        PolylineOptions polylineOptions = new PolylineOptions();
+        if (clickType == 1) {
+            polylineOptions.color(Color.RED);
+        } else {
+            polylineOptions.color(Color.GREEN);
+        }
+        List<LatLng> points = new ArrayList<>();
+        if (result == null) {
+            return;
+        }
+        List<com.google.maps.model.LatLng> path = result.routes[0].overviewPolyline.decodePath();
+        for (com.google.maps.model.LatLng latLng : path) {
+            points.add(new LatLng(latLng.lat, latLng.lng));
+        }
+        polylineOptions.addAll(points);
+        polylineOptions.width(20f);
+
+        polylineOptions.startCap(new RoundCap());
+        polylineOptions.endCap(new RoundCap());
+        polylineOptions.jointType(JointType.ROUND);
+        polylineOptions.geodesic(true);
+        if (prePolyLine != null) {
+            prePolyLine.remove();
+        }
+        prePolyLine = map.addPolyline(polylineOptions);
+    }
+
+    @Override
+    public void onError(String errorMessage) {
+        Toast.makeText(getContext(),
+                "Error: " + errorMessage,
+                Toast.LENGTH_LONG).show();
+    }
+
+    public void onOptimalRouteReady(DirectionsRoute route) {
+        PolylineOptions polylineOptions = new PolylineOptions();
+        if (clickType == 1) {
+            polylineOptions.color(Color.RED);
+        } else {
+            polylineOptions.color(Color.GREEN);
+        }
+        List<LatLng> points = new ArrayList<>();
+        if (route == null) {
+            return;
+        }
+        if (route.overviewPolyline == null) {
+            return;
+        }
+        List<com.google.maps.model.LatLng> path = route.overviewPolyline.decodePath();
+        for (com.google.maps.model.LatLng latLng : path) {
+            points.add(new LatLng(latLng.lat, latLng.lng));
+        }
+        polylineOptions.addAll(points);
+        polylineOptions.width(20f);
+
+        polylineOptions.startCap(new RoundCap());
+        polylineOptions.endCap(new RoundCap());
+        polylineOptions.jointType(JointType.ROUND);
+        polylineOptions.geodesic(true);
+        if (prePolyLine != null) {
+            prePolyLine.remove();
+        }
+        prePolyLine = map.addPolyline(polylineOptions);
+    }
+
 
 }

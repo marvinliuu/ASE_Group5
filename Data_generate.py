@@ -39,14 +39,16 @@ for i in range(100):
     temp['name'] = stop_list[random.randint(0, 6)]
     temp['bus_type'] = random.randint(0, 1)
     temp['bus_available'] = random.randint(0, 1)
-    temp['longitude'] = 53.35 + random.random() - 0.5
-    temp['latitude'] = -6.26 + random.random() - 0.5
+    temp['latitude'] = 53.35 + random.random() % 0.03
+    temp['longitude'] = -6.26 + random.random() % 0.03
     data['Bus' + str(i + 1)] = temp
 final_data['Bus'] = data
 
 # DisasterInfo
 disaster_type = ["fire", "water", "general"]
 radius = [5, 10, 20, 50, 100, 200]
+injure = [5, 10, 12, 50, 80, 100, 210]
+
 
 def location_generate():
     letter_set = [chr(i) for i in range(65, 91)]
@@ -59,19 +61,37 @@ def otime_generate():
     random_time = time.time() - random.randint(0, 86400) * 60
     return int(random_time) * 1000
 
+def description_generate():
+    letter_set = [chr(i) for i in range(65, 91)]
+    letter_set.extend([chr(i) for i in range(97, 123)])
+    length = random.randint(4, 30)
+    return ''.join(random.choices(letter_set, k=length))
+
 
 data = {}
-for i in range(1000):
+for i in range(500):
     temp = {}
     temp['did'] = i + 1
     temp['location'] = location_generate()
     temp['radius'] = radius[random.randint(0,5)]
     temp['disasterType'] = random.randint(1,3)
     temp['otime'] = otime_generate()
-    temp['longitude'] = 53.35 + random.random() - 0.5
-    temp['latitude'] = -6.26 + random.random() - 0.5
+    temp['latitude'] = 53.35 + random.random()%0.03
+    temp['longitude'] = -6.26 + random.random()%0.03
     data['DisasterInfo' + str(i + 1)] = temp
+
+temp = {}
+temp['did'] = i + 1
+temp['location'] = "Trinity College Dublin"
+temp['radius'] = 100
+temp['disasterType'] = random.randint(1,3)
+temp['otime'] = int(time.time()) * 1000
+temp['latitude'] = 53.3442016
+temp['longitude'] = -6.2544264
+data['DisasterInfo' + str(i + 1)] = temp
+
 final_data['DisasterInfo'] = data
+
 
 # Firebrigade
 fire_list = ['Dublin Fire Brigade Hq', 'Donnybrook Fire Station']
@@ -85,8 +105,8 @@ for i in range(2):
     temp['n_truck'] = random.randint(3, 10)
     temp['n_ava_firefighter'] = max(temp['n_firefighter'] - random.randint(1, 5) * 5, 0)
     temp['n_ava_truck'] = max(temp['n_truck'] - random.randint(3, 10), 0)
-    temp['longitude'] = 53.35 + random.random() - 0.5
-    temp['latitude'] = -6.26 + random.random() - 0.5
+    temp['latitude'] = 53.35 + random.random() % 0.03
+    temp['longitude'] = -6.26 + random.random() % 0.03
     data['FireBrigade' + str(i + 1)] = temp
 final_data['FireBrigade'] = data
 
@@ -104,8 +124,8 @@ for i in range(9):
     temp['n_car'] = random.randint(3, 10)
     temp['n_ava_police'] = max(temp['n_police'] - random.randint(1, 5) * 5, 0)
     temp['n_ava_car'] = max(temp['n_car'] - random.randint(3, 10), 0)
-    temp['longitude'] = 53.35 + random.random() - 0.5
-    temp['latitude'] = -6.26 + random.random() - 0.5
+    temp['latitude'] = 53.35 + random.random() % 0.03
+    temp['longitude'] = -6.26 + random.random() % 0.03
     data['Garda' + str(i + 1)] = temp
 final_data['Garda'] = data
 
@@ -124,8 +144,8 @@ for i in range(6):
     temp['n_ambulance'] = random.randint(3, 10)
     temp['n_ava_doctor'] = max(temp['n_doctor'] - random.randint(1, 5) * 5, 0)
     temp['n_ava_ambulance'] = max(temp['n_ambulance'] - random.randint(3, 10), 0)
-    temp['longitude'] = 53.35 + random.random() - 0.5
-    temp['latitude'] = -6.26 + random.random() - 0.5
+    temp['latitude'] = 53.35 + random.random() % 0.03
+    temp['longitude'] = -6.26 + random.random() % 0.03
     data['Hospital' + str(i + 1)] = temp
 final_data['Hospital'] = data
 
@@ -173,9 +193,11 @@ for i in range(200):
     temp['location'] = name_generate()
     temp['htime'] = times[0]
     temp['rtime'] = times[1]
-    temp['longitude'] = 37.7749 + random.random() % 0.05
-    temp['latitude'] = -122.4194 + random.random() % 0.05
+    temp['latitude'] = 53.35 + random.random() % 0.03
+    temp['longitude'] = -6.26 + random.random() % 0.03
     temp['report_state'] = random.randint(0, 1)
+    temp['description'] = description_generate()
+    temp['injury'] = injure[random.randint(0, 6)]
     data['Report' + str(i + 1)] = temp
 final_data['Report'] = data
 
@@ -190,8 +212,8 @@ for i in range(50):
     temp['name'] = station_list[random.randint(0, 6)]
     temp['train_type'] = random.randint(1, 8)
     temp['train_available'] = random.randint(0, 1)
-    temp['longitude'] = 53.35 + random.random() - 0.5
-    temp['latitude'] = -6.26 + random.random() - 0.5
+    temp['latitude'] = 53.35 + random.random() % 0.03
+    temp['longitude'] = -6.26 + random.random() % 0.03
     data['Train' + str(i + 1)] = temp
 final_data['Train'] = data
 

@@ -4,11 +4,15 @@ import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,6 +27,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -31,6 +37,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.data.model.DisasterDetail;
+import com.example.testdisasterevent.data.model.HostipalDetails;
 import com.example.testdisasterevent.databinding.FragmentDisasterBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,7 +49,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 
 
 /**
@@ -62,9 +68,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap map;
     private ImageButton closeBtn;
 
-//    public void setSharedViewModel(DisaterViewModel disasterViewModel) {
-//        this.disaterViewModel = disasterViewModel;
-//    }
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -77,15 +80,15 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         showWindowButton = binding.showPopwindow;
 
         // Map API
-        requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
+                Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
 
-        SupportMapFragment mapFragment= (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        if(mapFragment == null){
-            FragmentManager fm= getFragmentManager();
-            FragmentTransaction ft= fm.beginTransaction();
-            mapFragment= SupportMapFragment.newInstance();
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment == null) {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            mapFragment = SupportMapFragment.newInstance();
             ft.replace(R.id.map, mapFragment).commit();
         }
         mapFragment.getMapAsync(this);
@@ -95,6 +98,13 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+            }
+        });
+
+        disaterViewModel.getHospitalDetails().observe(getActivity(), new Observer<HostipalDetails[]>() {
+            @Override
+            public void onChanged(HostipalDetails[] hostipalDetails) {
+                disaterViewModel.evalutateHosResource(53.3442016, -6.2544264, 5, 3);
             }
         });
 
@@ -109,13 +119,20 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                 } else {
                     // Update the UI when no disaste happen
                     createNoDisasterPopWindow();
+                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        // Permission has already been granted
+                        // Call setMyLocationEnabled() method here
+                        map.setMyLocationEnabled(true);
+                    } else {
+                        // Request permission from the user
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                    }
                 }
             }
         });
 
         return root;
     }
-
 
 
     @Override
@@ -129,6 +146,8 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
 
         googleMap.addMarker(new MarkerOptions()
                 .position(sydney));
+
+
     }
 
     @Override
@@ -183,6 +202,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
 
         linearLayout.addView(title, titleParams);
     }
+
 
     public void createDisasterPopupWindow(DisasterDetail[] details) {
         // Find the ScrollView in the layout and add content to it
@@ -265,25 +285,14 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                     .icon(markerIcon);
             map.addMarker(markerOptions);
 
-//            // Create scalable disaster range
-//            Bitmap rangeBitmap = createDisRangeOnMap();
-//            CameraPosition cameraPosition = map.getCameraPosition();
-//            float zoom = cameraPosition.zoom;
-//            float rr = details[i].getRadius();
-//            double scale = 156543.03392f / (Math.pow(2.0, (double)zoom));
-//            //int rangeWidth = rangeBitmap.getWidth();
-//            //int rangeHeight = rangeBitmap.getHeight();
-//            double scaledRange =  details[i].getRadius();
-//            Bitmap scaledRangeBitmap = Bitmap.createScaledBitmap(rangeBitmap, (int) (2 * scaledRange), (int) (2 * scaledRange), false);
-//            BitmapDescriptor markerIconRange = BitmapDescriptorFactory.fromBitmap(scaledRangeBitmap);
-
-
 
             // add view by order
             relativeLayout.addView(title, titleParams);
             relativeLayout.addView(location, locationParams);
             relativeLayout.addView(time, timeParams);
             relativeLayout.addView(imageView, imageParams);
+
+
 
             // set the response event after clicking the RelativeLayout item
             relativeLayout.setOnClickListener(new View.OnClickListener() {
@@ -294,7 +303,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                     bundle.putInt("data_key", index);
 
                     popupWindow.dismiss();
-                    disaterViewModel.indexOfDisasterDetails = v.getId();
                     // Get a reference to the child FragmentManager
                     FragmentManager fragmentManager = getChildFragmentManager();
 
@@ -320,6 +328,8 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             linearLayout.addView(relativeLayout);
         }
     }
+
+
 
     public ImageView createDisIconOnWindow (String title) {
         // Create and add an ImageView to the RelativeLayout - disaster logo
@@ -358,8 +368,11 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        popupWindow.dismiss();
+        if (popupWindow != null) {
+            popupWindow.dismiss();
+        }
         disaterViewModel.getDisasterDetails().removeObservers(this);
+        disaterViewModel.getHospitalDetails().removeObservers(this);
     }
 
     /**
