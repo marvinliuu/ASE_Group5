@@ -54,4 +54,12 @@ public class RegisteActivityTest {
         onView(withId(R.id.registerBack)).perform(click());
         onView(withId(R.id.app_logo)).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void testRegistrationPasswordVisiable() {
+        onView(withId(R.id.registerPassword)).perform(typeText("P@ssw0rd"));
+        onView(withId(R.id.passwordVisible)).perform(click());
+        onView(withId(R.id.registerPassword)).check(matches(withText("P@ssw0rd")));
+
+    }
 }
