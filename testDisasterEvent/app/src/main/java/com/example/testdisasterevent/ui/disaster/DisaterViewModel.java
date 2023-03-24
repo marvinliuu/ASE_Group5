@@ -12,8 +12,10 @@ import com.example.testdisasterevent.data.HosAllocationDataSource;
 import com.example.testdisasterevent.data.LoginRepository;
 import com.example.testdisasterevent.data.RerouteDataSource;
 import com.example.testdisasterevent.data.RoadsInfoDatasource;
+import com.example.testdisasterevent.data.TaskDataSource;
 import com.example.testdisasterevent.data.model.DisasterDetail;
 import com.example.testdisasterevent.data.model.HostipalDetails;
+import com.example.testdisasterevent.data.model.TaskDetail;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,6 +39,7 @@ import java.util.Set;
 
 public class DisaterViewModel extends ViewModel {
     private DisasterDataSource disasterDataSource;
+    private TaskDataSource taskDataSource;
     private HosAllocationDataSource hosAllocationDataSource;
     private RoadsInfoDatasource roadsInfoDatasource;
     private RerouteDataSource rerouteDataSource;
@@ -50,6 +53,9 @@ public class DisaterViewModel extends ViewModel {
         return hosAllocationDataSource.getHostpicalData();
     }
 
+    public LiveData<TaskDetail[]> getTaskDetails() {
+        return taskDataSource.getTaskDetails();
+    }
     public void evalutateHosResource(double latitute, double longitute, int need_ambulance, int need_doctor) {
         hosAllocationDataSource.evaluateHosResource(latitute, longitute, need_ambulance, need_doctor);
     }
@@ -72,6 +78,7 @@ public class DisaterViewModel extends ViewModel {
 
     public DisaterViewModel() {
         disasterDataSource = new DisasterDataSource();
+        taskDataSource = new TaskDataSource();
         hosAllocationDataSource = new HosAllocationDataSource();
         roadsInfoDatasource = new RoadsInfoDatasource();
         // Set up the GeoApiContext with your API key

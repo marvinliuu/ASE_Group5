@@ -5,29 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97330892-c278-4e6f-b24b-ad2547638c43" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/ui/disaster/DisasterDetailsFragment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/disasterdetails_popupwindow.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/fragment_disaster_details.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/DisasterPopupWindowTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/HomeActivityTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/MainActivityTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/ReportFunctionTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/TaskPopupwindowTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/taskdetails_popupwindow.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data_generate.py" beforeDir="false" afterPath="$PROJECT_DIR$/Data_generate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/DisasterDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/DisasterDataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/ui/disaster/DisasterDetailsActivity.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/ui/disaster/DisasterFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/ui/disaster/DisasterFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/ui/disaster/DisaterViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/ui/disaster/DisaterViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/activity_disaster_details2.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/fragment_disaster.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/fragment_disaster.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/register_popupwindow.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/register_popupwindow.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/values/dimens.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\supre\.android\avd\Pixel_4_API_30.avd]" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -39,13 +32,6 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false"
-  }
-}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
