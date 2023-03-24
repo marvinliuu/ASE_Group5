@@ -62,4 +62,17 @@ public class RegisteActivityTest {
         onView(withId(R.id.registerPassword)).check(matches(withText("P@ssw0rd")));
 
     }
+
+    @Test
+    public void testRegistrationHelp() throws InterruptedException {
+        onView(withId(R.id.ActivationExplanation)).check(matches(isDisplayed()));
+        onView(withId(R.id.ActivationExplanation)).perform(click());
+
+        // wait for 5 seconds until PopupWindow shows
+        Thread.sleep(3000);
+
+        onView(withId(R.id.tv_pop_name)).check(matches(withText("Activation Code")));
+        onView(withId(R.id.tv_pop_content)).check(matches(withText("@string/activation_code")));
+
+    }
 }

@@ -23,7 +23,7 @@ public class TaskPopupwindowTest {
 
     @Test
     public void TaskInfoShow() throws InterruptedException {
-        onView(withId(R.id.navigation_home)).perform(click());
+        onView(withId(R.id.navigation_dashboard)).perform(click());
 
         // wait for 5 seconds until PopupWindow shows
         Thread.sleep(3000);
