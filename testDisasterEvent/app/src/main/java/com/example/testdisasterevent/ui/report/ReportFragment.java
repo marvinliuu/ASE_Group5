@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.ui.account.AccountViewModel;
+import com.google.android.gms.maps.model.LatLng;
 
 public class ReportFragment extends Fragment {
 
@@ -39,7 +40,15 @@ public class ReportFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_report,container,false);
 
-
+        Bundle bundle = getArguments();
+        if(bundle != null) {
+            LatLng location = new LatLng(bundle.getDouble("Longitude"), bundle.getDouble("Latitude"));
+            int reportType = bundle.getInt("Type");
+            int radius = bundle.getInt("Radius");
+//            Log.d("Longitude",Double.toString(location.longitude));
+//            Log.d("Latitude",Double.toString(location.latitude));
+//            Log.d("Report",Integer.toString(reportType));
+        }
 
 
         /**
@@ -134,6 +143,10 @@ public class ReportFragment extends Fragment {
             }
         });
 
+
+        /**
+         * Radius Seekbar
+         */
         /**
          * submit Button click
          * */
