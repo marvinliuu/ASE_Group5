@@ -6,7 +6,10 @@ import android.os.Build;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.testdisasterevent.data.ReportDataSource;
+import com.example.testdisasterevent.data.ReportDataSource_Police;
 import com.example.testdisasterevent.data.RoadsInfoDatasource;
+import com.example.testdisasterevent.data.model.ReportInfo;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -16,10 +19,15 @@ import java.util.List;
 public class HomeViewModel extends ViewModel {
 
     private RoadsInfoDatasource roadsInfoDatasource;
+    private ReportDataSource_Police reportDataSource_police;
+    public int indexOfReportInfo;
 
-
+    public LiveData<ReportInfo[]> getReportInfo() {
+        return reportDataSource_police.getReportInfo();
+    }
     public HomeViewModel() {
         roadsInfoDatasource = new RoadsInfoDatasource();
+        reportDataSource_police = new ReportDataSource_Police();
     }
 
     public double distance(LatLng point1, LatLng point2) {

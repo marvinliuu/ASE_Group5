@@ -15,6 +15,7 @@ import com.example.testdisasterevent.data.model.AccountUserInfo;
 import com.example.testdisasterevent.ui.disaster.DisasterDetailsFragment;
 import com.example.testdisasterevent.ui.disaster.DisasterFragment;
 import com.example.testdisasterevent.ui.disaster.DisaterViewModel;
+import com.example.testdisasterevent.ui.home.HomeViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private DisaterViewModel sharedViewModel;
+    private HomeViewModel homeViewModel;
     public String accountUserInfoJson;
     Gson gson = new Gson();
     public AccountUserInfo accountUserInfo;
