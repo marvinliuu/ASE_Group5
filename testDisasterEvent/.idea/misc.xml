@@ -45,6 +45,8 @@
         <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/fragment_disaster_details.xml" value="0.15833333333333333" />
         <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/fragment_home.xml" value="0.20677083333333332" />
         <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/fragment_report.xml" value="0.152" />
+        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/fragment_report_garda.xml" value="0.18072916666666666" />
+        <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/fragment_report_garda_suc.xml" value="0.18072916666666666" />
         <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/fragment_report_success.xml" value="0.15833333333333333" />
         <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/fragment_submit_success.xml" value="0.15833333333333333" />
         <entry key="..\:/Desktop/ASE/ASE_Group5/testDisasterEvent/app/src/main/res/layout/message_popupwindow.xml" value="0.20677083333333332" />
@@ -116,10 +118,13 @@
         <entry key="app/src/main/res/layout/fragment_report.xml" value="0.23489583333333333" />
         <entry key="app/src/main/res/layout/message_home_report_popupwindow.xml" value="0.1" />
         <entry key="app/src/main/res/layout/message_popupwindow.xml" value="0.23489583333333333" />
+        <entry key="app/src/main/res/layout/fragment_report.xml" value="0.23489583333333333" />
+        <entry key="app/src/main/res/layout/message_popupwindow.xml" value="0.23489583333333333" />
         <entry key="app/src/main/res/layout/register_activity.xml" value="0.4134963768115942" />
         <entry key="app/src/main/res/layout/register_fragment.xml" value="0.3889278942208674" />
         <entry key="app/src/main/res/layout/register_popupwindow.xml" value="0.31657608695652173" />
         <entry key="app/src/main/res/layout/reportdetails_popupwindow.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/view_toast_custom.xml" value="0.10989583333333333" />
         <entry key="app/src/main/res/layout/view_toast_custom.xml" value="0.10989583333333333" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.5161458333333333" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.25277777777777777" />

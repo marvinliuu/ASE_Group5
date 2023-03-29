@@ -14,18 +14,26 @@ import com.example.testdisasterevent.data.model.AccountUserInfo;
 import com.example.testdisasterevent.data.model.ReportFromCitizen;
 
 public class ReportViewModel extends ViewModel {
-    private MutableLiveData<ReportFromCitizen> ReportFromC = new MutableLiveData<>();
+    //public ReportFromCitizen ReportFromC = new ReportFromCitizen();
     public ReportDataSource reportData=new ReportDataSource();
 
 
 
-    public void submit(ReportFromCitizen report){
+    public void CitizenSubmit(ReportFromCitizen report){
 
         reportData.reportSubmit(report);
 
-        Log.d("num", "submit suc!");
+        Log.d("num", "citizen submit suc!");
 
     }
+    public void GardaSubmit(ReportFromCitizen report){
+
+        reportData.reportSubmit(report);
+
+        Log.d("num", "garda submit suc!");
+
+    }
+
 
 
 

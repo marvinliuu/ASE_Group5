@@ -30,6 +30,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
+import com.example.testdisasterevent.data.model.AccountUserInfo;
 import com.example.testdisasterevent.ui.account.AccountViewModel;
 import com.google.android.gms.maps.model.LatLng;
 import com.example.testdisasterevent.data.ReportDataSource;
@@ -48,6 +49,7 @@ public class ReportFragment extends Fragment {
 
     private ReportViewModel reportViewModel;
     public ReportFromCitizen reportData=new ReportFromCitizen();
+    public int AccountType;
 
 
 
@@ -56,6 +58,19 @@ public class ReportFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        /**
+         * AccountType
+         * 0 Garda
+         * 1 citizen
+         * 2 Doctor
+         * 3 Fireman
+         *
+         *
+         * */
+        MainActivity mainActivity = (MainActivity) getActivity();
+        AccountUserInfo accountUserInfoData = mainActivity.getAccountUserInfo();
+        AccountType=accountUserInfoData.getUserTypeID();
+
 
 
     }
@@ -63,15 +78,28 @@ public class ReportFragment extends Fragment {
 
     public View onCreateView( LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_report, container, false);
+
+        View rootView = inflater.inflate(R.layout.fragment_report_garda, container, false);
+
+        if(AccountType!=0)
+            rootView = inflater.inflate(R.layout.fragment_report, container, false);
+
         Bundle bundle = getArguments();
         if(bundle != null) {
             LatLng location = new LatLng(bundle.getDouble("Longitude"), bundle.getDouble("Latitude"));
             //int reportType = bundle.getInt("Type");
             int radius = bundle.getInt("Radius");
-//            Log.d("Longitude",Double.toString(location.longitude));
-//            Log.d("Latitude", Double.toString(location.latitude));
-            //Log.d("Radius", Integer.toString(reportType));
+            Log.d("Longitude",Double.toString(location.longitude));
+            Log.d("Latitude", Double.toString(location.latitude));
+
+            Log.d("Radius", Integer.toString(radius));
+            reportData.setLatitude((float)location.latitude);
+            reportData.setLongitude((float)location.longitude);
+            reportData.setRadius(radius);
+
+
+
+
         }
 
 
@@ -126,33 +154,28 @@ public class ReportFragment extends Fragment {
                 fragmentTransaction.replace(R.id.report_container, reportMapFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-//                reportData.setLatitude(1);
-//                reportData.setLongitude(2);
-//                reportData.setRadius(1);
+
+
             }
         });
 
+        if(AccountType!=0){
+            ImageView cameraIcon = rootView.findViewById(R.id.report_camera);
+            cameraIcon.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View rootView){
+                    Log.d("Button click", "camera clicked!");
 
+                }
+            });
+        }
         /**
          * camera Button click
          * ---------
          * to do
          * get the picture, related to image compression
          * */
-        ImageView cameraIcon = rootView.findViewById(R.id.report_camera);
-        cameraIcon.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View rootView){
-                Log.d("Button click", "camera clicked!");
-                DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
-                DatabaseReference rr = mReference.child("TaskInfo");
-                String testStr = rr.push().getKey();
-                Map<String, Object> allocation = new HashMap<>();
-                allocation.put("uid",1001);
-                allocation.put("task","Hahahahahahahaha");
-                rr.child(testStr).setValue(allocation);
-            }
-        });
+
 
 
         /**
@@ -183,6 +206,8 @@ public class ReportFragment extends Fragment {
                 disasterChosen.clearCheck();
                 //set disasterType as 0 to show not choose state
                 reportData.setDisasterType(0);
+                reportData.setLatitude(0);
+                reportData.setLongitude(0);
 
 
 
@@ -219,8 +244,14 @@ public class ReportFragment extends Fragment {
                  * need to refractory?
                  * */
 
+
                 if(reportData.getDisasterType()==0){
                     notification=notification+"DISASTER TYPE ";
+                    submitCompleted=false;
+                }
+
+                if(reportData.getLatitude()==0||reportData.getLongitude()==0){
+                    notification=notification+"LOCATION ";
                     submitCompleted=false;
                 }
 
@@ -229,8 +260,9 @@ public class ReportFragment extends Fragment {
                     Log.d("Button click", "injure problem!");
                     notification=notification+"INJURIED NUMBER ";
                     submitCompleted=false;
-
                 }
+
+
                 if(otherInfoEditText.getText().toString().trim().length() == 0){
                     notification=notification+"OTHER INFORMATION ";
                     submitCompleted=false;
@@ -245,9 +277,18 @@ public class ReportFragment extends Fragment {
                 if(submitCompleted){
                     reportData.setInjuredNum(Integer.parseInt((injuredNumEditText.getText().toString())));
                     reportData.setOtherInfo(otherInfoEditText.getText().toString());
-                    reportViewModel.submit(reportData);
-                    replaceFragment();
+                    if(AccountType!=0){
+                        reportViewModel.CitizenSubmit(reportData);
+                        replaceFragment(new SubmitSucessFragment());
+                    }
+                    else{
+                        reportViewModel.GardaSubmit(reportData);
+                        replaceFragment(new GardaSubmitSucessFragment());
+                    }
                 }
+
+
+
 
 
 
@@ -272,12 +313,11 @@ public class ReportFragment extends Fragment {
     }
 
 // navigate to submitSuccess Fragment
-    public void replaceFragment(){
+    public void replaceFragment(Fragment fragment){
 
-        SubmitSucessFragment sucFragment = new SubmitSucessFragment();
         FragmentManager manager = getChildFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
-        ft.replace(R.id.report_container, sucFragment);
+        ft.replace(R.id.report_container, fragment);
 
         ft.addToBackStack(null);
         ft.commit();

@@ -23,8 +23,6 @@ public class ReportDataSource {
 
     public Result<String> reportSubmit(ReportFromCitizen reportData) {
         try {
-
-
             UserDatabase = FirebaseDatabase.getInstance().getReference().child("Report");
 
             UserDatabase.addListenerForSingleValueEvent(new ValueEventListener()
