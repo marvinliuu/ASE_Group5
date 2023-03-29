@@ -59,7 +59,15 @@ public class ReportFragment extends Fragment {
     public View onCreateView( LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_report, container, false);
-
+        Bundle bundle = getArguments();
+        if(bundle != null) {
+            LatLng location = new LatLng(bundle.getDouble("Longitude"), bundle.getDouble("Latitude"));
+            //int reportType = bundle.getInt("Type");
+            int radius = bundle.getInt("Radius");
+//            Log.d("Longitude",Double.toString(location.longitude));
+//            Log.d("Latitude", Double.toString(location.latitude));
+            //Log.d("Radius", Integer.toString(reportType));
+        }
 
 
 
@@ -103,19 +111,19 @@ public class ReportFragment extends Fragment {
             public void onClick(View rootView){
 
                 Log.d("Button click", "map clicked!");
-//                int index = rootView.getId();
-//                Bundle bundle = new Bundle();
-//                bundle.putInt("data_key", index);
-//                FragmentManager fragmentManager = getChildFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                Fragment reportMapFragment = new ReportMapFragment();
-//                reportMapFragment.setArguments(bundle);
-//                fragmentTransaction.replace(R.id.report_content, reportMapFragment);
-//                fragmentTransaction.addToBackStack(null);
-//                fragmentTransaction.commit();
-                reportData.setLatitude(1);
-                reportData.setLongitude(2);
-                reportData.setRadius(1);
+                int index = rootView.getId();
+                Bundle bundle = new Bundle();
+                bundle.putInt("data_key", index);
+                FragmentManager fragmentManager = getChildFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                Fragment reportMapFragment = new ReportMapFragment();
+                reportMapFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.report_container, reportMapFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+//                reportData.setLatitude(1);
+//                reportData.setLongitude(2);
+//                reportData.setRadius(1);
             }
         });
 

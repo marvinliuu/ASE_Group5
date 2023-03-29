@@ -57,9 +57,9 @@ public class ReportMapFragment extends Fragment implements OnMapReadyCallback {
 
         submitButton = binding.reportMapSubmit;
         cancelButton = binding.reportMapCancel;
-        fireType = binding.fireBtn;
-        waterType = binding.waterBtn;
-        otherType = binding.otherBtn;
+//        fireType = binding.fireBtn;
+//        waterType = binding.waterBtn;
+//        otherType = binding.otherBtn;
         radiusBar = binding.mSeekBar;
 
         requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
@@ -80,7 +80,7 @@ public class ReportMapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putInt("Type", reportType);
+                //bundle.putInt("Type", reportType);
                 bundle.putInt("Radius", radius);
                 bundle.putDouble("Longitude", location.longitude);
                 bundle.putDouble("Latitude", location.latitude);
@@ -106,26 +106,26 @@ public class ReportMapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        fireType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reportType = 1;
-            }
-        });
-
-        waterType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reportType = 2;
-            }
-        });
-
-        otherType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reportType = 3;
-            }
-        });
+//        fireType.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                reportType = 1;
+//            }
+//        });
+//
+//        waterType.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                reportType = 2;
+//            }
+//        });
+//
+//        otherType.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                reportType = 3;
+//            }
+//        });
 
 
         radiusBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
