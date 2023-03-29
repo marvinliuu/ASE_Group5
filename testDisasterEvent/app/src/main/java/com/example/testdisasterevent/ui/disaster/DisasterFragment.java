@@ -3,6 +3,7 @@ package com.example.testdisasterevent.ui.disaster;
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +22,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -56,7 +58,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
     private DisaterViewModel disaterViewModel;
     private FragmentDisasterBinding binding;
     private PopupWindow popupWindow_task, popupWindow_disaster;
-    private View disasterView, taskView;
+    private View disasterView, taskView, toastView;
     private ImageButton showDisasterButton, showTaskButton;
     private TextView txt_show_disaster, txt_show_task;
     private GoogleMap map;
@@ -73,6 +75,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
     private TextView taskIntro;
     private TextView taskDetail;
     private int index;
+    private boolean isPopupWindowShown = false;
 
 
     public View onCreateView(LayoutInflater inflater,
@@ -99,6 +102,9 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             ft.replace(R.id.map, mapFragment).commit();
         }
         mapFragment.getMapAsync(this);
+
+        toastView = LayoutInflater.from(getActivity()).inflate(
+                R.layout.view_toast_custom, null);
 
         disasterView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.message_popupwindow, null);
@@ -148,9 +154,16 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         showTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupWindow_task.showAtLocation(taskView, Gravity.BOTTOM, 0, 0);
+                TaskDetail[] posts = disaterViewModel.getTaskDetails().getValue();
+                if (posts.length > 0) {
+                    popupWindow_task.showAtLocation(taskView, Gravity.BOTTOM, 0, 0);
+                } else {
+                    String notask =  "No Task Now.";
+                    midToast(notask);
+                }
             }
         });
+
 
         closeBtn_task.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,14 +183,28 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        disaterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
+            @Override
+            public void onChanged(DisasterDetail[] posts) {
+                showDisasterPopwindow();
+                if (posts.length > 0) {
+                    // Update the UI with the new data
+                    createDisasterPopupWindow(posts);
+                } else {
+                    // Update the UI when no disaste happen
+                    createNoDisasterPopWindow();
+                }
+            }
+        });
         disaterViewModel.getTaskDetails().observe(getActivity(), new Observer<TaskDetail[]>() {
             @Override
             public void onChanged(TaskDetail[] posts) {
-                showTaskPopwindow();
-                popupWindow_task.showAtLocation(taskView, Gravity.BOTTOM, 0, 0);
                 if (posts.length > 0) {
+                    showTaskPopwindow();
+                    popupWindow_task.showAtLocation(taskView, Gravity.BOTTOM, 0, 0);
                     // Update the UI with the new data
                     createTaskDetailsPopupWindow(posts);
+
                 } else {
                     disaterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
                         @Override
@@ -194,6 +221,9 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                         }
                     });
 
+                    String notask =  "No Task Now";
+                    midToast(notask);
+
                     if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         // Permission has already been granted
                         // Call setMyLocationEnabled() method here
@@ -202,20 +232,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                         // Request permission from the user
                         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
                     }
-                }
-            }
-        });
-
-        disaterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
-            @Override
-            public void onChanged(DisasterDetail[] posts) {
-                showDisasterPopwindow();
-                if (posts.length > 0) {
-                    // Update the UI with the new data
-                    createDisasterPopupWindow(posts);
-                } else {
-                    // Update the UI when no disaste happen
-                    createNoDisasterPopWindow();
                 }
             }
         });
@@ -464,6 +480,33 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
 
     //When map id loaded
 
+//    public void createNoTaskPopWindow() {
+//        // Find the ScrollView in the layout and add content to it
+//        ScrollView scrollView = taskView.findViewById(R.id.taskScrollView);
+//        LinearLayout linearLayout = new LinearLayout(getContext());
+//        linearLayout.setOrientation(LinearLayout.VERTICAL);
+//
+//        // Add the LinearLayout to the ScrollView
+//        scrollView.addView(linearLayout);
+//
+//        // Create and add a TextView to the RelativeLayout - Title
+//        TextView title = new TextView(getContext());
+//        title.setText("No Disaster in Dublin");
+//        title.setTextColor(Color.BLACK);
+//        title.setTextSize(20);
+//
+//        // Load the custom font from the assets folder
+//        Typeface customFont = Typeface.createFromAsset(getContext().getAssets(), "alibaba_regular.ttf");
+//
+//        // Set the font of the TextView to the custom font
+//        title.setTypeface(customFont);
+//        RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(
+//                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+//        titleParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+//
+//        linearLayout.addView(title, titleParams);
+//    }
+
     public void setDisIconResource (String title) {
         if (title.equals("Fire")) {
             disaster_logo.setImageResource(R.drawable.fire_logo);
@@ -513,12 +556,20 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         return bitmap;
     }
 
-//    public Bitmap createDisRangeOnMap () {
-//        // Create and add an ImageView to the RelativeLayout - disaster range
-//        Bitmap bitmap;
-//        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.disaster_range);
-//        return bitmap;
-//    }
+    private void midToast(String str)
+    {
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.view_toast_custom,
+                toastView.findViewById(R.id.lly_toast));
+        TextView tv_msg = (TextView) view.findViewById(R.id.tv_msg);
+        tv_msg.setText(str);
+        Toast toast = new Toast(getActivity().getApplicationContext());
+        toast.setGravity(Gravity.CENTER, 0, 10);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(view);
+        toast.show();
+    }
+
 
     @Override
     public void onDestroyView() {

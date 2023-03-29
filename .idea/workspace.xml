@@ -5,15 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97330892-c278-4e6f-b24b-ad2547638c43" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/DisasterPopupWindowTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/HomeActivityTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/MainActivityTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/ReportFunctionTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/TaskPopupwindowTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/taskdetails_popupwindow.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/ui/disaster/DisasterFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/ui/disaster/DisasterFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/fragment_disaster.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/fragment_disaster.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/AccountInfoShow.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/AccountInfoShow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/DisasterActivityTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/DisasterPopupWindowTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/DisasterPopupWindowTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/MainActivityTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/MainActivityTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/TaskPopupwindowTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/TaskPopupwindowTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +29,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "last_opened_file_path": "F:/PyCharm Community Edition 2022.3/Pycharm_workplace"
+  }
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

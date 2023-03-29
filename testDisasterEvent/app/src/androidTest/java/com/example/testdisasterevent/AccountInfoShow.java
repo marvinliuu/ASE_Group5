@@ -24,8 +24,10 @@ public class AccountInfoShow {
     public void AccountInfoShow() {
         onView(withId(R.id.navigation_account)).perform(click());
 
-        onView(withId(R.id.account_name_info)).check(matches(isDisplayed()));
-        onView(withId(R.id.account_email_info)).check(matches(isDisplayed()));
-        onView(withId(R.id.account_mobile_info)).check(matches(isDisplayed()));
+        // check the information details
+        onView(withId(R.id.account_login_info)).check(matches(isDisplayed()));
+        onView(withId(R.id.account_login_name)).check(matches(isDisplayed()));
+        onView(withId(R.id.account_login_email)).check(matches(isDisplayed()));
+        onView(withId(R.id.account_login_mobile)).check(matches(isDisplayed()));
     }
 }

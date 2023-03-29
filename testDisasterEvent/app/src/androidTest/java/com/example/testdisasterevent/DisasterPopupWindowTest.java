@@ -6,8 +6,9 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-
+import androidx.test.espresso.matcher.RootMatchers.*;
 
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -28,9 +29,10 @@ public class DisasterPopupWindowTest {
     public void DisasterInfoShow() throws InterruptedException {
         onView(withId(R.id.navigation_dashboard)).perform(click());
 
-          // wait for 5 seconds until PopupWindow shows
+        // wait for 5 seconds until PopupWindow shows
         Thread.sleep(3000);
 
+        // check the controls in disaster popupwindow
         onView(withId(R.id.tv_pop_name)).check(matches(isDisplayed()));
         onView(withId(R.id.close_btn)).check(matches(isDisplayed()));
     }
@@ -58,7 +60,32 @@ public class DisasterPopupWindowTest {
 
         //close and reopen the DisasterInfo popupwindow
         onView(withId(R.id.tv_pop_name)).check(matches(isDisplayed()));
+        onView(withId(R.id.close_btn)).check(matches(isDisplayed()));
         onView(withId(R.id.close_btn)).perform(click());
+
+        onView(withId(R.id.show_popwindow)).check(matches(isDisplayed()));
+        onView(withId(R.id.show_popwindow)).perform(click());
+
+        //find and colse the DisasterInfo popupwindow
+        onView(withId(R.id.tv_pop_name)).check(matches(isDisplayed()));
+        onView(withId(R.id.close_btn)).perform(click());
+        onView(withId(R.id.map)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void DisasterDetailsShow() throws InterruptedException {
+        onView(withId(R.id.navigation_dashboard)).perform(click());
+
+        // wait for 5 seconds until PopupWindow shows
+        Thread.sleep(5000);
+
+        //close and reopen the DisasterInfo popupwindow
+        onView(withId(R.id.tv_pop_name)).check(matches(isDisplayed()));
+        onView(withId(R.id.close_btn)).check(matches(isDisplayed()));
+        onView(withId(R.id.close_btn)).perform(click());
+
+        onView(withId(R.id.show_popwindow)).check(matches(isDisplayed()));
+        onView(withId(R.id.show_popwindow)).perform(click());
     }
 }
 

@@ -3,11 +3,12 @@ package com.example.testdisasterevent;
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.Espresso;
+import static androidx.test.espresso.Espresso.onView;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,28 +28,28 @@ public class MainActivityTest {
     @Test
     public void testNavigation() {
         // Check that the navigation view is displayed
-        Espresso.onView(ViewMatchers.withId(R.id.nav_view)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        onView(ViewMatchers.withId(R.id.nav_view)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         // Check that the home destination is selected by default
-        Espresso.onView(ViewMatchers.withId(R.id.navigation_home)).check(ViewAssertions.matches(ViewMatchers.isSelected()));
+        onView(ViewMatchers.withId(R.id.navigation_home)).check(ViewAssertions.matches(ViewMatchers.isSelected()));
 
         // Navigate to the notifications destination
-        Espresso.onView(ViewMatchers.withId(R.id.navigation_notifications)).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.navigation_notifications)).perform(ViewActions.click());
 
         // Check that the notifications destination is selected
-        Espresso.onView(ViewMatchers.withId(R.id.navigation_notifications)).check(ViewAssertions.matches(ViewMatchers.isSelected()));
+        onView(ViewMatchers.withId(R.id.navigation_notifications)).check(ViewAssertions.matches(ViewMatchers.isSelected()));
 
         // Navigate to the account destination
-        Espresso.onView(ViewMatchers.withId(R.id.navigation_account)).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.navigation_account)).perform(ViewActions.click());
 
         // Check that the account destination is selected
-        Espresso.onView(ViewMatchers.withId(R.id.navigation_account)).check(ViewAssertions.matches(ViewMatchers.isSelected()));
+        onView(ViewMatchers.withId(R.id.navigation_account)).check(ViewAssertions.matches(ViewMatchers.isSelected()));
 
         // Navigate to the home destination
-        Espresso.onView(ViewMatchers.withId(R.id.navigation_home)).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.navigation_home)).perform(ViewActions.click());
 
         // Check that the home destination is selected again
-        Espresso.onView(ViewMatchers.withId(R.id.navigation_home)).check(ViewAssertions.matches(ViewMatchers.isSelected()));
+        onView(ViewMatchers.withId(R.id.navigation_home)).check(ViewAssertions.matches(ViewMatchers.isSelected()));
     }
 
 

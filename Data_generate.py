@@ -1,6 +1,7 @@
 import json
 import random
 import time
+import pandas as pd
 
 final_data = {}
 random.seed(913)
@@ -183,7 +184,7 @@ def name_generate():
     length = random.randint(4, 16)
     return ''.join(random.choices(letter_set, k=length))
 
-
+# Report
 data = {}
 for i in range(200):
     times = time_generate()
@@ -200,6 +201,41 @@ for i in range(200):
     temp['injury'] = injure[random.randint(0, 6)]
     data['Report' + str(i + 1)] = temp
 final_data['Report'] = data
+
+
+# Report
+data = {}
+for i in range(200):
+    times = time_generate()
+    temp = {}
+    temp['rid'] = i + 1
+    temp['report_type'] = random.randint(1, 3)
+    temp['location'] = name_generate()
+    temp['htime'] = times[0]
+    temp['rtime'] = times[1]
+    temp['latitude'] = 53.35 + random.random() % 0.03
+    temp['longitude'] = -6.26 + random.random() % 0.03
+    temp['report_state'] = random.randint(0, 1)
+    temp['description'] = description_generate()
+    temp['injury'] = injure[random.randint(0, 6)]
+    data['Report' + str(i + 1)] = temp
+final_data['Report'] = data
+
+# Task
+data = {}
+for i in range(1000):
+    temp = {}
+    temp['uid'] = i + 1
+    temp['location'] = location_generate()
+    temp['disasterType'] = random.randint(1,3)
+    temp['otime'] = otime_generate()
+    temp['longitude'] = 53.35 + random.random() - 0.5
+    temp['latitude'] = -6.26 + random.random() - 0.5
+    temp['injury'] = random.randint(0, 5)
+    temp['task'] = str("Please go to the ** place");
+    data['TaskInfo' + str(i + 1)] = temp
+
+final_data['TaskInfo'] = data
 
 # Train
 station_list = ['Abbey Street', 'Jervis', 'Marlborough', 'Trinity',
@@ -263,6 +299,21 @@ for i in range(1000):
     temp['type'] = random.randint(1, 4)
     data['UserInfo' + str(i + 1)] = temp
 final_data['UserInfo'] = data
+
+# BusStopInfo
+# read csv
+df = pd.read_csv('stops.csv')
+
+# consider every line as a node
+nodes = {}
+for i, row in enumerate(df.itertuples(index=False)):
+    node = {'BusID': i + 1}
+    node.update(row._asdict())
+    nodes[f'BusID_{i + 1}'] = node
+
+# update final_data with BusStopInfo
+final_data.update({'BusStopInfo': nodes})
+
 
 # Output
 with open('Data.json', 'w') as f:
