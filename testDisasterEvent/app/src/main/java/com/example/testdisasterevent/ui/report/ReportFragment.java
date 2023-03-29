@@ -35,8 +35,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.example.testdisasterevent.data.ReportDataSource;
 import com.example.testdisasterevent.data.model.ReportFromCitizen;
 import com.example.testdisasterevent.ui.disaster.DisasterFragment;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ReportFragment extends Fragment {
@@ -139,7 +144,13 @@ public class ReportFragment extends Fragment {
             @Override
             public void onClick(View rootView){
                 Log.d("Button click", "camera clicked!");
-
+                DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
+                DatabaseReference rr = mReference.child("TaskInfo");
+                String testStr = rr.push().getKey();
+                Map<String, Object> allocation = new HashMap<>();
+                allocation.put("uid",1001);
+                allocation.put("task","Hahahahahahahaha");
+                rr.child(testStr).setValue(allocation);
             }
         });
 

@@ -55,7 +55,7 @@ public class LoginViewModel extends ViewModel {
                 int loginStatus = 0;
                 String displayName = "";
                 long loginUserID = -1;
-                  String email = "";
+                String email = "";
                 String mobile = "";
                 String registerTime = "";
                 String userType = "";

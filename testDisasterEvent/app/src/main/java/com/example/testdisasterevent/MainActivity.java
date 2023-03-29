@@ -1,14 +1,15 @@
 package com.example.testdisasterevent;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.testdisasterevent.data.NotificationFilter;
 import com.example.testdisasterevent.data.model.AccountUserInfo;
 
 
@@ -30,6 +31,12 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.testdisasterevent.databinding.ActivityMainBinding;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
@@ -41,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private DisaterViewModel sharedViewModel;
     private HomeViewModel homeViewModel;
+    private NotificationFilter notificationFilter;
     public String accountUserInfoJson;
     Gson gson = new Gson();
     public AccountUserInfo accountUserInfo;
@@ -98,15 +106,20 @@ public class MainActivity extends AppCompatActivity {
                         // Log and toast
                         String msg = token;
                         Log.d("TAG", msg);
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
 //        bindViewModel();
+        notificationFilter = new NotificationFilter();
+        long uid = accountUserInfo.getUid();
+        Log.d("uid",Long.toString(uid));
+        notificationFilter.addTaskListener(getApplicationContext(), uid);
+//        addReportListener();
     }
 
 //    public void bindViewModel() {
 //        // Create an instance of the SharedViewModel
-//        sharedViewModel = new ViewModelProvider(this).get(DisaterViewModel.class);
+//        sharedViewModel = new ViewModelProvider(this).get(DisasterViewModel.class);
 //
 //        // Pass the SharedViewModel instance to each of the fragments -- disasterBrief and
 //        DisasterFragment disasterBrief = new DisasterFragment();
