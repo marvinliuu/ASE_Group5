@@ -15,7 +15,7 @@ import com.example.testdisasterevent.data.model.AccountUserInfo;
 
 import com.example.testdisasterevent.ui.disaster.DisasterDetailsFragment;
 import com.example.testdisasterevent.ui.disaster.DisasterFragment;
-import com.example.testdisasterevent.ui.disaster.DisaterViewModel;
+import com.example.testdisasterevent.ui.disaster.DisasterViewModel;
 import com.example.testdisasterevent.ui.home.HomeViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -46,7 +46,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private DisaterViewModel sharedViewModel;
+    private DisasterViewModel sharedViewModel;
     private HomeViewModel homeViewModel;
     private NotificationFilter notificationFilter;
     public String accountUserInfoJson;
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         getSupportActionBar().hide();
-        //        Intent intent;
+//              Intent intent;
 //        if (savedInstanceState != null) {
 //            accountUserInfoJson = savedInstanceState.getString("my_key");
 //            Gson gson = new Gson();

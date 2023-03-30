@@ -14,7 +14,7 @@ import com.example.testdisasterevent.data.RerouteDataSource;
 import com.example.testdisasterevent.data.RoadsInfoDatasource;
 import com.example.testdisasterevent.data.TaskDataSource;
 import com.example.testdisasterevent.data.model.DisasterDetail;
-import com.example.testdisasterevent.data.model.HostipalDetails;
+import com.example.testdisasterevent.data.model.HospitalDetails;
 import com.example.testdisasterevent.data.model.TaskDetail;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +37,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 
-public class DisaterViewModel extends ViewModel {
+public class DisasterViewModel extends ViewModel {
     private DisasterDataSource disasterDataSource;
     private TaskDataSource taskDataSource;
     private HosAllocationDataSource hosAllocationDataSource;
@@ -49,15 +49,15 @@ public class DisaterViewModel extends ViewModel {
         return disasterDataSource.getDisasterDetails();
     }
 
-    public LiveData<HostipalDetails[]> getHospitalDetails() {
-        return hosAllocationDataSource.getHostpicalData();
+    public LiveData<HospitalDetails[]> getHospitalDetails() {
+        return hosAllocationDataSource.getHospitalData();
     }
 
     public LiveData<TaskDetail[]> getTaskDetails() {
         return taskDataSource.getTaskDetails();
     }
-    public void evalutateHosResource(double latitute, double longitute, int need_ambulance, int need_doctor) {
-        hosAllocationDataSource.evaluateHosResource(latitute, longitute, need_ambulance, need_doctor);
+    public void evaluateHosResource(double latitude, double longitude, int need_ambulance, int need_doctor) {
+        hosAllocationDataSource.evaluateHosResource(latitude, longitude, need_ambulance, need_doctor);
     }
 
     public LiveData<List<LatLng>> getNearbyRoads(double latitude, double longitude, double radius) {
@@ -76,7 +76,7 @@ public class DisaterViewModel extends ViewModel {
         return rerouteDataSource.findMinTimeRoute(exits, currentLocation);
     }
 
-    public DisaterViewModel() {
+    public DisasterViewModel() {
         disasterDataSource = new DisasterDataSource();
         taskDataSource = new TaskDataSource();
         hosAllocationDataSource = new HosAllocationDataSource();

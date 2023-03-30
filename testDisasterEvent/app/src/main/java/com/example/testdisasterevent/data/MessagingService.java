@@ -118,6 +118,7 @@ public class MessagingService extends FirebaseMessagingService {
     }
 
     private void sendRegistrationToServer(String token){
+
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("FCMToken");
         mDatabase.child(token.substring(0,6)).child("Token").setValue(token);
         mDatabase.child(token.substring(0,6)).child("rTime").setValue(System.currentTimeMillis());

@@ -56,8 +56,7 @@ public class RegisterDataSource {
                     Map<String, Object> userData = new HashMap<>();
                     userData.put("mail", email);
                     userData.put("name", username);
-                    String encrypt_pwd = PasswordEncryption.encryptPassword(password);
-                    userData.put("password", encrypt_pwd);
+                    userData.put("password", PasswordEncryption.encryptPassword(password));
                     userData.put("uid", count);
                     userData.put("r-time", generateRandomTime());
 

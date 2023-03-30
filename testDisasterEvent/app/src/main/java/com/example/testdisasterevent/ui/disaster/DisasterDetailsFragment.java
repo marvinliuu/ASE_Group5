@@ -62,7 +62,7 @@ import java.util.Set;
 
 public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallback, RerouteDataSource.RouteCallback  {
 
-    private DisaterViewModel disaterViewModel;
+    private DisasterViewModel disasterViewModel;
     private FragmentDisasterDetailsBinding binding;
     private SupportMapFragment mapFragment;
     private PopupWindow popupWindow;
@@ -100,7 +100,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        disaterViewModel = new ViewModelProvider(requireActivity()).get(DisaterViewModel.class);
+        disasterViewModel = new ViewModelProvider(requireActivity()).get(DisasterViewModel.class);
 
         binding = FragmentDisasterDetailsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -132,8 +132,10 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         radiusIntro = contentView.findViewById(R.id.radius_intro);
         radiusDetail = contentView.findViewById(R.id.radius_details);
 
+
         firstBtn = binding.firstAidBtn;
         exitBtn = binding.exitBtn;
+
 
         requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
@@ -260,6 +262,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
         BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
 
+
         LatLng center = new LatLng(details[index].getLatitude(), details[index].getLongitude());
         test = center;
 
@@ -274,6 +277,8 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         else{
             zoomLevel = 20f;
         }
+
+
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
 
         map.setMapType(MAP_TYPE_NORMAL);
@@ -333,7 +338,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
          */
         map = googleMap;
 
-        disaterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
+        disasterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
             @Override
             public void onChanged(DisasterDetail[] posts) {
                 if (posts.length > 0) {
@@ -347,7 +352,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     }
 
     void resetUserLocationToRoad() {
-        disaterViewModel.getUserNearbyRoads(test.latitude, test.longitude).observe(getActivity(), new Observer<List<LatLng>>() {
+        disasterViewModel.getUserNearbyRoads(test.latitude, test.longitude).observe(getActivity(), new Observer<List<LatLng>>() {
             @Override
             public void onChanged(List<LatLng> latLngs) {
                 if (latLngs.size() > 0) {
@@ -373,7 +378,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
                 }
                 DirectionsRoute route = null;
                 try {
-                    route = disaterViewModel.findOptimalRoute(exitsFirst, test);
+                    route = disasterViewModel.findOptimalRoute(exitsFirst, test);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ApiException e) {
@@ -398,7 +403,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
                 }
                 DirectionsRoute route = null;
                 try {
-                    route = disaterViewModel.findOptimalRoute(exitsExit, test);
+                    route = disasterViewModel.findOptimalRoute(exitsExit, test);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ApiException e) {
@@ -428,16 +433,16 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         rerouteDataDataSource.getRoute(start, end, travelMode, restrictions, this);
     }
 
-    void selectRoadFromData(double latitute, double longitude, double radius) {
-        disaterViewModel.getNearbyRoads(latitute, longitude, radius).observe(getActivity(), new Observer<List<LatLng>>() {
+    void selectRoadFromData(double latitude, double longitude, double radius) {
+        disasterViewModel.getNearbyRoads(latitude, longitude, radius).observe(getActivity(), new Observer<List<LatLng>>() {
             @Override
             public void onChanged(List<LatLng> latLngs) {
                 if (latLngs.size() > 0) {
                     roadSet = new HashSet<>(latLngs);
                 } else {
-                    roadSet = new HashSet<>(disaterViewModel.getSelectedPoints(latitute, longitude, radius));
+                    roadSet = new HashSet<>(disasterViewModel.getSelectedPoints(latitude, longitude, radius));
                 }
-                selectedRoad = disaterViewModel.selectEntries(roadSet, radius);
+                selectedRoad = disasterViewModel.selectEntries(roadSet, radius);
                 createEntriesView(selectedRoad);
                 resetUserLocationToRoad();
             }

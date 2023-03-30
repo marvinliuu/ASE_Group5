@@ -30,6 +30,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+//import androidx.room.jarjarred.org.stringtemplate.v4.misc.Coordinate;
 
 import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
@@ -47,10 +48,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.RoundCap;
 import com.google.maps.GeoApiContext;
+import com.google.maps.android.data.LineString;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.TravelMode;
 import com.google.maps.DirectionsApi.RouteRestriction;
@@ -58,6 +62,10 @@ import com.google.maps.DirectionsApi.RouteRestriction;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -72,6 +80,15 @@ import java.util.Set;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback  {
 
@@ -121,6 +138,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         mapFragment.getMapAsync(this);
 
 
+
 //        homeViewModel.getReportInfo().observe(getActivity(), new Observer<ReportInfo[]>() {
 //
 //            @Override
@@ -135,7 +153,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
 //                    createNoReportPopWindow();
 //                }}
 //        });
-
+//        LatLng centrePoint = new LatLng(53.34453, -6.2542);
+//        LatLng[] locations = homeViewModel.calculateDestinationLocations(centrePoint, 0.1);
+//        System.out.println(locations);
         return root;
     }
 
@@ -441,4 +461,5 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         // hidden animation
         popupWindow.setAnimationStyle(R.style.ipopwindow_anim_style);
     }
+
 }

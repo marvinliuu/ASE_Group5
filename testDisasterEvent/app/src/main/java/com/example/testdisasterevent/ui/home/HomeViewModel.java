@@ -47,6 +47,38 @@ public class HomeViewModel extends ViewModel {
     }
 
 
+    private static LatLng calculateDestinationLocation(double lat, double lng, double distance, double bearing) {
+        double radius = 6371.01; // 地球平均半径，单位为千米
+
+        double lat1 = Math.toRadians(lat);
+        double lon1 = Math.toRadians(lng);
+
+        double lat2 = Math.asin(Math.sin(lat1) * Math.cos(distance / radius)
+                + Math.cos(lat1) * Math.sin(distance / radius) * Math.cos(Math.toRadians(bearing)));
+
+        double lon2 = lon1 + Math.atan2(Math.sin(Math.toRadians(bearing))
+                        * Math.sin(distance / radius) * Math.cos(lat1),
+                Math.cos(distance / radius) - Math.sin(lat1) * Math.sin(lat2));
+
+        lat2 = Math.toDegrees(lat2);
+        lon2 = Math.toDegrees(lon2);
+
+        return new LatLng(lat2, lon2);
+    }
+
+    public LatLng[] calculateDestinationLocations(LatLng centrePoint, double distance) {
+        double lat = centrePoint.latitude;
+        double lng = centrePoint.longitude;
+        LatLng[] locations = new LatLng[2];
+
+        LatLng neLocation = calculateDestinationLocation(lat, lng, distance, 45);
+        locations[0] = neLocation;
+
+        LatLng swLocation = calculateDestinationLocation(lat, lng, distance, 225);
+        locations[1] = swLocation;
+
+        return locations;
+    }
 
     @TargetApi(Build.VERSION_CODES.N)
     public List<LatLng> findMaxAreaPoints(List<LatLng> points, int k) {
