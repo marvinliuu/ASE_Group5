@@ -2,7 +2,7 @@ package com.example.testdisasterevent.ui.disaster;
 
 import android.annotation.TargetApi;
 import android.os.Build;
-
+import static java.lang.Math.*;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -170,5 +170,4 @@ public class DisaterViewModel extends ViewModel {
         res.add(end);
         return res;
     }
-
 }
