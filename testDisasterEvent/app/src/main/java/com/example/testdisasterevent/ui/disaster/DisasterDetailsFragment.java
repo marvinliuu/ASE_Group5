@@ -140,8 +140,10 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         radiusIntro = contentView.findViewById(R.id.radius_intro);
         radiusDetail = contentView.findViewById(R.id.radius_details);
 
+
         firstBtn = binding.firstAidBtn;
         exitBtn = binding.exitBtn;
+
 
         requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
@@ -268,6 +270,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
         BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
 
+
         LatLng center = new LatLng(details[index].getLatitude(), details[index].getLongitude());
         test = center;
 
@@ -282,6 +285,8 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         else{
             zoomLevel = 20f;
         }
+
+
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
 
         map.setMapType(MAP_TYPE_NORMAL);

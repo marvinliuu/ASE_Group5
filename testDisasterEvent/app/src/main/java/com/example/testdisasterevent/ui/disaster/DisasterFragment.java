@@ -34,7 +34,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.data.model.DisasterDetail;
-import com.example.testdisasterevent.data.model.HostipalDetails;
+import com.example.testdisasterevent.data.model.HospitalDetails;
 import com.example.testdisasterevent.data.model.TaskDetail;
 import com.example.testdisasterevent.databinding.FragmentDisasterBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -176,9 +176,9 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
 //                Manifest.permission.ACCESS_BACKGROUND_LOCATION,
 //                Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
 
-        disaterViewModel.getHospitalDetails().observe(getActivity(), new Observer<HostipalDetails[]>() {
+        disaterViewModel.getHospitalDetails().observe(getActivity(), new Observer<HospitalDetails[]>() {
             @Override
-            public void onChanged(HostipalDetails[] hostipalDetails) {
+            public void onChanged(HospitalDetails[] hospitalDetails) {
                 disaterViewModel.evalutateHosResource(53.3442016, -6.2544264, 5, 3);
             }
         });
@@ -191,7 +191,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                     // Update the UI with the new data
                     createDisasterPopupWindow(posts);
                 } else {
-                    // Update the UI when no disaste happen
+                    // Update the UI when no disaster happen
                     createNoDisasterPopWindow();
                 }
             }
@@ -215,7 +215,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                                 // Update the UI with the new data
                                 createDisasterPopupWindow(posts);
                             } else {
-                                // Update the UI when no disaste happen
+                                // Update the UI when no disaster happen
                                 createNoDisasterPopWindow();
                             }
                         }

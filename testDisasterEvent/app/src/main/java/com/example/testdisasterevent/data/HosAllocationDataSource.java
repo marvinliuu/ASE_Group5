@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.testdisasterevent.data.model.DisasterDetail;
-import com.example.testdisasterevent.data.model.HostipalDetails;
+import com.example.testdisasterevent.data.model.HospitalDetails;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,18 +27,18 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class HosAllocationDataSource {
-    public HostipalDetails[] details;
+    public HospitalDetails[] details;
     private static double EARTH_RADIUS = 6378.137;	//earth radius
     public HosAllocationDataSource() {
-        getHostpicalData();
+        getHospitalData();
     }
 
-    public LiveData<HostipalDetails[]> getHostpicalData() {
+    public LiveData<HospitalDetails[]> getHospitalData() {
 
-        final MutableLiveData<HostipalDetails[]> hostipalLiveData = new MutableLiveData<>();
+        final MutableLiveData<HospitalDetails[]> hospitalLiveData = new MutableLiveData<>();
         if (details != null) {
-            hostipalLiveData.setValue(details);
-            return hostipalLiveData;
+            hospitalLiveData.setValue(details);
+            return hospitalLiveData;
         }
 
         DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference("Hospital");
@@ -47,7 +47,7 @@ public class HosAllocationDataSource {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 int len = (int) dataSnapshot.getChildrenCount();
-                details = new HostipalDetails[len];
+                details = new HospitalDetails[len];
                 int count = 0;
                 // Process the retrieved data here
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -59,9 +59,9 @@ public class HosAllocationDataSource {
                     float latitude = postSnapshot.child("latitude").getValue(float.class);
                     float longitude = postSnapshot.child("longitude").getValue(float.class);
                     String name = postSnapshot.child("name").getValue(String.class);
-                    details[count++] = new HostipalDetails(hid, name, n_ambulance, n_ava_ambulance, n_doctor, n_ava_doctor, latitude, longitude);
+                    details[count++] = new HospitalDetails(hid, name, n_ambulance, n_ava_ambulance, n_doctor, n_ava_doctor, latitude, longitude);
                 }
-                hostipalLiveData.setValue(details);
+                hospitalLiveData.setValue(details);
             }
 
             @Override
@@ -69,7 +69,7 @@ public class HosAllocationDataSource {
                 // Handle error
             }
         });
-        return hostipalLiveData;
+        return hospitalLiveData;
     }
 
     private void writebackToDatabase(List<int[]> info) {

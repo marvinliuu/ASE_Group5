@@ -2,7 +2,7 @@ package com.example.testdisasterevent.ui.disaster;
 
 import android.annotation.TargetApi;
 import android.os.Build;
-import static java.lang.Math.*;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -37,7 +37,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 
-public class DisaterViewModel extends ViewModel {
+public class DisasterViewModel extends ViewModel {
     private DisasterDataSource disasterDataSource;
     private TaskDataSource taskDataSource;
     private HosAllocationDataSource hosAllocationDataSource;
@@ -56,8 +56,8 @@ public class DisaterViewModel extends ViewModel {
     public LiveData<TaskDetail[]> getTaskDetails() {
         return taskDataSource.getTaskDetails();
     }
-    public void evalutateHosResource(double latitute, double longitute, int need_ambulance, int need_doctor) {
-        hosAllocationDataSource.evaluateHosResource(latitute, longitute, need_ambulance, need_doctor);
+    public void evaluateHosResource(double latitude, double longitude, int need_ambulance, int need_doctor) {
+        hosAllocationDataSource.evaluateHosResource(latitude, longitude, need_ambulance, need_doctor);
     }
 
     public LiveData<List<LatLng>> getNearbyRoads(double latitude, double longitude, double radius) {
@@ -76,7 +76,7 @@ public class DisaterViewModel extends ViewModel {
         return rerouteDataSource.findMinTimeRoute(exits, currentLocation);
     }
 
-    public DisaterViewModel() {
+    public DisasterViewModel() {
         disasterDataSource = new DisasterDataSource();
         taskDataSource = new TaskDataSource();
         hosAllocationDataSource = new HosAllocationDataSource();
@@ -170,4 +170,5 @@ public class DisaterViewModel extends ViewModel {
         res.add(end);
         return res;
     }
+
 }
