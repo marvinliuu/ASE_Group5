@@ -55,7 +55,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 public class DisasterFragment extends Fragment implements OnMapReadyCallback {
 
-    private DisaterViewModel disaterViewModel;
+    private DisasterViewModel disasterViewModel;
     private FragmentDisasterBinding binding;
     private PopupWindow popupWindow_task, popupWindow_disaster;
     private View disasterView, taskView, toastView;
@@ -80,8 +80,8 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        disaterViewModel =
-                new ViewModelProvider(this).get(DisaterViewModel.class);
+        disasterViewModel =
+                new ViewModelProvider(this).get(DisasterViewModel.class);
 
         binding = FragmentDisasterBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -154,7 +154,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         showTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TaskDetail[] posts = disaterViewModel.getTaskDetails().getValue();
+                TaskDetail[] posts = disasterViewModel.getTaskDetails().getValue();
                 if (posts.length > 0) {
                     popupWindow_task.showAtLocation(taskView, Gravity.BOTTOM, 0, 0);
                 } else {
@@ -176,14 +176,14 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
 //                Manifest.permission.ACCESS_BACKGROUND_LOCATION,
 //                Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
 
-        disaterViewModel.getHospitalDetails().observe(getActivity(), new Observer<HospitalDetails[]>() {
+        disasterViewModel.getHospitalDetails().observe(getActivity(), new Observer<HospitalDetails[]>() {
             @Override
             public void onChanged(HospitalDetails[] hospitalDetails) {
-                disaterViewModel.evalutateHosResource(53.3442016, -6.2544264, 5, 3);
+                disasterViewModel.evaluateHosResource(53.3442016, -6.2544264, 5, 3);
             }
         });
 
-        disaterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
+        disasterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
             @Override
             public void onChanged(DisasterDetail[] posts) {
                 showDisasterPopwindow();
@@ -196,7 +196,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                 }
             }
         });
-        disaterViewModel.getTaskDetails().observe(getActivity(), new Observer<TaskDetail[]>() {
+        disasterViewModel.getTaskDetails().observe(getActivity(), new Observer<TaskDetail[]>() {
             @Override
             public void onChanged(TaskDetail[] posts) {
                 if (posts.length > 0) {
@@ -206,7 +206,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                     createTaskDetailsPopupWindow(posts);
 
                 } else {
-                    disaterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
+                    disasterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
                         @Override
                         public void onChanged(DisasterDetail[] posts) {
                             showDisasterPopwindow();
@@ -578,8 +578,8 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         if (popupWindow_disaster != null) {
             popupWindow_disaster.dismiss();
         }
-        disaterViewModel.getDisasterDetails().removeObservers(this);
-        disaterViewModel.getHospitalDetails().removeObservers(this);
+        disasterViewModel.getDisasterDetails().removeObservers(this);
+        disasterViewModel.getHospitalDetails().removeObservers(this);
     }
 
     /**
