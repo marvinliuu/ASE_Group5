@@ -8,10 +8,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.GradientDrawable;
 import android.location.Location;
 import android.location.LocationListener;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -24,22 +22,16 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.data.RerouteDataSource;
 import com.example.testdisasterevent.data.model.DisasterDetail;
-import com.example.testdisasterevent.databinding.FragmentDisasterBinding;
 import com.example.testdisasterevent.databinding.FragmentDisasterDetailsBinding;
-import com.example.testdisasterevent.databinding.FragmentHomeBinding;
 //import com.example.testdisasterevent.ui.home.HomeViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -214,7 +206,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
 
 
     public void createDisasterDetailsPopupWindow(DisasterDetail[] details) {
-        String titleText = details[index].getDisasterTitle();
+        String titleText = details[index].getDisasterType();
         // Load the custom font from the assets folder
         Typeface topTitleType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
         // Set the font of the TextView to the custom font

@@ -3,7 +3,6 @@ package com.example.testdisasterevent.ui.disaster;
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -306,7 +305,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
 
             // Create and add a TextView to the RelativeLayout - Title
             TextView title = new TextView(getContext());
-            String titleText = details[i].getDisasterTitle();
+            String titleText = details[i].getDisasterType();
             title.setText(titleText);
             title.setId(View.generateViewId());
             title.setTextColor(Color.BLACK);

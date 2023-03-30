@@ -21,14 +21,16 @@ public class ReportViewModel extends ViewModel {
 
     public void CitizenSubmit(ReportFromCitizen report){
 
-        reportData.reportSubmit(report);
+        reportData.SubmitCitizenReport(report);
 
         Log.d("num", "citizen submit suc!");
 
     }
+
+
     public void GardaSubmit(ReportFromCitizen report){
 
-        reportData.reportSubmit(report);
+        reportData.SubmitCitizenReport(report);
 
         Log.d("num", "garda submit suc!");
 

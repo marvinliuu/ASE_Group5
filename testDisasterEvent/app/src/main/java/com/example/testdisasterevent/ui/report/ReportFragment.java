@@ -107,10 +107,6 @@ public class ReportFragment extends Fragment {
 
         /**
          * disaster single choice click
-         *
-         * fire 1
-         * water 2
-         * other 3
          * */
         RadioGroup disasterChosen=rootView.findViewById(R.id.report_radioGroup);
         disasterChosen.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -118,13 +114,13 @@ public class ReportFragment extends Fragment {
             public void onCheckedChanged(RadioGroup disasterChosen, int checkedId) {
                 int selectedId = disasterChosen.getCheckedRadioButtonId();
                 if (selectedId == R.id.report_fire) {
-                    reportData.setDisasterType(1);
+                    reportData.setDisasterType("Fire");
                     Log.d("Button click", "fire clicked!");
                 } else if (selectedId == R.id.report_water) {
-                    reportData.setDisasterType(2);
+                    reportData.setDisasterType("Water");
                     Log.d("Button click", "water clicked!");
                 } else if (selectedId == R.id.report_otherevent) {
-                    reportData.setDisasterType(3);
+                    reportData.setDisasterType("Other");
                     Log.d("Button click", "other clicked!");
                 }
             }
@@ -205,7 +201,7 @@ public class ReportFragment extends Fragment {
                 otherInfoEditText.setText("");
                 disasterChosen.clearCheck();
                 //set disasterType as 0 to show not choose state
-                reportData.setDisasterType(0);
+                reportData.setDisasterType("");
                 reportData.setLatitude(0);
                 reportData.setLongitude(0);
 
@@ -245,7 +241,7 @@ public class ReportFragment extends Fragment {
                  * */
 
 
-                if(reportData.getDisasterType()==0){
+                if(reportData.getDisasterType().toString().trim().length()==0){
                     notification=notification+"DISASTER TYPE ";
                     submitCompleted=false;
                 }

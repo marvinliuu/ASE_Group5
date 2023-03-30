@@ -2,7 +2,7 @@ package com.example.testdisasterevent.data.model;
 
 public class ReportFromCitizen {
     private float longitude;
-    private int disasterType;
+    private String disasterType;
     private float latitude;
     private int injuredNum;
     private int radius;
@@ -10,7 +10,7 @@ public class ReportFromCitizen {
 
     public ReportFromCitizen(){};
 
-    public ReportFromCitizen(int disasterType, int injuredNum, float latitude, float longtitude, String otherInfo, int radius) {
+    public ReportFromCitizen(String disasterType, int injuredNum, float latitude, float longtitude, String otherInfo, int radius) {
         this.disasterType = disasterType;
         this.injuredNum = injuredNum;
         this.latitude = latitude;
@@ -21,7 +21,7 @@ public class ReportFromCitizen {
 
 
 
-    public void setDisasterType(int disasterType) {
+    public void setDisasterType(String disasterType) {
         this.disasterType = disasterType;
     }
 
@@ -45,7 +45,7 @@ public class ReportFromCitizen {
         this.radius = radius;
     }
 
-    public int getDisasterType() {
+    public String getDisasterType() {
         return disasterType;
     }
 
