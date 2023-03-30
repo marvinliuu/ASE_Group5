@@ -30,7 +30,9 @@ public class ReportViewModel extends ViewModel {
 
     public void GardaSubmit(ReportFromCitizen report){
 
-        reportData.SubmitCitizenReport(report);
+
+        reportData.SubmitGardaReport(reportData.Report2Disaster(report));
+
 
         Log.d("num", "garda submit suc!");
 

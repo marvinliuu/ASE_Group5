@@ -50,6 +50,7 @@ public class ReportFragment extends Fragment {
     private ReportViewModel reportViewModel;
     public ReportFromCitizen reportData=new ReportFromCitizen();
     public int AccountType;
+    public long AccountUID;
 
 
 
@@ -70,6 +71,8 @@ public class ReportFragment extends Fragment {
         MainActivity mainActivity = (MainActivity) getActivity();
         AccountUserInfo accountUserInfoData = mainActivity.getAccountUserInfo();
         AccountType=accountUserInfoData.getUserTypeID();
+        AccountUID=accountUserInfoData.getUid();
+
 
 
 
@@ -273,6 +276,8 @@ public class ReportFragment extends Fragment {
                 if(submitCompleted){
                     reportData.setInjuredNum(Integer.parseInt((injuredNumEditText.getText().toString())));
                     reportData.setOtherInfo(otherInfoEditText.getText().toString());
+                    reportData.setAccountUID(AccountUID);
+                    reportData.setReportState(0);
                     if(AccountType!=0){
                         reportViewModel.CitizenSubmit(reportData);
                         replaceFragment(new SubmitSucessFragment());
