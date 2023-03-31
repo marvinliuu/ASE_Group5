@@ -5,16 +5,19 @@ import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
 import android.Manifest;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -30,7 +33,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-//import androidx.room.jarjarred.org.stringtemplate.v4.misc.Coordinate;
 
 import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
@@ -39,6 +41,10 @@ import com.example.testdisasterevent.data.model.AccountUserInfo;
 import com.example.testdisasterevent.data.model.ReportInfo;
 import com.example.testdisasterevent.databinding.FragmentHomeBinding;
 import com.example.testdisasterevent.ui.account.AccountViewModel;
+import com.example.testdisasterevent.data.HereRerouteDataSource;
+import com.example.testdisasterevent.data.model.DisasterDetail;
+import com.example.testdisasterevent.databinding.FragmentHomeBinding;
+import com.example.testdisasterevent.ui.disaster.DisasterViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -48,47 +54,39 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.RoundCap;
-import com.google.maps.GeoApiContext;
-import com.google.maps.android.data.LineString;
-import com.google.maps.model.DirectionsResult;
-import com.google.maps.model.TravelMode;
-import com.google.maps.DirectionsApi.RouteRestriction;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.here.sdk.core.GeoBox;
+import com.here.sdk.core.GeoCoordinates;
+import com.here.sdk.core.engine.SDKNativeEngine;
+import com.here.sdk.core.engine.SDKOptions;
+import com.here.sdk.core.errors.InstantiationErrorException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
+import javax.net.ssl.HttpsURLConnection;
+
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback  {
 
@@ -103,14 +101,32 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
     private SupportMapFragment mapFragment;
     private AccountViewModel aViewModel;
     private int index;
+    private EditText  startLocation;
+    private EditText desLocation;
+    private ImageButton enterBtn;
+    private DisasterViewModel disaterViewModel;
+    private DisasterDetail[] details;
+    private LatLng startPoint;
+    private LatLng endPoint;
+    private boolean showRoute = false;
+    private String start;
+    private String end;
+    private String[] stop_ids;
+    private ImageButton busInfoBtn;
+    private HereRerouteDataSource hereRerouteDataSource;
+    private int count;
+    private boolean isShowDisasterCircle;
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
+
         aViewModel =
                 new  ViewModelProvider(this).get(AccountViewModel.class);
+        disaterViewModel =
+                new ViewModelProvider(this).get(DisasterViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -121,13 +137,46 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
             // Use the data as needed
         }
 
+        isShowDisasterCircle = false;
+
         showWindowButton = binding.showPopwindow;
+
+        startLocation = binding.startLocation;
+        desLocation = binding.desLocation;
+        enterBtn = binding.enterBtn;
+        busInfoBtn = binding.getBusInfo;
+
+        initializeHERESDK();
+
+        hereRerouteDataSource = new HereRerouteDataSource();
+
+        enterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                start = startLocation.getText().toString();
+                end = desLocation.getText().toString();
+                try {
+                    getRouteLatLngInfo(start, end);
+                } catch (InstantiationErrorException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        busInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getRealTimeData();
+                Toast.makeText(getContext(),"Request Real Time Bus Information", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
 
-// Initialize map fragment
+
+        // Initialize map fragment
         mapFragment= (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if(mapFragment == null){
             FragmentManager fm= getFragmentManager();
@@ -137,54 +186,86 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         }
         mapFragment.getMapAsync(this);
 
-
-
-//        homeViewModel.getReportInfo().observe(getActivity(), new Observer<ReportInfo[]>() {
-//
-//            @Override
-//            public void onChanged(ReportInfo[] posts) {
-//                showPopwindow();
-//                popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
-//                if (posts.length > 0) {
-//                    // Update the UI with the new data
-//                    createReportPopupWindow(posts);
-//                } else {
-//                    // Update the UI when no disaster happen
-//                    createNoReportPopWindow();
-//                }}
-//        });
-//        LatLng centrePoint = new LatLng(53.34453, -6.2542);
-//        LatLng[] locations = homeViewModel.calculateDestinationLocations(centrePoint, 0.1);
-//        System.out.println(locations);
+        disaterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
+            @Override
+            public void onChanged(DisasterDetail[] posts) {
+                if (posts.length > 0) {
+                    details = new DisasterDetail[posts.length];
+                    details = posts;
+                    if (!isShowDisasterCircle) createDisasterCircleOnMap();
+                }
+            }
+        });
         return root;
     }
+
+    private void createDisasterCircleOnMap() {
+        if (details != null) {
+            isShowDisasterCircle = true;
+            for (DisasterDetail detail : details) {
+                LatLng center = new LatLng(detail.getLatitude(), detail.getLongitude());
+                Bitmap bitmap = createDisIconOnMap(detail.getDisasterType());
+                int width = bitmap.getWidth();
+                int height = bitmap.getHeight();
+                float scaledWidth = width * 0.5f;
+                float scaledHeight = height * 0.5f;
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
+                BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
+
+                MarkerOptions markerOptions = new MarkerOptions()
+                        .position(center)
+                        .icon(markerIcon);
+                map.addMarker(markerOptions);
+
+                CircleOptions circleOptions=new CircleOptions();
+                circleOptions.center(center);
+                circleOptions.radius(detail.getRadius());
+                circleOptions.strokeColor(Color.RED);
+                circleOptions.strokeWidth(2);
+                circleOptions.fillColor(Color.argb(70, 255, 0, 0));
+                map.addCircle(circleOptions);
+            }
+        }
+    }
+
+    private void initializeHERESDK() {
+        // Set your credentials for the HERE SDK.
+        String accessKeyID = "PTBf8nCFZijyTZMsRTrUfQ";
+        String accessKeySecret = "9B0xK9nSuAM7jTeoCiZWwUlKjtWEhCMw7PdHmoxrLN4ZSUrvx-B8lxvb-QBFwJZlRLiQjCFbO1iZ7DPWCxtd_w";
+        SDKOptions options = new SDKOptions(accessKeyID, accessKeySecret);
+        try {
+            Context context = getContext();
+            SDKNativeEngine.makeSharedInstance(context, options);
+        } catch (InstantiationErrorException e) {
+            throw new RuntimeException("Initialization of HERE SDK failed: " + e.error.name());
+        }
+    }
+
+    void getRouteLatLngInfo (String start, String end) throws InstantiationErrorException {
+        startPoint = homeViewModel.getLocLatLng(start);
+        endPoint = homeViewModel.getLocLatLng(end);
+        List<GeoBox> geoBoxes = calDisAreaGeoInfo();
+        hereRerouteDataSource.addRoute(startPoint, endPoint, geoBoxes);
+    }
+
+    List<GeoBox> calDisAreaGeoInfo() {
+        List<GeoBox> geoBoxes = new ArrayList<GeoBox>();
+        for (DisasterDetail detail : details) {
+            LatLng[] latLng = homeViewModel.calculateDestinationLocations(new LatLng(detail.getLatitude(), detail.getLongitude()), detail.getRadius());
+            geoBoxes.add(new GeoBox(new GeoCoordinates(latLng[0].latitude, latLng[0].longitude), new GeoCoordinates(latLng[1].latitude, latLng[1].longitude)));
+        }
+        return geoBoxes;
+    }
+
 
     //When map id loaded
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                MarkerOptions markerOptions=new MarkerOptions();
-                markerOptions.position(latLng);
-                markerOptions.title(latLng.latitude+" : "+latLng.longitude);
-                CircleOptions circleOptions=new CircleOptions();
-                circleOptions.center(latLng);
-                circleOptions.radius(100);
-                circleOptions.strokeColor(Color.RED);
-                circleOptions.strokeWidth(2);
-                circleOptions.fillColor(Color.argb(70, 255, 0, 0));
-                googleMap.addCircle(circleOptions);
-                googleMap.clear();
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
-                googleMap.addMarker(markerOptions);
-                googleMap.addCircle(circleOptions);
-            }
-        });
         /**
          * set lat/long here
          */
-        LatLng sydney = new LatLng(53.3442016, -6.2544264);
+//        LatLng sydney = new LatLng(53.3442016, -6.2544264);
+        LatLng sydney = new LatLng(53.34453, -6.2542);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
 
         googleMap.addMarker(new MarkerOptions()
@@ -196,8 +277,27 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
 
         FrameLayout overlay = binding.mapOverlay;
         overlay.setBackground(shapeDrawable);
-//
+
         map = googleMap;
+
+        hereRerouteDataSource.livePointData.observe(getActivity(), new Observer<List<LatLng>>() {
+            @Override
+            public void onChanged(List<LatLng> latLngs) {
+                PolylineOptions polylineOptions = new PolylineOptions();
+                polylineOptions.color(Color.YELLOW);
+
+                polylineOptions.addAll(latLngs);
+                polylineOptions.width(20f);
+
+                polylineOptions.startCap(new RoundCap());
+                polylineOptions.endCap(new RoundCap());
+                polylineOptions.jointType(JointType.ROUND);
+                polylineOptions.geodesic(true);
+                map.addPolyline(polylineOptions);
+            }
+        });
+        createDisasterCircleOnMap();
+
     }
 
     @Override
@@ -231,7 +331,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         //load popup window layout
         MainActivity mainActivity = (MainActivity) getActivity();
         AccountUserInfo accountUserInfoData = mainActivity.getAccountUserInfo();
-        if (accountUserInfoData.getUserTypeID() == 0) {
+        if (accountUserInfoData != null && accountUserInfoData.getUserTypeID() == 0) {
             homeViewModel.getReportInfo().observe(getActivity(), new Observer<ReportInfo[]>() {
                 @Override
                 public void onChanged(ReportInfo[] posts) {
@@ -246,8 +346,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
                     }}
             });
         }
-
-
     }
 
 
@@ -278,8 +376,21 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         linearLayout.addView(title, titleParams);
     }
 
+    public Bitmap createDisIconOnMap (String title) {
+        // Create and add an ImageView to the RelativeLayout - disaster logo
+        Bitmap bitmap;
+        if (title.equals("Fire")) {
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fire_logo);
+        } else if (title.equals("Water")) {
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.water_logo);
+        } else {
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.other_logo);
+        }
+        return bitmap;
+    }
 
-    public void createReportPopupWindow(ReportInfo[] infos){
+
+    public void createReportPopupWindow(ReportInfo[] infos) {
         // Find the ScrollView in the layout and add content to it
         ScrollView scrollView = contentView.findViewById(R.id.disasterReportScrollView);
         LinearLayout linearLayout = new LinearLayout(getContext());
@@ -288,7 +399,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         // Create multiple RelativeLayouts with multiple views and add them to the LinearLayout
         for (int i = 0; i < infos.length; i++) {
             //Report state determination
-            if (infos[i].getReportState()==0){
+            if (infos[i].getReportState() == 0) {
                 showReport = true;
                 RelativeLayout relativeLayout = new RelativeLayout(getContext());
                 RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(
@@ -410,6 +521,100 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
     }
 
 
+    private void parseRealTimeData() {
+        if (stop_ids.length == 0) return;
+        count = 0;
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference stopsRef = database.getReference("BusStopInfo");
+        for (int i = 0; i < stop_ids.length; i++) {
+            String stopId = stop_ids[i];
+            if (stopId == null) {
+                continue;
+            }
+            if (count > 30) {
+                return;
+            }
+            stopsRef.child(stopId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        if (count > 30) {
+                            return;
+                        }
+                        count++;
+                        // Get the latitude and longitude values from the snapshot
+                        double latitude = snapshot.child("stop_lat").getValue(Double.class);
+                        double longitude = snapshot.child("stop_lon").getValue(Double.class);
+                        // Update the UI with the vehicle's location
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bus_icon);
+                                int width = bitmap.getWidth();
+                                int height = bitmap.getHeight();
+                                float scaledWidth = width * 0.4f;
+                                float scaledHeight = height * 0.4f;
+                                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
+                                BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
+                                // Add a marker to the map for the vehicle's location
+                                LatLng location = new LatLng(latitude, longitude);
+                                MarkerOptions options = new MarkerOptions()
+                                        .position(location)
+                                        .title("vehicleId")
+                                        .icon(markerIcon);
+                                map.addMarker(options);
+                            }
+                        });
+                    } else {
+                        System.out.println("No data available for stop_id: " + stopId);
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    System.out.println("Database query cancelled: " + error.getMessage());
+                }
+            });
+        }
+    }
+
+
+    private void readBusContent (JsonObject jsonObject) {
+        if (jsonObject == null) {
+            try {
+                AssetManager assetManager = getContext().getAssets();
+                InputStream inputStream = assetManager.open("defaultBusInfo.txt");
+                // Convert the InputStream to a String using a BufferedReader
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder stringBuilder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+                // Convert the String to a JSON object using Gson
+                Gson gson = new Gson();
+                jsonObject = gson.fromJson(stringBuilder.toString(), JsonObject.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (jsonObject == null) return;
+        JsonArray array = jsonObject.getAsJsonArray("entity");
+        stop_ids = new String[array.size()];
+        int loop = Math.min(800, array.size());
+        for (int i = 1; i < loop; i++) {
+            JsonElement innerObj = array.get(i);
+            JsonArray stop_time_update = innerObj.getAsJsonObject().getAsJsonObject("trip_update").getAsJsonArray("stop_time_update");
+            if (stop_time_update != null) {
+                JsonObject info = stop_time_update.get(0).getAsJsonObject();
+                if (info != null && info.getAsJsonPrimitive("stop_id") != null) {
+                    String stop_id = info.getAsJsonPrimitive("stop_id").toString();
+                    stop_ids[i] = stop_id.substring(1, stop_id.length() - 1);
+                }
+            }
+//            String stop_id = innerObj.getAsJsonObject().getAsJsonObject("trip_update").getAsJsonArray("stop_time_update").get(0).getAsJsonObject().getAsJsonPrimitive("stop_id").toString();
+        }
+    }
+
 
     public ImageView createReportIconOnWindow (String title) {
         // Create and add an ImageView to the RelativeLayout - disaster logo
@@ -437,6 +642,51 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         return bitmap;
     }
 
+    private void getRealTimeData() {
+        // Create a new Thread to handle the API request and response
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // Build the URL for the GTFS Realtime API request
+                    String url = "https://api.nationaltransport.ie/gtfsr/v2/gtfsr?format=json";
+                    URL requestUrl = new URL(url);
+
+                    // Open a connection to the API and set request headers
+                    HttpsURLConnection connection = (HttpsURLConnection) requestUrl.openConnection();
+                    connection.setRequestMethod("GET");
+//                    connection.setRequestProperty("Content-Type", "application/json");
+                    connection.setRequestProperty("Cache-Control", "no-cache");
+                    connection.setRequestProperty("x-api-key", "770a598030974f42a7f0adf379244ffc");
+
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(connection.getInputStream())
+                    );
+                    String inputLine;
+                    StringBuffer content = new StringBuffer();
+                    while ((inputLine = in.readLine()) != null) {
+                        content.append(inputLine);
+                    }
+                    in.close();
+                    JsonObject jsonObject = new JsonObject();
+                    // Convert the String to a JSON object using Gson
+                    Gson gson = new Gson();
+                    jsonObject = gson.fromJson(content.toString(), JsonObject.class);
+
+                    readBusContent(jsonObject);
+                    connection.disconnect();
+                } catch (Exception e) {
+                    readBusContent(null);
+                    e.printStackTrace();
+                }
+                parseRealTimeData();
+            }
+        });
+        // Start the Thread
+        thread.start();
+    }
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -444,6 +694,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
 //        popupWindow.dismiss();
         homeViewModel.getReportInfo().removeObservers(this);
     }
+
     private void showPopwindow() {
         popupWindow = new PopupWindow(contentView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -461,5 +712,4 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         // hidden animation
         popupWindow.setAnimationStyle(R.style.ipopwindow_anim_style);
     }
-
 }

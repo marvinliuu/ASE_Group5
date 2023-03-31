@@ -477,34 +477,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    //When map id loaded
-
-//    public void createNoTaskPopWindow() {
-//        // Find the ScrollView in the layout and add content to it
-//        ScrollView scrollView = taskView.findViewById(R.id.taskScrollView);
-//        LinearLayout linearLayout = new LinearLayout(getContext());
-//        linearLayout.setOrientation(LinearLayout.VERTICAL);
-//
-//        // Add the LinearLayout to the ScrollView
-//        scrollView.addView(linearLayout);
-//
-//        // Create and add a TextView to the RelativeLayout - Title
-//        TextView title = new TextView(getContext());
-//        title.setText("No Disaster in Dublin");
-//        title.setTextColor(Color.BLACK);
-//        title.setTextSize(20);
-//
-//        // Load the custom font from the assets folder
-//        Typeface customFont = Typeface.createFromAsset(getContext().getAssets(), "alibaba_regular.ttf");
-//
-//        // Set the font of the TextView to the custom font
-//        title.setTypeface(customFont);
-//        RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(
-//                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-//        titleParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-//
-//        linearLayout.addView(title, titleParams);
-//    }
 
     public void setDisIconResource (String title) {
         if (title.equals("Fire")) {
