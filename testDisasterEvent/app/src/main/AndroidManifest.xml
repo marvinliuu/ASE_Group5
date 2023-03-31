@@ -19,7 +19,6 @@
     <uses-permission
         android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -27,9 +26,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TestDisasterEvent">
+
+        <!-- Disable the InitProvider of the HERE SDK to prevent auto-initialization
+             until the InitProvider is removed with release 4.15.0. -->
+        <provider
+            android:name="com.here.sdk.engine.InitProvider"
+            android:authorities="com.here.sdk.engine.InitProvider"
+            android:exported="false"
+            tools:node="remove"
+            android:initOrder="1"/>
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.here.sdk.access_key"
+            android:value="TwIt_31D3iRLbuivBIohIqmxzSNmdA6bQ2E4ZHbM9iQ"/>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/api_key"/>
@@ -43,17 +57,19 @@
             android:theme="@style/Theme.NoTitle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.TestDisasterEvent">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".ui.login.LoginActivity"

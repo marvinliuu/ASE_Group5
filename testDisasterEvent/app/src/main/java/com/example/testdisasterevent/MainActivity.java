@@ -109,25 +109,16 @@ public class MainActivity extends AppCompatActivity {
                         //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
-//        bindViewModel();
         notificationFilter = new NotificationFilter();
-        long uid = accountUserInfo.getUid();
-        Log.d("uid",Long.toString(uid));
-        notificationFilter.addTaskListener(getApplicationContext(), uid);
+        if (accountUserInfo != null) {
+            long uid = accountUserInfo.getUid();
+            Log.d("uid",Long.toString(uid));
+            notificationFilter.addTaskListener(getApplicationContext(), uid);
+        } else {
+            Log.d("accountUserInfo is null", "accountUserInfo is null");
+        }
 //        addReportListener();
     }
-
-//    public void bindViewModel() {
-//        // Create an instance of the SharedViewModel
-//        sharedViewModel = new ViewModelProvider(this).get(DisasterViewModel.class);
-//
-//        // Pass the SharedViewModel instance to each of the fragments -- disasterBrief and
-//        DisasterFragment disasterBrief = new DisasterFragment();
-//        disasterBrief.setSharedViewModel(sharedViewModel);
-//
-//        DisasterDetailsFragment disasterDetail = new DisasterDetailsFragment();
-//        disasterDetail.setSharedViewModel(sharedViewModel);
-//    }
 
     public AccountUserInfo getAccountUserInfo() {
         return accountUserInfo;

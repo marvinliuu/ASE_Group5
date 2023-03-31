@@ -70,12 +70,10 @@ public class ReportFragment extends Fragment {
          * */
         MainActivity mainActivity = (MainActivity) getActivity();
         AccountUserInfo accountUserInfoData = mainActivity.getAccountUserInfo();
-        AccountType=accountUserInfoData.getUserTypeID();
-        AccountUID=accountUserInfoData.getUid();
-
-
-
-
+        if (accountUserInfoData != null) {
+            AccountType=accountUserInfoData.getUserTypeID();
+            AccountUID=accountUserInfoData.getUid();
+        }
     }
 
 
@@ -99,10 +97,6 @@ public class ReportFragment extends Fragment {
             reportData.setLatitude((float)location.latitude);
             reportData.setLongitude((float)location.longitude);
             reportData.setRadius(radius);
-
-
-
-
         }
 
 
