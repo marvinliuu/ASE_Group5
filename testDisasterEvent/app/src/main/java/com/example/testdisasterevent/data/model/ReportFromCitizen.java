@@ -1,9 +1,9 @@
 package com.example.testdisasterevent.data.model;
 
 public class ReportFromCitizen {
-    private float longitude;
+    private double longitude;
     private String disasterType;
-    private float latitude;
+    private double latitude;
     private int injuredNum;
     private int radius;
     private String otherInfo;
@@ -14,7 +14,8 @@ public class ReportFromCitizen {
 
 
 
-    public ReportFromCitizen(float longitude, String disasterType, float latitude, int injuredNum, int radius, String otherInfo, long accountUID, int reportState) {
+
+    public ReportFromCitizen(double longitude, String disasterType, double latitude, int injuredNum, int radius, String otherInfo, long accountUID, int reportState) {
         this.longitude = longitude;
         this.disasterType = disasterType;
         this.latitude = latitude;
@@ -73,11 +74,11 @@ public class ReportFromCitizen {
         return injuredNum;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 

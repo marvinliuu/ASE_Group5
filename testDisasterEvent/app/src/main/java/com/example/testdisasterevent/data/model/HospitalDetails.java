@@ -11,12 +11,12 @@ public class HospitalDetails {
     private String  hospitalName;
 
 
-    public HospitalDetails(int hid, String hospitalName, int n_ambulance, int n_ava_amublance, int n_doctor, int n_ava_doctor, float latitude, float longtitude) {
+    public HospitalDetails(int hid, String hospitalName, int n_ambulance, int n_ava_amublance, int n_doctor, int n_ava_doctor, float latitude, float longitude) {
         this.hid = hid;
         this.hospitalName = hospitalName;
         this.n_ambulance = n_ambulance;
         this.latitude = latitude;
-        this.longitude = longtitude;
+        this.longitude = longitude;
         this.n_ava_ambulance = n_ava_amublance;
         this.n_doctor = n_doctor;
         this.n_ava_doctor = n_ava_doctor;

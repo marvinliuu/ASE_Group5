@@ -178,7 +178,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         disasterViewModel.getHospitalDetails().observe(getActivity(), new Observer<HospitalDetails[]>() {
             @Override
             public void onChanged(HospitalDetails[] hospitalDetails) {
-                disasterViewModel.evaluateHosResource(53.3442016, -6.2544264, 5, 3);
+                disasterViewModel.evaluateHosResource(53.3442016, -6.2544264, 5);
             }
         });
 

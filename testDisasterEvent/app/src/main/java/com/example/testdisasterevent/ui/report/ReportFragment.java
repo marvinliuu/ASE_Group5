@@ -48,7 +48,7 @@ import java.util.Map;
 public class ReportFragment extends Fragment {
 
     private ReportViewModel reportViewModel;
-    public ReportFromCitizen reportData=new ReportFromCitizen();
+    public ReportFromCitizen reportData = new ReportFromCitizen();
     public int AccountType;
     public long AccountUID;
 
@@ -284,6 +284,7 @@ public class ReportFragment extends Fragment {
                     }
                     else{
                         reportViewModel.GardaSubmit(reportData);
+                        reportViewModel.AllocationSubmit(reportData);
                         replaceFragment(new GardaSubmitSucessFragment());
                     }
                 }

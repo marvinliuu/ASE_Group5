@@ -72,6 +72,12 @@ public class RegisterDataSource {
 
                     userId += count;
                     userDatabase.child(userId).setValue(userData);
+
+                    String tempKey = mDatabase.child("AvailableOfficer").push().getKey();
+                    Map<String, Object> ava_data = new HashMap<>();
+                    ava_data.put("uid", count);
+                    ava_data.put("type", 2);
+                    mDatabase.child("AvailableOfficer").child(tempKey).setValue(ava_data);
                 }
 
                 @Override

@@ -50,11 +50,11 @@ public class TaskDataSource {
                     float latitude = postSnapshot.child("latitude").getValue(float.class);
                     float longitude = postSnapshot.child("longitude").getValue(float.class);
                     String location = postSnapshot.child("location").getValue(String.class);
-                    int rtype = postSnapshot.child("disasterType").getValue(int.class);
+                    String rtype = postSnapshot.child("disasterType").getValue(String.class);
                     int injury = postSnapshot.child("injury").getValue(int.class);
 
                     details[count++] = new TaskDetail(location, latitude,
-                            longitude, injury, disasterTitles[rtype - 1], happenTime);                }
+                            longitude, injury, rtype, happenTime);                }
                 taskLiveData.setValue(details);
             }
 
