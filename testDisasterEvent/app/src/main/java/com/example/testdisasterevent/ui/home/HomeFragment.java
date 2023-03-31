@@ -204,7 +204,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
             isShowDisasterCircle = true;
             for (DisasterDetail detail : details) {
                 LatLng center = new LatLng(detail.getLatitude(), detail.getLongitude());
-                Bitmap bitmap = createDisIconOnMap(detail.getDisasterTitle());
+                Bitmap bitmap = createDisIconOnMap(detail.getDisasterType());
                 int width = bitmap.getWidth();
                 int height = bitmap.getHeight();
                 float scaledWidth = width * 0.5f;
