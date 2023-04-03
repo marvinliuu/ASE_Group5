@@ -90,8 +90,9 @@ public class ReportFragment extends Fragment {
         AccountUserInfo accountUserInfoData = mainActivity.getAccountUserInfo();
         if (accountUserInfoData != null) {
             AccountType=accountUserInfoData.getUserTypeID();
-            AccountUID=accountUserInfoData.getUid();
+            AccountUID=Long.toString(accountUserInfoData.getUid());
         }
+        AccountType=1;
     }
 
 

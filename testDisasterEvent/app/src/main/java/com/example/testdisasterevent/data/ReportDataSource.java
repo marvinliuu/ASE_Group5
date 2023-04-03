@@ -161,12 +161,10 @@ public class ReportDataSource {
         return timestampString;
     }
 
-    public static String getLocationString(float lat, float lng) {
+    public static String getLocationString(double lat, double lng) {
         String apiKey = "YOUR_API_KEY";
         String urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&key=" + apiKey;
-
-
-//        URL url = new URL(urlString);
+        //        URL url = new URL(urlString);
 //        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 //        conn.setRequestMethod("GET");
 //        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -188,6 +186,8 @@ public class ReportDataSource {
 //            e.printStackTrace();
 //            return "error";
 //        }
+
+        return "unkown";
     }
 
 
