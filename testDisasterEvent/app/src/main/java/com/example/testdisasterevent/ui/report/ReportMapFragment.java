@@ -1,8 +1,11 @@
 package com.example.testdisasterevent.ui.report;
 
 import android.Manifest;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +31,10 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 public class ReportMapFragment extends Fragment implements OnMapReadyCallback {
 
     private ReportViewModel reportViewModel;
@@ -41,6 +48,7 @@ public class ReportMapFragment extends Fragment implements OnMapReadyCallback {
     private SeekBar radiusBar;
     private int reportType = 1;
     private int radius = 100;
+    private String locName="Unknown";
     private LatLng location;
 
 
@@ -84,6 +92,7 @@ public class ReportMapFragment extends Fragment implements OnMapReadyCallback {
                 bundle.putInt("Radius", radius);
                 bundle.putDouble("Longitude", location.longitude);
                 bundle.putDouble("Latitude", location.latitude);
+                bundle.putString("locName",locName);
                 FragmentManager fragmentManager = getParentFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 Fragment reportFragment = new ReportFragment();
@@ -158,6 +167,14 @@ public class ReportMapFragment extends Fragment implements OnMapReadyCallback {
                 MarkerOptions markerOptions=new MarkerOptions();
                 markerOptions.position(latLng);
                 markerOptions.title(latLng.longitude+" : "+latLng.latitude);
+                //locName=getLocationName(latLng);
+                //Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+
+
+
+
+
                 CircleOptions circleOptions=new CircleOptions();
                 circleOptions.center(latLng);
                 circleOptions.radius(radius);
@@ -195,4 +212,12 @@ public class ReportMapFragment extends Fragment implements OnMapReadyCallback {
         super.onDestroyView();
         binding = null;
     }
+
+//
+//    public String getLocationName(LatLng l){
+//
+//
+//
+//
+//    }
 }

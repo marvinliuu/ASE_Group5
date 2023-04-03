@@ -122,7 +122,13 @@ public class ReportDataSource {
 
     public DisasterDetail Report2Disaster(ReportFromCitizen reportData){
 
+
+//        String lat=Float.toString(reportData.getLatitude());
+//        String log=Float.toString(reportData.getLongitude());
+
+
         String DisasterLocation=getLocationString(reportData.getLatitude(), reportData.getLongitude());
+        Log.w("disaster", DisasterLocation);
 
         DisasterDetail disasterData=new DisasterDetail(
                 reportData.getRadius(),
@@ -131,7 +137,7 @@ public class ReportDataSource {
                 reportData.getLatitude(),
                 reportData.getLongitude(),
                 reportData.getDisasterType(),
-                Long.toString(reportData.getAccountUID()),
+                reportData.getAccountUID(),
                 1
         );
 
@@ -153,33 +159,36 @@ public class ReportDataSource {
         return timestampString;
     }
 
-    public static String getLocationString(float lat, float lng) {
-        String apiKey = "YOUR_API_KEY";
-        String urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&key=" + apiKey;
+    public String getLocationString(float lat, float lng) {
+        String apiKey = "AIzaSyDrYjvowVSGRHTyi5vO7CZx2Py32G1BoaY";
+        //String urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat +"," + lng + "&key=" + apiKey;
+        String urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=-6.2537084,53.341312&key=AIzaSyDrYjvowVSGRHTyi5vO7CZx2Py32G1BoaY"
+                ;
+        return "unknown";
 
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line;
-            StringBuilder result = new StringBuilder();
-            while ((line = rd.readLine()) != null) {
-                result.append(line);
-            }
-            rd.close();
 
-            JSONObject jsonObject = new JSONObject(result.toString());
-            JSONArray results = jsonObject.getJSONArray("results");
-            if (results.length() > 0) {
-                return results.getJSONObject(0).getString("formatted_address");
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+//        URL url = new URL(urlString);
+//        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//        conn.setRequestMethod("GET");
+//        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//        String line;
+//        StringBuilder result = new StringBuilder();
+//        while ((line = rd.readLine()) != null) {
+//            result.append(line);
+//        }
+//        rd.close();
+//
+//        JSONObject jsonObject = new JSONObject(result.toString());
+//        JSONArray results = jsonObject.getJSONArray("results");
+//        if (results.length() > 0) {
+//            return results.getJSONObject(0).getString("formatted_address");
+//        } else {
+//            return "result==0";
+//        }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "error";
+//        }
     }
 
 

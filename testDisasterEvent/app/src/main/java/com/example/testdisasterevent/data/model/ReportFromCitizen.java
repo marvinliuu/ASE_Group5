@@ -7,14 +7,13 @@ public class ReportFromCitizen {
     private int injuredNum;
     private int radius;
     private String otherInfo;
-    private long accountUID;
+    private String accountUID;
     private int reportState;
+    private String location;
 
     public ReportFromCitizen(){};
 
-
-
-    public ReportFromCitizen(float longitude, String disasterType, float latitude, int injuredNum, int radius, String otherInfo, long accountUID, int reportState) {
+    public ReportFromCitizen(float longitude, String disasterType, float latitude, int injuredNum, int radius, String otherInfo, String accountUID, int reportState, String location) {
         this.longitude = longitude;
         this.disasterType = disasterType;
         this.latitude = latitude;
@@ -23,6 +22,15 @@ public class ReportFromCitizen {
         this.otherInfo = otherInfo;
         this.accountUID = accountUID;
         this.reportState = reportState;
+        this.location = location;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public int getReportState() {
@@ -33,11 +41,11 @@ public class ReportFromCitizen {
         this.reportState = reportState;
     }
 
-    public long getAccountUID() {
+    public String getAccountUID() {
         return accountUID;
     }
 
-    public void setAccountUID(long accountUID) {
+    public void setAccountUID(String accountUID) {
         this.accountUID = accountUID;
     }
 

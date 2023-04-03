@@ -48,7 +48,7 @@ public class AccountViewModel extends ViewModel {
                     else if (userTypeID == 2) userType = "Doctor";
                     else if (userTypeID == 3) userType = "Fireman";
                     else userType = "Police";
-                    userInfo = new AccountUserInfo(email, name, "", mobile, "", userTypeID, 0, userType);
+                    userInfo = new AccountUserInfo(email, name, "", mobile, "", userTypeID, 0L, userType);
                     break;
                 }
                 accountUserInfo.setValue(userInfo);

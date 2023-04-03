@@ -1,10 +1,21 @@
 package com.example.testdisasterevent.ui.report;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -21,6 +32,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import android.text.InputType;
+import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
@@ -41,6 +56,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +66,9 @@ public class ReportFragment extends Fragment {
     private ReportViewModel reportViewModel;
     public ReportFromCitizen reportData=new ReportFromCitizen();
     public int AccountType;
-    public long AccountUID;
+    public String AccountUID;
+    private ImageView cameraIcon;
+    private static final int PERMISSION_REQUEST_CODE = 1;
 
 
 
@@ -70,8 +88,12 @@ public class ReportFragment extends Fragment {
          * */
         MainActivity mainActivity = (MainActivity) getActivity();
         AccountUserInfo accountUserInfoData = mainActivity.getAccountUserInfo();
-        AccountType=accountUserInfoData.getUserTypeID();
-        AccountUID=accountUserInfoData.getUid();
+        //AccountType=accountUserInfoData.getUserTypeID();
+        AccountType=1;
+
+        //if(accountUserInfoData.getUid()==null){
+        AccountUID="1001";
+        //}
 
 
 
@@ -92,6 +114,7 @@ public class ReportFragment extends Fragment {
             LatLng location = new LatLng(bundle.getDouble("Longitude"), bundle.getDouble("Latitude"));
             //int reportType = bundle.getInt("Type");
             int radius = bundle.getInt("Radius");
+            String locName=bundle.getString("locName");
             Log.d("Longitude",Double.toString(location.longitude));
             Log.d("Latitude", Double.toString(location.latitude));
 
@@ -105,6 +128,37 @@ public class ReportFragment extends Fragment {
 
         }
 
+//        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(getActivity(),
+//                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+//                    PERMISSION_REQUEST_CODE);
+//        }
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Should we show an explanation?
+            if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                // Explain why the permission is needed
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("This permission is required to access your photos");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Request the permission again
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                PERMISSION_REQUEST_CODE);
+                    }
+                });
+                builder.create().show();
+            } else {
+                // No explanation needed, request the permission
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        PERMISSION_REQUEST_CODE);
+            }
+        }
 
 
 
@@ -159,11 +213,22 @@ public class ReportFragment extends Fragment {
         });
 
         if(AccountType!=0){
-            ImageView cameraIcon = rootView.findViewById(R.id.report_camera);
+            cameraIcon = rootView.findViewById(R.id.report_camera);
             cameraIcon.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View rootView){
                     Log.d("Button click", "camera clicked!");
+
+
+
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, 1);
+//                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+//                    photoPickerIntent.setType("image/*");
+//                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
+
+
+
 
                 }
             });
@@ -325,6 +390,23 @@ public class ReportFragment extends Fragment {
 
 
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            String[] projection = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(projection[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+            Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+            cameraIcon.setImageBitmap(bitmap);
+        }
+    }
+
 
 
 

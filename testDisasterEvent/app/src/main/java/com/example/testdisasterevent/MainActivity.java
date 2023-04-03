@@ -3,9 +3,15 @@ package com.example.testdisasterevent;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -42,6 +48,8 @@ import com.google.gson.Gson;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.Locale;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+//        Context context=this;
+//        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
 
         getSupportActionBar().hide();
 //              Intent intent;
@@ -111,7 +121,10 @@ public class MainActivity extends AppCompatActivity {
                 });
 //        bindViewModel();
         notificationFilter = new NotificationFilter();
-        long uid = accountUserInfo.getUid();
+        Long uid = accountUserInfo.getUid();
+        if(uid==null){
+            System.out.println("UID is null");
+        }
         Log.d("uid",Long.toString(uid));
         notificationFilter.addTaskListener(getApplicationContext(), uid);
 //        addReportListener();
@@ -132,6 +145,10 @@ public class MainActivity extends AppCompatActivity {
     public AccountUserInfo getAccountUserInfo() {
         return accountUserInfo;
     }
+
+
+
+
 
     @Override
     protected void onDestroy() {

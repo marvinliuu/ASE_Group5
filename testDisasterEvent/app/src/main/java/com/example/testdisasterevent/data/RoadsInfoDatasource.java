@@ -1,12 +1,10 @@
 package com.example.testdisasterevent.data;
 
-import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.testdisasterevent.data.model.HostipalDetails;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.SphericalUtil;
 

@@ -7,10 +7,10 @@ public class AccountUserInfo {
     private String mobile;
     private String registerTime;
     private int userTypeID;
-    private long uid;
+    private Long uid;
     private String userType;
 
-    public AccountUserInfo(String email, String username, String password, String mobile, String registerTime, int userTypeID, long uid, String userType) {
+    public AccountUserInfo(String email, String username, String password, String mobile, String registerTime, int userTypeID, Long uid, String userType) {
         this.email = email;
         this.username = username;
         this.password = password;
@@ -26,6 +26,6 @@ public class AccountUserInfo {
     public String getMobile() {return this.mobile;}
     public String getRegisterTime() {return this.registerTime;}
     public int getUserTypeID() {return this.userTypeID;}
-    public long getUid() {return this.uid;}
+    public Long getUid() {return this.uid;}
     public String getUserType() {return this.userType;}
 }

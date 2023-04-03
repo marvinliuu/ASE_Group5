@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.testdisasterevent.data.ReportDataSource;
 import com.example.testdisasterevent.data.model.AccountUserInfo;
+import com.example.testdisasterevent.data.model.DisasterDetail;
 import com.example.testdisasterevent.data.model.ReportFromCitizen;
 
 public class ReportViewModel extends ViewModel {
@@ -31,12 +32,18 @@ public class ReportViewModel extends ViewModel {
     public void GardaSubmit(ReportFromCitizen report){
 
 
-        reportData.SubmitGardaReport(reportData.Report2Disaster(report));
+
+        DisasterDetail disasterData=reportData.Report2Disaster(report);
+        Log.d("num", "disaster generate suc!");
+        reportData.SubmitGardaReport(disasterData);
 
 
         Log.d("num", "garda submit suc!");
 
     }
+
+
+
 
 
 
