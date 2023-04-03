@@ -40,32 +40,32 @@ public class RerouteDataSource {
     }
 
     public DirectionsRoute findMinTimeRoute(List<LatLng> exits, LatLng currentLocation) throws InterruptedException, ApiException, IOException {
-        // 初始化最短路线时间为一个很大的数
+        // Init Max Value
         Duration shortestDuration = new Duration();
         shortestDuration.inSeconds = Integer.MAX_VALUE;
         DirectionsRoute optimalResult = new DirectionsRoute();
         String org = currentLocation.toString();
-        // 遍历每个出口
+        // Iterate through each exit
         for (LatLng exitLocation : exits) {
             String des = exitLocation.toString();
-            // 创建 Directions API 请求
+            // Creating Directions API Requests
             DirectionsApiRequest directionsRequest = new DirectionsApiRequest(context);
 
-            // 设置请求参数
+            // Set request parameters
             directionsRequest.origin(org.substring(10, org.length() - 1));
             directionsRequest.destination(des.substring(10, org.length() - 1));
             directionsRequest.mode(TravelMode.WALKING);
 
-            // 发送请求并获取返回结果
+            // Sending requests and getting return results
             DirectionsResult directionsResult = directionsRequest.await();
 
-            // 获取路线时间
+            // Get route time
             if (directionsResult.routes.length > 0) {
                 DirectionsRoute route = directionsResult.routes[0];
                 DirectionsLeg leg = route.legs[0];
                 Duration duration = leg.duration;
 
-                // 如果当前路线时间比之前的最短路线时间更短，就更新最短路线时间
+                // Update the shortest route time if the current route time is shorter than the previous shortest route time
                 if (duration.inSeconds < shortestDuration.inSeconds) {
                     shortestDuration = duration;
                     optimalResult = directionsResult.routes[0];
@@ -73,7 +73,7 @@ public class RerouteDataSource {
             }
         }
 
-        // 最短路线时间即为从当前位置到耗时最短的出口的路线时间
+        // The shortest route time is the route time from the current location to the exit that takes the shortest time
         String time = shortestDuration.humanReadable;
         return optimalResult;
     }

@@ -64,7 +64,7 @@ import java.util.Map;
 public class ReportFragment extends Fragment {
 
     private ReportViewModel reportViewModel;
-    public ReportFromCitizen reportData=new ReportFromCitizen();
+    public ReportFromCitizen reportData = new ReportFromCitizen();
     public int AccountType;
     public String AccountUID;
     private ImageView cameraIcon;
@@ -88,16 +88,10 @@ public class ReportFragment extends Fragment {
          * */
         MainActivity mainActivity = (MainActivity) getActivity();
         AccountUserInfo accountUserInfoData = mainActivity.getAccountUserInfo();
-        //AccountType=accountUserInfoData.getUserTypeID();
-        AccountType=1;
-
-        //if(accountUserInfoData.getUid()==null){
-        AccountUID="1001";
-        //}
-
-
-
-
+        if (accountUserInfoData != null) {
+            AccountType=accountUserInfoData.getUserTypeID();
+            AccountUID=accountUserInfoData.getUid();
+        }
     }
 
 
@@ -122,10 +116,6 @@ public class ReportFragment extends Fragment {
             reportData.setLatitude((float)location.latitude);
             reportData.setLongitude((float)location.longitude);
             reportData.setRadius(radius);
-
-
-
-
         }
 
 //        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -349,6 +339,7 @@ public class ReportFragment extends Fragment {
                     }
                     else{
                         reportViewModel.GardaSubmit(reportData);
+                        reportViewModel.AllocationSubmit(reportData);
                         replaceFragment(new GardaSubmitSucessFragment());
                     }
                 }

@@ -4,8 +4,10 @@ import android.util.Log;
 
 import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.data.Result;
+
 import com.example.testdisasterevent.data.model.AccountUserInfo;
 import com.example.testdisasterevent.data.model.DisasterDetail;
+import com.example.testdisasterevent.data.model.HospitalDetails;
 import com.example.testdisasterevent.data.model.ReportFromCitizen;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,27 +43,27 @@ public class ReportDataSource {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                    String name="report";
+
+                    String name="report";
+                    String timestampString = getCurrentTime();
+                    name += timestampString;
+                    timestampString = "000";
 
 
-                                    String timestampString = getCurrentTime();
-                                    name += timestampString;
-                                    timestampString+="000";
+                    Map<String, String> userData = new HashMap<>();
+                    userData.put("type", reportData.getDisasterType());
+                    userData.put("description", reportData.getOtherInfo());
+                    userData.put("rtime",timestampString);
+                    userData.put("injury", Integer.toString(reportData.getInjuredNum()));
+                    userData.put("latitude",Double.toString(reportData.getLatitude()));
+                    userData.put("longitude", Double.toString(reportData.getLongitude()));
+                    userData.put("state",Integer.toString(reportData.getReportState()));
 
 
-                                    Map<String, String> userData = new HashMap<>();
-                                    userData.put("type", reportData.getDisasterType());
-                                    userData.put("description", reportData.getOtherInfo());
-                                    userData.put("rtime",timestampString);
-                                    userData.put("injury", Integer.toString(reportData.getInjuredNum()));
-                                    userData.put("latitude",Float.toString(reportData.getLatitude()));
-                                    userData.put("longitude", Float.toString(reportData.getLongitude()));
-                                    userData.put("state",Integer.toString(reportData.getReportState()));
+                    name += timestampString;
+                    UserDatabase.child(name).setValue(userData);
+                }
 
-
-
-                                    UserDatabase.child(name).setValue(userData);
-                                }
 
 
                 @Override
@@ -96,8 +98,8 @@ public class ReportDataSource {
                     userData.put("GardaID", disasterData.getGardaUID());
                     userData.put("happenTime",timestampString);
                     userData.put("isUpdate", Integer.toString(disasterData.getUpdate()));
-                    userData.put("latitude",Float.toString(disasterData.getLatitude()));
-                    userData.put("longitude", Float.toString(disasterData.getLongitude()));
+                    userData.put("latitude",Double.toString(disasterData.getLatitude()));
+                    userData.put("longitude", Double.toString(disasterData.getLongitude()));
                     userData.put("radius",Integer.toString(disasterData.getRadius()));
                     userData.put("location",disasterData.getLocation());
 
@@ -130,7 +132,7 @@ public class ReportDataSource {
         String DisasterLocation=getLocationString(reportData.getLatitude(), reportData.getLongitude());
         Log.w("disaster", DisasterLocation);
 
-        DisasterDetail disasterData=new DisasterDetail(
+        DisasterDetail disasterData = new DisasterDetail(
                 reportData.getRadius(),
                 DisasterLocation,
                 getCurrentTime(),
@@ -159,12 +161,9 @@ public class ReportDataSource {
         return timestampString;
     }
 
-    public String getLocationString(float lat, float lng) {
-        String apiKey = "AIzaSyDrYjvowVSGRHTyi5vO7CZx2Py32G1BoaY";
-        //String urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat +"," + lng + "&key=" + apiKey;
-        String urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=-6.2537084,53.341312&key=AIzaSyDrYjvowVSGRHTyi5vO7CZx2Py32G1BoaY"
-                ;
-        return "unknown";
+    public static String getLocationString(float lat, float lng) {
+        String apiKey = "YOUR_API_KEY";
+        String urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&key=" + apiKey;
 
 
 //        URL url = new URL(urlString);

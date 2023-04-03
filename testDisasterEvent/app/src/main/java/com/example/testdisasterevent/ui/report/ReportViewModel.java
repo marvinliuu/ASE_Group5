@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 
+import com.example.testdisasterevent.data.HosAllocationDataSource;
 import com.example.testdisasterevent.data.ReportDataSource;
 import com.example.testdisasterevent.data.model.AccountUserInfo;
 import com.example.testdisasterevent.data.model.DisasterDetail;
@@ -17,7 +18,7 @@ import com.example.testdisasterevent.data.model.ReportFromCitizen;
 public class ReportViewModel extends ViewModel {
     //public ReportFromCitizen ReportFromC = new ReportFromCitizen();
     public ReportDataSource reportData=new ReportDataSource();
-
+    public HosAllocationDataSource AllocationData = new HosAllocationDataSource();
 
 
     public void CitizenSubmit(ReportFromCitizen report){
@@ -42,7 +43,10 @@ public class ReportViewModel extends ViewModel {
 
     }
 
-
+    public void AllocationSubmit(ReportFromCitizen report){
+        AllocationData.AllocationSubmit(report);
+        AllocationData.evaluateHosResource(report.getLongitude(), report.getLatitude(), 1);
+    }
 
 
 

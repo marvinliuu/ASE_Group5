@@ -56,8 +56,8 @@ public class DisasterViewModel extends ViewModel {
     public LiveData<TaskDetail[]> getTaskDetails() {
         return taskDataSource.getTaskDetails();
     }
-    public void evaluateHosResource(double latitude, double longitude, int need_ambulance, int need_doctor) {
-        hosAllocationDataSource.evaluateHosResource(latitude, longitude, need_ambulance, need_doctor);
+    public void evaluateHosResource(double latitude, double longitude, int need_ambulance) {
+        hosAllocationDataSource.evaluateHosResource(latitude, longitude, need_ambulance);
     }
 
     public LiveData<List<LatLng>> getNearbyRoads(double latitude, double longitude, double radius) {

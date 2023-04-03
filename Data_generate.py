@@ -222,17 +222,18 @@ for i in range(200):
 final_data['Report'] = data
 
 # Task
+dp = ['fire','water','other']
 data = {}
 for i in range(1000):
     temp = {}
     temp['uid'] = i + 1
     temp['location'] = location_generate()
-    temp['disasterType'] = random.randint(1,3)
+    temp['disasterType'] = dp[random.randint(0,2)]
     temp['otime'] = otime_generate()
     temp['longitude'] = 53.35 + random.random() - 0.5
     temp['latitude'] = -6.26 + random.random() - 0.5
     temp['injury'] = random.randint(0, 5)
-    temp['task'] = str("Please go to the ** place");
+    temp['task'] = str("Please go to the ** place")
     data['TaskInfo' + str(i + 1)] = temp
 
 final_data['TaskInfo'] = data
@@ -314,6 +315,14 @@ for i, row in enumerate(df.itertuples(index=False)):
 # update final_data with BusStopInfo
 final_data.update({'BusStopInfo': nodes})
 
+# test available offcier
+data = {}
+for i in range(50):
+    temp = {}
+    temp['uid'] = 2000+i
+    temp['type'] = random.randint(0,3)
+    data["aaaa"+str(i)] = temp
+final_data["AvailableOfficer"] = data
 
 # Output
 with open('Data.json', 'w') as f:

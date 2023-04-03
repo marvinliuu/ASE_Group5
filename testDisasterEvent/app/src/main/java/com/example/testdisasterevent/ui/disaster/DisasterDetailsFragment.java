@@ -208,6 +208,9 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
 
 
     public void createDisasterDetailsPopupWindow(DisasterDetail[] details) {
+        if (index >= details.length) {
+            return;
+        }
         String titleText = details[index].getDisasterType();
         // Load the custom font from the assets folder
         Typeface topTitleType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
