@@ -185,13 +185,13 @@ public class ReportFragment extends Fragment {
             public void onCheckedChanged(RadioGroup disasterChosen, int checkedId) {
                 int selectedId = disasterChosen.getCheckedRadioButtonId();
                 if (selectedId == R.id.report_fire) {
-                    reportData.setDisasterType("1");
+                    reportData.setDisasterType("fire");
                     Log.d("Button click", "fire clicked!");
                 } else if (selectedId == R.id.report_water) {
-                    reportData.setDisasterType("2");
+                    reportData.setDisasterType("water");
                     Log.d("Button click", "water clicked!");
                 } else if (selectedId == R.id.report_otherevent) {
-                    reportData.setDisasterType("3");
+                    reportData.setDisasterType("other");
                     Log.d("Button click", "other clicked!");
                 }
             }

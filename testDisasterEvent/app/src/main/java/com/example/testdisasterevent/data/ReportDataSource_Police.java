@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ReportDataSource_Police {
-    private String[] reportTitles = {"Fire", "Water", "General"};
+    //private String[] reportTitles = {"Fire", "Water", "General"};
     public ReportInfo[] infos;
 
     public LiveData<ReportInfo[]> getReportInfo() {
@@ -53,11 +53,11 @@ public class ReportDataSource_Police {
                     float latitude = postSnapshot.child("latitude").getValue(float.class);
                     float longitude = postSnapshot.child("longitude").getValue(float.class);
                     String location = postSnapshot.child("location").getValue(String.class);
-                    int rtype = postSnapshot.child("report_type").getValue(int.class);
+                    String rtype = postSnapshot.child("report_type").getValue(String.class);
 //                    String description = postSnapshot.child("description").getValue(String.class);
                     int reportState = postSnapshot.child("report_state").getValue(int.class);
                     infos[count++] = new ReportInfo(location, happenTime, latitude,
-                            longitude, reportTitles[rtype - 1], reportState, postSnapshot.getKey());
+                            longitude, rtype, reportState, postSnapshot.getKey());
 //                    System.out.println(21212121);
 //                    System.out.println(postSnapshot.getKey());
 

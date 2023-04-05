@@ -175,12 +175,12 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
 //                Manifest.permission.ACCESS_BACKGROUND_LOCATION,
 //                Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
 
-        disasterViewModel.getHospitalDetails().observe(getActivity(), new Observer<HospitalDetails[]>() {
-            @Override
-            public void onChanged(HospitalDetails[] hospitalDetails) {
-                disasterViewModel.evaluateHosResource(53.3442016, -6.2544264, 5);
-            }
-        });
+//        disasterViewModel.getHospitalDetails().observe(getActivity(), new Observer<HospitalDetails[]>() {
+//            @Override
+//            public void onChanged(HospitalDetails[] hospitalDetails) {
+//                disasterViewModel.evaluateHosResource(53.3442016, -6.2544264, 5);
+//            }
+//        });
 
         disasterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
             @Override
@@ -550,7 +550,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             popupWindow_disaster.dismiss();
         }
         disasterViewModel.getDisasterDetails().removeObservers(this);
-        disasterViewModel.getHospitalDetails().removeObservers(this);
+        //disasterViewModel.getHospitalDetails().removeObservers(this);
     }
 
     /**

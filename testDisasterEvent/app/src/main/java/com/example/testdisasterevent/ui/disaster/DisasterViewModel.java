@@ -40,7 +40,7 @@ import java.util.Set;
 public class DisasterViewModel extends ViewModel {
     private DisasterDataSource disasterDataSource;
     private TaskDataSource taskDataSource;
-    private HosAllocationDataSource hosAllocationDataSource;
+    //private HosAllocationDataSource hosAllocationDataSource;
     private RoadsInfoDatasource roadsInfoDatasource;
     private RerouteDataSource rerouteDataSource;
 
@@ -49,16 +49,16 @@ public class DisasterViewModel extends ViewModel {
         return disasterDataSource.getDisasterDetails();
     }
 
-    public LiveData<HospitalDetails[]> getHospitalDetails() {
-        return hosAllocationDataSource.getHospitalData();
-    }
-
+//    public LiveData<HospitalDetails[]> getHospitalDetails() {
+//        return hosAllocationDataSource.getHospitalData();
+//    }
+//
     public LiveData<TaskDetail[]> getTaskDetails() {
         return taskDataSource.getTaskDetails();
     }
-    public void evaluateHosResource(double latitude, double longitude, int need_ambulance) {
-        hosAllocationDataSource.evaluateHosResource(latitude, longitude, need_ambulance);
-    }
+//    public void evaluateHosResource(double latitude, double longitude, int need_ambulance) {
+//        hosAllocationDataSource.evaluateHosResource(latitude, longitude, need_ambulance);
+//    }
 
     public LiveData<List<LatLng>> getNearbyRoads(double latitude, double longitude, double radius) {
         return roadsInfoDatasource.getNearbyRoads(latitude, longitude, radius);
@@ -79,7 +79,7 @@ public class DisasterViewModel extends ViewModel {
     public DisasterViewModel() {
         disasterDataSource = new DisasterDataSource();
         taskDataSource = new TaskDataSource();
-        hosAllocationDataSource = new HosAllocationDataSource();
+        //hosAllocationDataSource = new HosAllocationDataSource();
         roadsInfoDatasource = new RoadsInfoDatasource();
         // Set up the GeoApiContext with your API key
         GeoApiContext context = new GeoApiContext.Builder()

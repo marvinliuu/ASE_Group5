@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DisasterDataSource {
-    private String[] disasterTitles = {"Fire", "Water", "General"};
+    //private String[] disasterTitles = {"Fire", "Water", "General"};
     public DisasterDetail[] details;
 
     public LiveData<DisasterDetail[]> getDisasterDetails() {
@@ -53,9 +53,9 @@ public class DisasterDataSource {
                     float latitude = postSnapshot.child("latitude").getValue(float.class);
                     float longitude = postSnapshot.child("longitude").getValue(float.class);
                     String location = postSnapshot.child("location").getValue(String.class);
-                    int rtype = postSnapshot.child("disasterType").getValue(int.class);
+                    String rtype = postSnapshot.child("disasterType").getValue(String.class);
                     details[count++] = new DisasterDetail(radius, location, happenTime, latitude,
-                            longitude, disasterTitles[rtype - 1],"123",0);                }
+                            longitude, rtype,"123",0);                }
                 disasterLiveData.setValue(details);
             }
 

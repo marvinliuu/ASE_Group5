@@ -17,10 +17,10 @@ public class NotificationFilter {
     public void addTaskListener(Context context, long uid){
         DatabaseReference mReference;
         mReference = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference reports = mReference.child("TaskInfo");
+        DatabaseReference tasks = mReference.child("TaskInfo");
 
 
-        reports.addChildEventListener(new ChildEventListener() {
+        tasks.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
                 if(snapshot.hasChild("uid")) {

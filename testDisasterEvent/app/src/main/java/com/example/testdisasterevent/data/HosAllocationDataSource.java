@@ -110,15 +110,15 @@ public class HosAllocationDataSource {
                         long uid = dataSnapshot.child("uid").getValue(Long.class);
                         Map<String, Object> taskInfo = new HashMap<>();
                         //TODO 将ReportData传入后生成task
-                        String location = getLocationString(reportData.getLatitude(), reportData.getLongitude());
+//                        String location = getLocationString(reportData.getLatitude(), reportData.getLongitude());
                         taskInfo.put("disasterType", reportData.getDisasterType());
                         taskInfo.put("injury", reportData.getInjuredNum());
                         taskInfo.put("latitude", reportData.getLatitude());
                         taskInfo.put("longitude", reportData.getLongitude());
                         taskInfo.put("uid", uid);
                         taskInfo.put("otime", System.currentTimeMillis());
-                        taskInfo.put("location", location);
-                        taskInfo.put("task", "Please go to "+ location);
+                        taskInfo.put("location", reportData.getLocation());
+                        taskInfo.put("task", "Please go to "+ reportData.getLocation());
                         String taskKey = task.push().getKey();
                         task.child(taskKey).setValue(taskInfo);
                         avaOfficer.child(dataSnapshot.getKey()).removeValue();

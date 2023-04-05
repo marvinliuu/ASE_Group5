@@ -46,7 +46,7 @@ for i in range(100):
 final_data['Bus'] = data
 
 # DisasterInfo
-disaster_type = ["fire", "water", "general"]
+disaster_type = ["fire", "water", "other"]
 radius = [5, 10, 20, 50, 100, 200]
 injure = [5, 10, 12, 50, 80, 100, 210]
 
@@ -75,20 +75,22 @@ for i in range(500):
     temp['did'] = i + 1
     temp['location'] = location_generate()
     temp['radius'] = radius[random.randint(0,5)]
-    temp['disasterType'] = random.randint(1,3)
+    temp['disasterType'] = disaster_type[random.randint(0,2)]
     temp['otime'] = otime_generate()
     temp['latitude'] = 53.35 + random.random()%0.03
     temp['longitude'] = -6.26 + random.random()%0.03
+    temp['injury'] = random.randint(1,20)
     data['DisasterInfo' + str(i + 1)] = temp
 
 temp = {}
 temp['did'] = i + 1
 temp['location'] = "Trinity College Dublin"
 temp['radius'] = 100
-temp['disasterType'] = random.randint(1,3)
+temp['disasterType'] = disaster_type[random.randint(0,2)]
 temp['otime'] = int(time.time()) * 1000
 temp['latitude'] = 53.3442016
 temp['longitude'] = -6.2544264
+temp['injury'] = random.randint(1,20)
 data['DisasterInfo' + str(i + 1)] = temp
 
 final_data['DisasterInfo'] = data
@@ -190,26 +192,7 @@ for i in range(200):
     times = time_generate()
     temp = {}
     temp['rid'] = i + 1
-    temp['report_type'] = random.randint(1, 3)
-    temp['location'] = name_generate()
-    temp['htime'] = times[0]
-    temp['rtime'] = times[1]
-    temp['latitude'] = 53.35 + random.random() % 0.03
-    temp['longitude'] = -6.26 + random.random() % 0.03
-    temp['report_state'] = random.randint(0, 1)
-    temp['description'] = description_generate()
-    temp['injury'] = injure[random.randint(0, 6)]
-    data['Report' + str(i + 1)] = temp
-final_data['Report'] = data
-
-
-# Report
-data = {}
-for i in range(200):
-    times = time_generate()
-    temp = {}
-    temp['rid'] = i + 1
-    temp['report_type'] = random.randint(1, 3)
+    temp['report_type'] = disaster_type[random.randint(0,2)]
     temp['location'] = name_generate()
     temp['htime'] = times[0]
     temp['rtime'] = times[1]
@@ -323,6 +306,12 @@ for i in range(50):
     temp['type'] = random.randint(0,3)
     data["aaaa"+str(i)] = temp
 final_data["AvailableOfficer"] = data
+
+temp = {}
+temp["Availble_Token"] = 2
+temp["refillRate"] = 3600000
+temp["lastRefillTime"] = int(time.time()) * 1000
+final_data["TokenBuket"] = temp
 
 # Output
 with open('Data.json', 'w') as f:
