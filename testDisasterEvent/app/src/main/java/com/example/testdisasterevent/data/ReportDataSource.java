@@ -32,40 +32,30 @@ import org.json.JSONObject;
 
 
 public class ReportDataSource {
-    private static DatabaseReference  UserDatabase;
+    private static DatabaseReference UserDatabase;
 
     public Result<String> SubmitCitizenReport(ReportFromCitizen reportData) {
         try {
             UserDatabase = FirebaseDatabase.getInstance().getReference().child("Report");
 
-            UserDatabase.addListenerForSingleValueEvent(new ValueEventListener()
-            {
+            UserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-                    String name="report";
+                    String name = "report";
                     String timestampString = getCurrentTime();
 
 
                     Map<String, String> userData = new HashMap<>();
                     userData.put("type", reportData.getDisasterType());
                     userData.put("description", reportData.getOtherInfo());
-                    userData.put("rtime",timestampString);
+                    userData.put("rtime", timestampString);
                     userData.put("injury", Integer.toString(reportData.getInjuredNum()));
-                    userData.put("latitude",Double.toString(reportData.getLatitude()));
+                    userData.put("latitude", Double.toString(reportData.getLatitude()));
                     userData.put("longitude", Double.toString(reportData.getLongitude()));
-                    userData.put("state",Integer.toString(reportData.getReportState()));
+                    userData.put("state", Integer.toString(reportData.getReportState()));
 
-                    Map<String, String> userData = new HashMap<>();
-                    userData.put("type", reportData.getDisasterType());
-                    userData.put("description", reportData.getOtherInfo());
-                    userData.put("rtime",timestampString);
-                    userData.put("injury", Integer.toString(reportData.getInjuredNum()));
-                    userData.put("latitude",Double.toString(reportData.getLatitude()));
-                    userData.put("longitude", Double.toString(reportData.getLongitude()));
-                    userData.put("state",Integer.toString(reportData.getReportState()));
-                    userData.put("location",reportData.getLocation());
 
                     timestampString += "000";
                     name += timestampString;
@@ -81,7 +71,7 @@ public class ReportDataSource {
             });
 
 
-            return new Result.Success<>("report from citizen push Success" );
+            return new Result.Success<>("report from citizen push Success");
         } catch (Exception e) {
             return new Result.Error(new IOException("Error report submit", e));
         }
@@ -91,12 +81,11 @@ public class ReportDataSource {
         try {
             UserDatabase = FirebaseDatabase.getInstance().getReference().child("DisasterInfo");
 
-            UserDatabase.addListenerForSingleValueEvent(new ValueEventListener()
-            {
+            UserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    String name="Disaster";
+                    String name = "Disaster";
 
 
                     String timestampString = getCurrentTime();
@@ -105,12 +94,12 @@ public class ReportDataSource {
                     Map<String, String> userData = new HashMap<>();
                     userData.put("type", disasterData.getDisasterType());
                     userData.put("GardaID", disasterData.getGardaUID());
-                    userData.put("happenTime",timestampString);
+                    userData.put("happenTime", timestampString);
                     userData.put("isUpdate", Integer.toString(disasterData.getUpdate()));
-                    userData.put("latitude",Double.toString(disasterData.getLatitude()));
+                    userData.put("latitude", Double.toString(disasterData.getLatitude()));
                     userData.put("longitude", Double.toString(disasterData.getLongitude()));
-                    userData.put("radius",Integer.toString(disasterData.getRadius()));
-                    userData.put("location",disasterData.getLocation());
+                    userData.put("radius", Integer.toString(disasterData.getRadius()));
+                    userData.put("location", disasterData.getLocation());
 
 
                     name += timestampString;
@@ -125,22 +114,17 @@ public class ReportDataSource {
             });
 
 
-            return new Result.Success<>("report from garda push Success" );
+            return new Result.Success<>("report from garda push Success");
         } catch (Exception e) {
             return new Result.Error(new IOException("Error garda report submit", e));
         }
     }
 
 
-    public DisasterDetail Report2Disaster(ReportFromCitizen reportData){
+    public DisasterDetail Report2Disaster(ReportFromCitizen reportData) {
 
 
-
-
-        String DisasterLocation=getLocationString(reportData.getLatitude(), reportData.getLongitude());
-        Log.w("disaster", DisasterLocation);
-
-        DisasterDetail disasterData=new DisasterDetail(
+        DisasterDetail disasterData = new DisasterDetail(
                 reportData.getRadius(),
                 reportData.getLocation(),
                 getCurrentTime(),
@@ -156,9 +140,7 @@ public class ReportDataSource {
     }
 
 
-
-
-    public String getCurrentTime(){
+    public String getCurrentTime() {
         long currentTimeMillis = System.currentTimeMillis();
         Date currentDate = new Date(currentTimeMillis);
 
@@ -168,18 +150,5 @@ public class ReportDataSource {
         String timestampString = dateFormat.format(timestamp);
         return timestampString;
     }
-
-    public String getLocationString(float lat, float lng) {
-        String apiKey = "AIzaSyDrYjvowVSGRHTyi5vO7CZx2Py32G1BoaY";
-        //String urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat +"," + lng + "&key=" + apiKey;
-        String urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=-6.2537084,53.341312&key=AIzaSyDrYjvowVSGRHTyi5vO7CZx2Py32G1BoaY"
-                ;
-        return "unknown";
-
-
-
-
-
-
-
 }
+
