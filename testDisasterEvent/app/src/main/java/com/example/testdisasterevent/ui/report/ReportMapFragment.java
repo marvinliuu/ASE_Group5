@@ -50,6 +50,7 @@ public class ReportMapFragment extends Fragment implements OnMapReadyCallback {
     private int radius = 100;
     private String locName="Unknown";
     private LatLng location;
+    private boolean isChosen=false;
 
 
 
@@ -89,6 +90,8 @@ public class ReportMapFragment extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 //bundle.putInt("Type", reportType);
+                isChosen=true;
+                bundle.putBoolean("isChosen", isChosen);
                 bundle.putInt("Radius", radius);
                 bundle.putDouble("Longitude", location.longitude);
                 bundle.putDouble("Latitude", location.latitude);
@@ -106,6 +109,7 @@ public class ReportMapFragment extends Fragment implements OnMapReadyCallback {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 FragmentManager fragmentManager = getParentFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 Fragment reportFragment = new ReportFragment();
@@ -167,13 +171,8 @@ public class ReportMapFragment extends Fragment implements OnMapReadyCallback {
                 MarkerOptions markerOptions=new MarkerOptions();
                 markerOptions.position(latLng);
                 markerOptions.title(latLng.longitude+" : "+latLng.latitude);
-                //locName=getLocationName(latLng);
+                locName=getLocationName(latLng);
                 //Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-
-
-
-
-
 
                 CircleOptions circleOptions=new CircleOptions();
                 circleOptions.center(latLng);
@@ -213,11 +212,24 @@ public class ReportMapFragment extends Fragment implements OnMapReadyCallback {
         binding = null;
     }
 
-//
-//    public String getLocationName(LatLng l){
-//
-//
-//
-//
-//    }
+    public String getLocationName(LatLng l){
+
+        Context context = getContext();
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(l.latitude, l.longitude, 1);
+            if (addresses != null && addresses.size() > 0) {
+                Address address = addresses.get(0);
+                String locationString = address.getAddressLine(0); // or use other address methods to get more details
+                return locationString;
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return "unknown";
+        }
+        return "unknown";
+
+
+    }
 }
