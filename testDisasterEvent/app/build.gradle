@@ -52,6 +52,16 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:9.6.1'
     implementation 'com.google.firebase:firebase-database:9.6.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.squareup.picasso:picasso:2.8'
+
+    //noinspection GradleCompatible
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+
+
+
+
 
 
     // Firebase dependencies
@@ -60,6 +70,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:23.0.0'
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation 'com.google.firebase:firebase-messaging:23.1.1'
+    implementation 'com.google.firebase:firebase-storage:20.1.0'
 
     // Espresso dependencies
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

@@ -46,8 +46,6 @@ public class ReportDataSource {
 
                     String name="report";
                     String timestampString = getCurrentTime();
-                    name += timestampString;
-                    timestampString = "000";
 
 
                     Map<String, String> userData = new HashMap<>();
@@ -59,11 +57,21 @@ public class ReportDataSource {
                     userData.put("longitude", Double.toString(reportData.getLongitude()));
                     userData.put("state",Integer.toString(reportData.getReportState()));
 
+                    Map<String, String> userData = new HashMap<>();
+                    userData.put("type", reportData.getDisasterType());
+                    userData.put("description", reportData.getOtherInfo());
+                    userData.put("rtime",timestampString);
+                    userData.put("injury", Integer.toString(reportData.getInjuredNum()));
+                    userData.put("latitude",Double.toString(reportData.getLatitude()));
+                    userData.put("longitude", Double.toString(reportData.getLongitude()));
+                    userData.put("state",Integer.toString(reportData.getReportState()));
+                    userData.put("location",reportData.getLocation());
 
+                    timestampString += "000";
                     name += timestampString;
+
                     UserDatabase.child(name).setValue(userData);
                 }
-
 
 
                 @Override
@@ -78,6 +86,7 @@ public class ReportDataSource {
             return new Result.Error(new IOException("Error report submit", e));
         }
     }
+
     public Result<String> SubmitGardaReport(DisasterDetail disasterData) {
         try {
             UserDatabase = FirebaseDatabase.getInstance().getReference().child("DisasterInfo");
@@ -122,19 +131,18 @@ public class ReportDataSource {
         }
     }
 
+
     public DisasterDetail Report2Disaster(ReportFromCitizen reportData){
 
 
-//        String lat=Float.toString(reportData.getLatitude());
-//        String log=Float.toString(reportData.getLongitude());
 
 
         String DisasterLocation=getLocationString(reportData.getLatitude(), reportData.getLongitude());
         Log.w("disaster", DisasterLocation);
 
-        DisasterDetail disasterData = new DisasterDetail(
+        DisasterDetail disasterData=new DisasterDetail(
                 reportData.getRadius(),
-                DisasterLocation,
+                reportData.getLocation(),
                 getCurrentTime(),
                 reportData.getLatitude(),
                 reportData.getLongitude(),
@@ -161,34 +169,13 @@ public class ReportDataSource {
         return timestampString;
     }
 
-    public static String getLocationString(double lat, double lng) {
-        String apiKey = "YOUR_API_KEY";
-        String urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&key=" + apiKey;
-        //        URL url = new URL(urlString);
-//        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//        conn.setRequestMethod("GET");
-//        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//        String line;
-//        StringBuilder result = new StringBuilder();
-//        while ((line = rd.readLine()) != null) {
-//            result.append(line);
-//        }
-//        rd.close();
-//
-//        JSONObject jsonObject = new JSONObject(result.toString());
-//        JSONArray results = jsonObject.getJSONArray("results");
-//        if (results.length() > 0) {
-//            return results.getJSONObject(0).getString("formatted_address");
-//        } else {
-//            return "result==0";
-//        }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "error";
-//        }
+    public String getLocationString(float lat, float lng) {
+        String apiKey = "AIzaSyDrYjvowVSGRHTyi5vO7CZx2Py32G1BoaY";
+        //String urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat +"," + lng + "&key=" + apiKey;
+        String urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=-6.2537084,53.341312&key=AIzaSyDrYjvowVSGRHTyi5vO7CZx2Py32G1BoaY"
+                ;
+        return "unknown";
 
-        return "unkown";
-    }
 
 
 
