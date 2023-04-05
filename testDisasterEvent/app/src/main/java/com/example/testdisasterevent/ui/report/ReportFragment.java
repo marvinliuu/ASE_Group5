@@ -125,7 +125,7 @@ public class ReportFragment extends Fragment {
         if(bundle != null) {
             isChosen=bundle.getBoolean("isChosen");
 
-            LatLng location = new LatLng(bundle.getDouble("Longitude"), bundle.getDouble("Latitude"));
+            LatLng location = new LatLng(bundle.getDouble("Latitude"), bundle.getDouble("Longitude"));
             //int reportType = bundle.getInt("Type");
             int radius = bundle.getInt("Radius");
             String locName=bundle.getString("locName");

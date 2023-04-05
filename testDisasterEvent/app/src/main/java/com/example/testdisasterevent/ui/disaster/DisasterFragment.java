@@ -260,6 +260,15 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
          * SET LAT / LONG VALUE
          */
         map = googleMap;
+
+        LatLng sydney = new LatLng(53.3442016, -6.2544264);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
+
+        googleMap.addMarker(new MarkerOptions()
+                .position(sydney));
+
+
+
     }
     
 
@@ -418,7 +427,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
         BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
 
-        LatLng center = new LatLng(details[i].getLongitude(), details[i].getLatitude());
+        LatLng center = new LatLng(details[i].getLatitude(), details[i].getLongitude());
         float zoomLevel = 15f;
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
         map.setMapType(MAP_TYPE_NORMAL);

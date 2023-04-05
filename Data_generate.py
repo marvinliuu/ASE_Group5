@@ -213,8 +213,8 @@ for i in range(1000):
     temp['location'] = location_generate()
     temp['disasterType'] = dp[random.randint(0,2)]
     temp['otime'] = otime_generate()
-    temp['longitude'] = 53.35 + random.random() - 0.5
-    temp['latitude'] = -6.26 + random.random() - 0.5
+    temp['latitude'] = 53.35 + random.random() - 0.5
+    temp['longitude'] = -6.26 + random.random() - 0.5
     temp['injury'] = random.randint(0, 5)
     temp['task'] = str("Please go to the ** place")
     data['TaskInfo' + str(i + 1)] = temp
@@ -308,6 +308,7 @@ for i in range(50):
 final_data["AvailableOfficer"] = data
 
 temp = {}
+temp["TotalToken"] = 2
 temp["Availble_Token"] = 2
 temp["refillRate"] = 3600000
 temp["lastRefillTime"] = int(time.time()) * 1000

@@ -45,7 +45,7 @@ public class ReportViewModel extends ViewModel {
 
     public void AllocationSubmit(ReportFromCitizen report){
         AllocationData.AllocationSubmit(report);
-        AllocationData.evaluateHosResource(report.getLongitude(), report.getLatitude(), 1);
+        AllocationData.evaluateHosResource(report.getLatitude(), report.getLongitude(), 1);
     }
 
 

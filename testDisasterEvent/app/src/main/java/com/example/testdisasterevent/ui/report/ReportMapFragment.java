@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -170,8 +171,9 @@ public class ReportMapFragment extends Fragment implements OnMapReadyCallback {
                 location = latLng;
                 MarkerOptions markerOptions=new MarkerOptions();
                 markerOptions.position(latLng);
-                markerOptions.title(latLng.longitude+" : "+latLng.latitude);
+                markerOptions.title(latLng.latitude+" : "+latLng.longitude);
                 locName=getLocationName(latLng);
+                Log.d("LATLNG", Double.toString(latLng.latitude));
                 //Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
                 CircleOptions circleOptions=new CircleOptions();

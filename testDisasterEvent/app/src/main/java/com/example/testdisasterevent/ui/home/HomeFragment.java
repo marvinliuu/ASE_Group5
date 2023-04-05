@@ -265,7 +265,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         List<GeoBox> geoBoxes = new ArrayList<GeoBox>();
         if (details == null) return geoBoxes;
         for (DisasterDetail detail : details) {
-            LatLng[] latLng = homeViewModel.calculateDestinationLocations(new LatLng(detail.getLatitude(), detail.getLongitude()), detail.getRadius());
+            LatLng[] latLng = homeViewModel.calculateDestinationLocations(new LatLng(detail.getLongitude(), detail.getLatitude()), detail.getRadius());
             geoBoxes.add(new GeoBox(new GeoCoordinates(latLng[0].latitude, latLng[0].longitude), new GeoCoordinates(latLng[1].latitude, latLng[1].longitude)));
         }
         return geoBoxes;
