@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.icu.text.CaseMap;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -36,6 +37,7 @@ import com.example.testdisasterevent.data.model.DisasterDetail;
 import com.example.testdisasterevent.data.model.HospitalDetails;
 import com.example.testdisasterevent.data.model.TaskDetail;
 import com.example.testdisasterevent.databinding.FragmentDisasterBinding;
+import com.example.testdisasterevent.utils.IconSettingUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -75,12 +77,15 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
     private TextView taskDetail;
     private int index;
     private boolean isPopupWindowShown = false;
+    private IconSettingUtils iconSettingUtils;
 
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         disasterViewModel =
                 new ViewModelProvider(this).get(DisasterViewModel.class);
+
+        iconSettingUtils = new IconSettingUtils();
 
         binding = FragmentDisasterBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -150,6 +155,19 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         taskIntro = taskView.findViewById(R.id.task_intro);
         taskDetail = taskView.findViewById(R.id.task_details);
 
+        setClickListeners();
+        setDataObserver();
+
+        return root;
+    }
+
+    /**
+     * Date: 23.03.31
+     * Function: set all the button click listeners
+     * Author: Siyu Liao
+     * Version: Week 10
+     */
+    private void setClickListeners () {
         showTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,18 +188,16 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                 popupWindow_task.dismiss();
             }
         });
+    }
 
-//        requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
-//                Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-//                Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
-
-//        disasterViewModel.getHospitalDetails().observe(getActivity(), new Observer<HospitalDetails[]>() {
-//            @Override
-//            public void onChanged(HospitalDetails[] hospitalDetails) {
-//                disasterViewModel.evaluateHosResource(53.3442016, -6.2544264, 5);
-//            }
-//        });
-
+    /**
+     * Date: 23.03.31
+     * Function: set all the viewmodel data observer
+     * Author: Siyu Liao
+     * Version: Week 10
+     */
+    private void setDataObserver() {
+        // disaster details observer
         disasterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
             @Override
             public void onChanged(DisasterDetail[] posts) {
@@ -195,6 +211,8 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                 }
             }
         });
+
+        // task details observer
         disasterViewModel.getTaskDetails().observe(getActivity(), new Observer<TaskDetail[]>() {
             @Override
             public void onChanged(TaskDetail[] posts) {
@@ -222,7 +240,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
 
                     String notask =  "No Task Now";
                     midToast(notask);
-
                     if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         // Permission has already been granted
                         // Call setMyLocationEnabled() method here
@@ -234,9 +251,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                 }
             }
         });
-
-        return root;
-
     }
 
 
@@ -246,13 +260,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
          * SET LAT / LONG VALUE
          */
         map = googleMap;
-        LatLng sydney = new LatLng(-37.812439, 144.972755);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
-
-        googleMap.addMarker(new MarkerOptions()
-                .position(sydney));
-
-
     }
     
 
@@ -303,12 +310,19 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             relativeLayout.setLayoutParams(params2);
             relativeLayout.setId(i);
 
+            // Create subview insides the relative layout view
             // Create and add a TextView to the RelativeLayout - Title
             TextView title = new TextView(getContext());
+            // Create and add a TextView to the RelativeLayout - Location
+            TextView location = new TextView(getContext());
+            // Create and add a TextView to the RelativeLayout - Time
+            TextView time = new TextView(getContext());
+
+
             String titleText = details[i].getDisasterType();
             title.setText(titleText);
-            title.setId(View.generateViewId());
             title.setTextColor(Color.BLACK);
+            title.setId(View.generateViewId());
             title.setTextSize(20);
 
             // Load the custom font from the assets folder
@@ -320,8 +334,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                     RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             titleParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
-            // Create and add a TextView to the RelativeLayout - Location
-            TextView location = new TextView(getContext());
             location.setText(details[i].getLocation());
             location.setId(View.generateViewId());
             location.setTextColor(Color.BLACK);
@@ -331,8 +343,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             locationParams.addRule(RelativeLayout.BELOW, title.getId());
 
 
-            // Create and add a TextView to the RelativeLayout - Time
-            TextView time = new TextView(getContext());
             time.setText(details[i].getHappenTime());
             time.setId(View.generateViewId());
             time.setTextColor(Color.BLACK);
@@ -341,30 +351,13 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                     RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             timeParams.addRule(RelativeLayout.BELOW, location.getId());
 
-            ImageView imageView = createDisIconOnWindow(titleText);
+            ImageView imageView = iconSettingUtils.createDisIconOnWindow(titleText, getContext());
             RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(
                     70, 70);
             imageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 
-            Bitmap bitmap = createDisIconOnMap(titleText);
-            int width = bitmap.getWidth();
-            int height = bitmap.getHeight();
-            float scaledWidth = width * 0.5f;
-            float scaledHeight = height * 0.5f;
-            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
-            BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
-
-
-            LatLng center = new LatLng(details[i].getLongitude(), details[i].getLatitude());
-            float zoomLevel = 15f;
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
-            map.setMapType(MAP_TYPE_NORMAL);
-            MarkerOptions markerOptions = new MarkerOptions()
-                    .position(center)
-                    .icon(markerIcon);
-            map.addMarker(markerOptions);
-
+            setMapMarkerAboutDisaster(titleText, i, details);
 
             // add view by order
             relativeLayout.addView(title, titleParams);
@@ -372,41 +365,67 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             relativeLayout.addView(time, timeParams);
             relativeLayout.addView(imageView, imageParams);
 
-
-
             // set the response event after clicking the RelativeLayout item
-            relativeLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int index = v.getId();
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("data_key", index);
-
-                    popupWindow_disaster.dismiss();
-                    // Get a reference to the child FragmentManager
-                    FragmentManager fragmentManager = getChildFragmentManager();
-
-                    // Start a new FragmentTransaction
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                    // Replace the current fragment with the new fragment
-                    Fragment newFragment = new DisasterDetailsFragment();
-                    newFragment.setArguments(bundle);
-                    fragmentTransaction.replace(R.id.disaster_container, newFragment);
-
-                    // Add the transaction to the back stack
-                    fragmentTransaction.addToBackStack(null);
-
-                    // Commit the transaction
-                    fragmentTransaction.commit();
-
-
-                }
-            });
+            setDisasterItemClickListener(relativeLayout);
 
             // Add the RelativeLayout to the LinearLayout
             linearLayout.addView(relativeLayout);
         }
+    }
+
+    /**
+     * Date: 23.03.31
+     * Function: set disaster item click listener
+     * Author: Siyu Liao
+     * Version: Week 10
+     */
+    private void setDisasterItemClickListener(RelativeLayout relativeLayout) {
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int index = v.getId();
+                Bundle bundle = new Bundle();
+                bundle.putInt("data_key", index);
+
+                popupWindow_disaster.dismiss();
+                // Get a reference to the child FragmentManager
+                FragmentManager fragmentManager = getChildFragmentManager();
+
+                // Start a new FragmentTransaction
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                // Replace the current fragment with the new fragment
+                Fragment newFragment = new DisasterDetailsFragment();
+                newFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.disaster_container, newFragment);
+
+                // Add the transaction to the back stack
+                fragmentTransaction.addToBackStack(null);
+
+                // Commit the transaction
+                fragmentTransaction.commit();
+            }
+        });
+
+    }
+
+    private void setMapMarkerAboutDisaster (String titleText, int i, DisasterDetail[] details) {
+        Bitmap bitmap = iconSettingUtils.createDisIconOnMap(titleText, getResources());
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        float scaledWidth = width * 0.5f;
+        float scaledHeight = height * 0.5f;
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
+        BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
+
+        LatLng center = new LatLng(details[i].getLongitude(), details[i].getLatitude());
+        float zoomLevel = 15f;
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
+        map.setMapType(MAP_TYPE_NORMAL);
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(center)
+                .icon(markerIcon);
+        map.addMarker(markerOptions);
     }
 
     public void createTaskDetailsPopupWindow(TaskDetail[] details) {
@@ -454,78 +473,13 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         taskDetail.setText("unknown");
 
         // set the title icon resource
-        setDisIconResource(titleText);
+        iconSettingUtils.setDisIconResource(titleText, disaster_logo);
 
         // set the title color & text
-        setDisTitle(titleText);
-
-
-        ImageView imageView = createDisIconOnWindow(titleText);
-        RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(
-                70, 70);
-        imageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-
-        Bitmap bitmap = createDisIconOnMap(titleText);
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        float scaledWidth = width * 0.5f;
-        float scaledHeight = height * 0.5f;
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
-        BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
-
+        iconSettingUtils.setDisTitle(titleText, txt_show_task);
 
     }
 
-
-    public void setDisIconResource (String title) {
-        if (title.equals("Fire")) {
-            disaster_logo.setImageResource(R.drawable.fire_logo);
-        } else if (title.equals("Water")) {
-            disaster_logo.setImageResource(R.drawable.water_logo);
-        } else {
-            disaster_logo.setImageResource(R.drawable.other_logo);
-        }
-    }
-
-    public void setDisTitle (String title) {
-        if (title.equals("Fire")) {
-            txt_show_task.setText("Task");
-            txt_show_task.setTextColor(Color.RED);
-        } else if (title.equals("Water")) {
-            txt_show_task.setText("Task");
-            txt_show_task.setTextColor(Color.BLUE);
-        } else {
-            txt_show_task.setText("Task");
-            txt_show_task.setTextColor(Color.BLACK);
-        }
-    }
-
-    public ImageView createDisIconOnWindow (String title) {
-        // Create and add an ImageView to the RelativeLayout - disaster logo
-        ImageView imageView = new ImageView(getContext());
-        if (title.equals("Fire")) {
-            imageView.setImageResource(R.drawable.fire_logo);
-        } else if (title.equals("Water")) {
-            imageView.setImageResource(R.drawable.water_logo);
-        } else {
-            imageView.setImageResource(R.drawable.other_logo);
-        }
-        return imageView;
-    }
-
-    public Bitmap createDisIconOnMap (String title) {
-        // Create and add an ImageView to the RelativeLayout - disaster logo
-        Bitmap bitmap;
-        if (title.equals("Fire")) {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fire_logo);
-        } else if (title.equals("Water")) {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.water_logo);
-        } else {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.other_logo);
-        }
-        return bitmap;
-    }
 
     private void midToast(String str)
     {
@@ -576,6 +530,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         // hidden animation
         popupWindow_disaster.setAnimationStyle(R.style.ipopwindow_anim_style);
     }
+
     private void showTaskPopwindow() {
         popupWindow_task = new PopupWindow(taskView,
                 ViewGroup.LayoutParams.MATCH_PARENT,

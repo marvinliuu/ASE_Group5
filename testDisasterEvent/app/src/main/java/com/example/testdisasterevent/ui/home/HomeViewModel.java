@@ -18,8 +18,6 @@ public class HomeViewModel extends ViewModel {
 
     private RoadsInfoDatasource roadsInfoDatasource;
     private ReportDataSource_Police reportDataSource_police;
-    public int indexOfReportInfo;
-    private JsonObject defaultJson;
 
     public LiveData<ReportInfo[]> getReportInfo() {
         return reportDataSource_police.getReportInfo();

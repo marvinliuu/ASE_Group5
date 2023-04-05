@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.testdisasterevent.algorithms.TokenUpdateObserver;
 import com.example.testdisasterevent.data.NotificationFilter;
 import com.example.testdisasterevent.data.model.AccountUserInfo;
 
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     public String accountUserInfoJson;
     Gson gson = new Gson();
     public AccountUserInfo accountUserInfo;
+    private TokenUpdateObserver tokenUpdateObserver;
 
 
     @Override
@@ -71,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
 
 //        Context context=this;
 //        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+
+        // add observer of token update
+        tokenUpdateObserver = new TokenUpdateObserver();
 
         getSupportActionBar().hide();
 //              Intent intent;

@@ -28,12 +28,8 @@ public class TaskDataSource {
         DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference("TaskInfo");
         // real data
         long startOfDay = System.currentTimeMillis() - 43200000;
-        // fake and test data
-        startOfDay = System.currentTimeMillis() - 43200000 * 5;
-        long endOfDay = System.currentTimeMillis() + 86400000;
 
-//        long startOfDay = new GregorianCalendar(2023, Calendar.MARCH, 17).getTimeInMillis();
-//        long endOfDay = new GregorianCalendar(2023, Calendar.MARCH, 18).getTimeInMillis();
+        long endOfDay = System.currentTimeMillis() + 86400000;
 
         Query postsQuery = postsRef.orderByChild("otime").startAt(startOfDay).endAt(endOfDay);
 

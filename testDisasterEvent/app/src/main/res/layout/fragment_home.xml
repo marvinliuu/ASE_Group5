@@ -71,23 +71,23 @@
 
         <EditText
             android:id="@+id/start_location"
-            android:layout_width="300dp"
+            android:layout_width="280dp"
             android:layout_height="35dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="14dp"
+            android:hint="Start Location"
+            android:paddingLeft="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:textSize="15dp"
             android:textColorHint="@color/grey_define"
-            android:hint="Start Location"
+            android:textSize="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/des_location"
-            android:layout_width="300dp"
+            android:layout_width="280dp"
             android:layout_height="35dp"
             android:layout_marginTop="50dp"
             android:layout_marginStart="40dp"

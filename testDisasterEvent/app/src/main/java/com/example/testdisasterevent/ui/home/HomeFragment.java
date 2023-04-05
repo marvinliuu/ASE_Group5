@@ -45,6 +45,7 @@ import com.example.testdisasterevent.data.HereRerouteDataSource;
 import com.example.testdisasterevent.data.model.DisasterDetail;
 import com.example.testdisasterevent.databinding.FragmentHomeBinding;
 import com.example.testdisasterevent.ui.disaster.DisasterViewModel;
+import com.example.testdisasterevent.utils.IconSettingUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -116,6 +117,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
     private HereRerouteDataSource hereRerouteDataSource;
     private int count;
     private boolean isShowDisasterCircle;
+    private IconSettingUtils iconSettingUtils;
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -130,6 +132,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        iconSettingUtils = new IconSettingUtils();
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -150,31 +154,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
 
         hereRerouteDataSource = new HereRerouteDataSource();
 
-        enterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                start = startLocation.getText().toString();
-                end = desLocation.getText().toString();
-                try {
-                    getRouteLatLngInfo(start, end);
-                } catch (InstantiationErrorException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        busInfoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getRealTimeData();
-                Toast.makeText(getContext(),"Request Real Time Bus Information", Toast.LENGTH_SHORT).show();
-            }
-        });
+        setClickListeners();
 
         requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
-
 
         // Initialize map fragment
         mapFragment= (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
@@ -199,12 +183,41 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         return root;
     }
 
+    /**
+     * Date: 23.03.31
+     * Function: set all the button click listeners
+     * Author: Siyu Liao
+     * Version: Week 10
+     */
+    private void setClickListeners () {
+        enterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                start = startLocation.getText().toString();
+                end = desLocation.getText().toString();
+                try {
+                    getRouteLatLngInfo(start, end);
+                } catch (InstantiationErrorException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        busInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getRealTimeData();
+                Toast.makeText(getContext(),"Request Real Time Bus Information", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void createDisasterCircleOnMap() {
         if (details != null) {
             isShowDisasterCircle = true;
             for (DisasterDetail detail : details) {
                 LatLng center = new LatLng(detail.getLatitude(), detail.getLongitude());
-                Bitmap bitmap = createDisIconOnMap(detail.getDisasterType());
+                Bitmap bitmap = iconSettingUtils.createDisIconOnMap(detail.getDisasterType(), getResources());
                 int width = bitmap.getWidth();
                 int height = bitmap.getHeight();
                 float scaledWidth = width * 0.5f;
@@ -250,6 +263,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
 
     List<GeoBox> calDisAreaGeoInfo() {
         List<GeoBox> geoBoxes = new ArrayList<GeoBox>();
+        if (details == null) return geoBoxes;
         for (DisasterDetail detail : details) {
             LatLng[] latLng = homeViewModel.calculateDestinationLocations(new LatLng(detail.getLatitude(), detail.getLongitude()), detail.getRadius());
             geoBoxes.add(new GeoBox(new GeoCoordinates(latLng[0].latitude, latLng[0].longitude), new GeoCoordinates(latLng[1].latitude, latLng[1].longitude)));
@@ -264,7 +278,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         /**
          * set lat/long here
          */
-//        LatLng sydney = new LatLng(53.3442016, -6.2544264);
         LatLng sydney = new LatLng(53.34453, -6.2542);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
 
@@ -297,7 +310,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
             }
         });
         createDisasterCircleOnMap();
-
     }
 
     @Override
@@ -376,19 +388,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         linearLayout.addView(title, titleParams);
     }
 
-    public Bitmap createDisIconOnMap (String title) {
-        // Create and add an ImageView to the RelativeLayout - disaster logo
-        Bitmap bitmap;
-        if (title.equals("Fire")) {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fire_logo);
-        } else if (title.equals("Water")) {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.water_logo);
-        } else {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.other_logo);
-        }
-        return bitmap;
-    }
-
 
     public void createReportPopupWindow(ReportInfo[] infos) {
         // Find the ScrollView in the layout and add content to it
@@ -447,13 +446,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
                         RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 timeParams.addRule(RelativeLayout.BELOW, location.getId());
 
-                ImageView imageView = createReportIconOnWindow(titleText);
+                ImageView imageView = iconSettingUtils.createDisIconOnWindow(titleText, getContext());
                 RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(
                         70, 70);
                 imageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 
-                Bitmap bitmap = createReportIconOnMap(titleText);
+                Bitmap bitmap = iconSettingUtils.createDisIconOnMap(titleText, getResources());
                 int width = bitmap.getWidth();
                 int height = bitmap.getHeight();
                 float scaledWidth = width * 0.5f;
@@ -477,36 +476,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
                 relativeLayout.addView(time, timeParams);
                 relativeLayout.addView(imageView, imageParams);
 
-
-                // set the response event after clicking the RelativeLayout item
-                relativeLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int index = v.getId();
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("data_key", index);
-                        popupWindow.dismiss();
-                        homeViewModel.indexOfReportInfo = v.getId();
-
-                        // Get a reference to the child FragmentManager
-                        FragmentManager fragmentManager = getChildFragmentManager();
-
-                        // Start a new FragmentTransaction
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                        // Replace the current fragment with the new fragment
-                        Fragment newFragment = new ReportConfirmFragment();
-                        newFragment.setArguments(bundle);
-                        fragmentTransaction.replace(R.id.report_container, newFragment);
-
-                        // Add the transaction to the back stack
-                        fragmentTransaction.addToBackStack(null);
-
-                        // Commit the transaction
-                        fragmentTransaction.commit();
-
-                    }
-                });
+                setDisasterItemClickListener(relativeLayout);
 
                 // Add the RelativeLayout to the LinearLayout
                 linearLayout.addView(relativeLayout);
@@ -520,6 +490,42 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         }
     }
 
+    /**
+     * Date: 23.03.31
+     * Function: set disaster item click listener
+     * Author: Siyu Liao
+     * Version: Week 10
+     */
+    private void setDisasterItemClickListener(RelativeLayout relativeLayout) {
+        // set the response event after clicking the RelativeLayout item
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int index = v.getId();
+                Bundle bundle = new Bundle();
+                bundle.putInt("data_key", index);
+                popupWindow.dismiss();
+
+                // Get a reference to the child FragmentManager
+                FragmentManager fragmentManager = getChildFragmentManager();
+
+                // Start a new FragmentTransaction
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                // Replace the current fragment with the new fragment
+                Fragment newFragment = new ReportConfirmFragment();
+                newFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.report_container, newFragment);
+
+                // Add the transaction to the back stack
+                fragmentTransaction.addToBackStack(null);
+
+                // Commit the transaction
+                fragmentTransaction.commit();
+
+            }
+        });
+    }
 
     private void parseRealTimeData() {
         if (stop_ids.length == 0) return;
@@ -615,33 +621,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         }
     }
 
-
-    public ImageView createReportIconOnWindow (String title) {
-        // Create and add an ImageView to the RelativeLayout - disaster logo
-        ImageView imageView = new ImageView(getContext());
-        if (title.equals("Fire")) {
-            imageView.setImageResource(R.drawable.fire_logo);
-        } else if (title.equals("Water")) {
-            imageView.setImageResource(R.drawable.water_logo);
-        } else {
-            imageView.setImageResource(R.drawable.other_logo);
-        }
-        return imageView;
-    }
-
-    public Bitmap createReportIconOnMap (String title) {
-        // Create and add an ImageView to the RelativeLayout - disaster logo
-        Bitmap bitmap;
-        if (title.equals("Fire")) {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fire_logo);
-        } else if (title.equals("Water")) {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.water_logo);
-        } else {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.other_logo);
-        }
-        return bitmap;
-    }
-
     private void getRealTimeData() {
         // Create a new Thread to handle the API request and response
         Thread thread = new Thread(new Runnable() {
@@ -691,7 +670,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-//        popupWindow.dismiss();
         homeViewModel.getReportInfo().removeObservers(this);
     }
 
