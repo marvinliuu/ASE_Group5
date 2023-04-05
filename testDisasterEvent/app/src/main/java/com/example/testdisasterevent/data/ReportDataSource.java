@@ -48,6 +48,14 @@ public class ReportDataSource {
                     String timestampString = getCurrentTime();
 
 
+                    Map<String, String> userData = new HashMap<>();
+                    userData.put("type", reportData.getDisasterType());
+                    userData.put("description", reportData.getOtherInfo());
+                    userData.put("rtime",timestampString);
+                    userData.put("injury", Integer.toString(reportData.getInjuredNum()));
+                    userData.put("latitude",Double.toString(reportData.getLatitude()));
+                    userData.put("longitude", Double.toString(reportData.getLongitude()));
+                    userData.put("state",Integer.toString(reportData.getReportState()));
 
                     Map<String, String> userData = new HashMap<>();
                     userData.put("type", reportData.getDisasterType());
@@ -64,7 +72,6 @@ public class ReportDataSource {
 
                     UserDatabase.child(name).setValue(userData);
                 }
-
 
 
                 @Override
@@ -129,7 +136,11 @@ public class ReportDataSource {
 
 
 
-        DisasterDetail disasterData = new DisasterDetail(
+
+        String DisasterLocation=getLocationString(reportData.getLatitude(), reportData.getLongitude());
+        Log.w("disaster", DisasterLocation);
+
+        DisasterDetail disasterData=new DisasterDetail(
                 reportData.getRadius(),
                 reportData.getLocation(),
                 getCurrentTime(),
@@ -158,6 +169,12 @@ public class ReportDataSource {
         return timestampString;
     }
 
+    public String getLocationString(float lat, float lng) {
+        String apiKey = "AIzaSyDrYjvowVSGRHTyi5vO7CZx2Py32G1BoaY";
+        //String urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat +"," + lng + "&key=" + apiKey;
+        String urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=-6.2537084,53.341312&key=AIzaSyDrYjvowVSGRHTyi5vO7CZx2Py32G1BoaY"
+                ;
+        return "unknown";
 
 
 
