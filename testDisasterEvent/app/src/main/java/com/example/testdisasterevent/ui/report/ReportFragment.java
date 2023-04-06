@@ -48,6 +48,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.data.UploadImage;
+import com.example.testdisasterevent.algorithms.TokenBucketAlgorithm;
 import com.example.testdisasterevent.data.model.AccountUserInfo;
 import com.example.testdisasterevent.ui.account.AccountViewModel;
 import com.google.android.gms.maps.model.LatLng;
@@ -83,7 +84,7 @@ public class ReportFragment extends Fragment {
     private StorageReference mStroageRef;
     private DatabaseReference mDatabaseRef;
 
-
+    public TokenBucketAlgorithm tokenBucketAlgorithm;
 
 
 
@@ -174,7 +175,10 @@ public class ReportFragment extends Fragment {
             }
         }
 
-
+        /**
+         * init the token bukect
+         */
+        tokenBucketAlgorithm = new TokenBucketAlgorithm(0);
 
         /**
          * disaster single choice click
@@ -327,6 +331,15 @@ public class ReportFragment extends Fragment {
                 uploadImage();
 
                 /**
+                 * check the whether the request tokens available
+                 */
+                if (!tokenBucketAlgorithm.allowRequest()) {
+                    ConfirmationDialogFragment dialog=ConfirmationDialogFragment.newInstance("Request reach limit!!!! Try again later");
+                    dialog.show(getFragmentManager(), "");
+                    return;
+                }
+
+                /**
                  * need to refractory?
                  * */
 
@@ -375,9 +388,6 @@ public class ReportFragment extends Fragment {
                         replaceFragment(new GardaSubmitSucessFragment());
                     }
                 }
-
-
-
             }
         });
 
@@ -393,13 +403,10 @@ public class ReportFragment extends Fragment {
     private void uploadImage() {
         Context context = getContext();
         if (mImageUri != null) {
-
-
-
-// Upload the image file to Firebase Storage
+            // Upload the image file to Firebase Storage
 
             UploadTask mUploadTask = mStroageRef.putFile(mImageUri);
-// Register observers to listen for when the upload is done or if it fails
+            // Register observers to listen for when the upload is done or if it fails
             mUploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -413,10 +420,7 @@ public class ReportFragment extends Fragment {
                     Log.e("image", "Image upload failed: " + exception.getMessage());
                 }
             });
-        }
-
-        else {
-
+        } else {
             Toast.makeText(context, "No file selected", Toast.LENGTH_SHORT).show();
         }
 

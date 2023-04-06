@@ -46,6 +46,7 @@ import com.example.testdisasterevent.data.model.DisasterDetail;
 import com.example.testdisasterevent.databinding.FragmentHomeBinding;
 import com.example.testdisasterevent.ui.disaster.DisasterViewModel;
 import com.example.testdisasterevent.utils.IconSettingUtils;
+import com.example.testdisasterevent.utils.PopupwindowUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -101,7 +102,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
     private FragmentHomeBinding binding;
     private SupportMapFragment mapFragment;
     private AccountViewModel aViewModel;
-    private int index;
     private EditText  startLocation;
     private EditText desLocation;
     private ImageButton enterBtn;
@@ -118,6 +118,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
     private int count;
     private boolean isShowDisasterCircle;
     private IconSettingUtils iconSettingUtils;
+    private PopupwindowUtils popupwindowUtils;
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -133,13 +134,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // init utils
         iconSettingUtils = new IconSettingUtils();
-
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            index = bundle.getInt("data_key");
-            // Use the data as needed
-        }
+        popupwindowUtils = new PopupwindowUtils();
 
         isShowDisasterCircle = false;
 
@@ -230,7 +227,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
                         .icon(markerIcon);
                 map.addMarker(markerOptions);
 
-                CircleOptions circleOptions=new CircleOptions();
+                CircleOptions circleOptions = new CircleOptions();
                 circleOptions.center(center);
                 circleOptions.radius(detail.getRadius());
                 circleOptions.strokeColor(Color.RED);
@@ -347,7 +344,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
             homeViewModel.getReportInfo().observe(getActivity(), new Observer<ReportInfo[]>() {
                 @Override
                 public void onChanged(ReportInfo[] posts) {
-                    showPopwindow();
+                    popupWindow = popupwindowUtils.showPopwindow(contentView);
                     popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
                     if (posts.length > 0) {
                         // Update the UI with the new data
@@ -671,23 +668,5 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         super.onDestroyView();
         binding = null;
         homeViewModel.getReportInfo().removeObservers(this);
-    }
-
-    private void showPopwindow() {
-        popupWindow = new PopupWindow(contentView,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                700);
-        // set SelectPicPopupWindow height
-        popupWindow.setHeight(700);
-        // get focus point
-        popupWindow.setFocusable(true);
-        // set background color of blank area
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        // Click outside to disappear
-        popupWindow.setOutsideTouchable(true);
-        // Settings can be clicked
-        popupWindow.setTouchable(true);
-        // hidden animation
-        popupWindow.setAnimationStyle(R.style.ipopwindow_anim_style);
     }
 }
