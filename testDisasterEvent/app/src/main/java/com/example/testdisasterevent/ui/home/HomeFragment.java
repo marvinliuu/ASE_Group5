@@ -1,5 +1,7 @@
 package com.example.testdisasterevent.ui.home;
 
+import static android.os.Looper.getMainLooper;
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
 
 import android.Manifest;
@@ -11,7 +13,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +51,9 @@ import com.example.testdisasterevent.databinding.FragmentHomeBinding;
 import com.example.testdisasterevent.ui.disaster.DisasterViewModel;
 import com.example.testdisasterevent.utils.IconSettingUtils;
 import com.example.testdisasterevent.utils.PopupwindowUtils;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -86,8 +93,12 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.net.ssl.HttpsURLConnection;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import com.google.android.gms.location.*;
 
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback  {
@@ -119,6 +130,14 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
     private boolean isShowDisasterCircle;
     private IconSettingUtils iconSettingUtils;
     private PopupwindowUtils popupwindowUtils;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
+
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationRequest locationRequest;
+    private LocationCallback locationCallback;
+    private double currentLatitude;
+    private double currentLongitude;
+    private Marker marker;
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -167,6 +186,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         }
         mapFragment.getMapAsync(this);
 
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+
+        createLocationRequest();
+        createLocationCallback();
+
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            startLocationUpdates();
+        }
+
         disaterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
             @Override
             public void onChanged(DisasterDetail[] posts) {
@@ -178,6 +211,88 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
             }
         });
         return root;
+    }
+
+
+    private void createLocationRequest() {
+        locationRequest = LocationRequest.create();
+        locationRequest.setInterval(10000); // 设置位置更新间隔，单位：毫秒
+        locationRequest.setFastestInterval(5000); // 设置最快的位置更新间隔，单位：毫秒
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
+    private void createLocationCallback() {
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    if (location != null) {
+                        currentLatitude = location.getLatitude();
+                        currentLongitude = location.getLongitude();
+                        Log.i(TAG, String.format("Updated location: Latitude = %f, Longitude = %f",
+                                currentLatitude, currentLongitude));
+                        LatLng currentPosition = new LatLng(currentLatitude, currentLongitude);
+//        MarkerOptions markerOptions = new MarkerOptions()
+//                .position(currentPosition)
+//                .icon(markerIcon);
+//                        marker.setPosition(currentPosition);
+                        if (marker == null) {
+                            marker = map.addMarker(new MarkerOptions().position(currentPosition).title("Marker in Target Location"));
+                        } else {
+                            marker.setPosition(currentPosition);
+                        }
+
+                        // 将地图中心移动到指定坐标
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
+                        // 在此处执行其他操作，例如更新UI或将位置发送到服务器
+                    }
+                }
+            }
+        };
+    }
+
+    private void startLocationUpdates() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+            return;
+        }
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());
+    }
+
+    private void stopLocationUpdates() {
+        fusedLocationClient.removeLocationUpdates(locationCallback);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            startLocationUpdates();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 权限已被授予
+                startLocationUpdates();
+            } else {
+                // 权限被拒绝，您可以在此处处理权限被拒绝的情况，例如向用户显示提示或关闭功能
+            }
+        }
     }
 
     /**
@@ -275,11 +390,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         /**
          * set lat/long here
          */
-        LatLng sydney = new LatLng(53.34453, -6.2542);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
-
-        googleMap.addMarker(new MarkerOptions()
-                .position(sydney));
+//        LatLng sydney = new LatLng(53.34453, -6.2542);
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
+//
+//        googleMap.addMarker(new MarkerOptions()
+//                .position(sydney));
 
         GradientDrawable shapeDrawable = new GradientDrawable();
         shapeDrawable.setShape(GradientDrawable.RECTANGLE);
