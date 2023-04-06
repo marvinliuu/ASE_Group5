@@ -25,8 +25,6 @@ import com.example.testdisasterevent.databinding.RegisterFragmentBinding;
 import com.example.testdisasterevent.ui.login.LoginActivity;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class RegisterFragment extends Fragment {
@@ -46,7 +44,7 @@ public class RegisterFragment extends Fragment {
     private EditText registerActCode;
     private boolean pwdFlag = false;
     private PopupWindow popupWindow;
-    private View contentView, toastView;
+    private View contentView;
 
     public static RegisterFragment newInstance() {
         return new RegisterFragment();
@@ -134,9 +132,6 @@ public class RegisterFragment extends Fragment {
                 }
             }
         });
-
-        toastView = LayoutInflater.from(getActivity()).inflate(
-                R.layout.view_toast_custom, null);
         registerFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,17 +141,10 @@ public class RegisterFragment extends Fragment {
                 String phone = registerPhone.getText().toString();
                 String actCode = registerActCode.getText().toString();
 
-                if(mViewModel.register(name, pwd, email, phone, actCode) == true){
-                    String success =  "Registration successful!";
-                    midToast(success);
-                    Intent login_intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(login_intent);
-                } else{
-                    String error =  "Registration failed.";
-                    midToast(error);
-                    Intent register_intent = new Intent(getActivity(), RegisterActivity.class);
-                    startActivity(register_intent);
-                }
+                mViewModel.register(name, pwd, email, phone, actCode);
+
+                Intent login_intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(login_intent);
             }
         });
         actDescription.setOnClickListener(new View.OnClickListener() {
@@ -213,17 +201,5 @@ public class RegisterFragment extends Fragment {
         popupWindow.setAnimationStyle(R.style.ipopwindow_anim_style);
     }
 
-    private void midToast(String str)
-    {
-        LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.view_toast_custom,
-                toastView.findViewById(R.id.lly_toast));
-        TextView tv_msg = (TextView) view.findViewById(R.id.tv_msg);
-        tv_msg.setText(str);
-        Toast toast = new Toast(getActivity().getApplicationContext());
-        toast.setGravity(Gravity.CENTER, 0, 10);
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setView(view);
-        toast.show();
-    }
+
 }
