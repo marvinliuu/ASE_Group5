@@ -50,6 +50,7 @@ import com.example.testdisasterevent.data.model.DisasterDetail;
 import com.example.testdisasterevent.databinding.FragmentHomeBinding;
 import com.example.testdisasterevent.ui.disaster.DisasterViewModel;
 import com.example.testdisasterevent.utils.IconSettingUtils;
+import com.example.testdisasterevent.utils.LocationTracker;
 import com.example.testdisasterevent.utils.PopupwindowUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -99,9 +100,16 @@ import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.google.android.gms.location.*;
+import android.location.Location;
+import androidx.fragment.app.Fragment;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.util.Log;
 
 
-public class HomeFragment extends Fragment implements OnMapReadyCallback  {
+public class HomeFragment extends Fragment implements OnMapReadyCallback, LocationTracker.LocationUpdateListener {
 
     private PopupWindow popupWindow;
     private View contentView;
@@ -138,6 +146,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
     private double currentLongitude;
     private Marker marker;
     private Polyline reroutePolyline;
+    private LocationTracker locationTracker;
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -176,6 +185,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
 
+        locationTracker = new LocationTracker(requireContext(), this);
+        locationTracker.startLocationUpdates();
         // Initialize map fragment
         mapFragment= (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if(mapFragment == null){
@@ -187,18 +198,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         mapFragment.getMapAsync(this);
 
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
-
-        createLocationRequest();
-        createLocationCallback();
-
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    LOCATION_PERMISSION_REQUEST_CODE);
-        } else {
-            startLocationUpdates();
-        }
 
         disaterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
             @Override
@@ -213,87 +212,43 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         return root;
     }
 
-
-    private void createLocationRequest() {
-        locationRequest = LocationRequest.create();
-        locationRequest.setInterval(10000); // 设置位置更新间隔，单位：毫秒
-        locationRequest.setFastestInterval(5000); // 设置最快的位置更新间隔，单位：毫秒
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
-
-    private void createLocationCallback() {
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult == null) {
-                    return;
-                }
-                for (Location location : locationResult.getLocations()) {
-                    if (location != null) {
-                        currentLatitude = location.getLatitude();
-                        currentLongitude = location.getLongitude();
-                        Log.i(TAG, String.format("Updated location: Latitude = %f, Longitude = %f",
-                                currentLatitude, currentLongitude));
-                        LatLng currentPosition = new LatLng(currentLatitude, currentLongitude);
-//        MarkerOptions markerOptions = new MarkerOptions()
-//                .position(currentPosition)
-//                .icon(markerIcon);
-//                        marker.setPosition(currentPosition);
-                        if (marker == null) {
-                            marker = map.addMarker(new MarkerOptions().position(currentPosition).title("Marker in Target Location"));
-                        } else {
-                            marker.setPosition(currentPosition);
-                        }
-
-                        // 将地图中心移动到指定坐标
-                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
-                        // 在此处执行其他操作，例如更新UI或将位置发送到服务器
-                    }
-                }
-            }
-        };
-    }
-
-    private void startLocationUpdates() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    LOCATION_PERMISSION_REQUEST_CODE);
-            return;
+    @Override
+    public void onLocationUpdated(Location location) {
+        Log.i(TAG, String.format("Updated location: Latitude = %f, Longitude = %f",
+                location.getLatitude(), location.getLongitude()));
+        currentLongitude = location.getLongitude();
+        currentLatitude = location.getLatitude();
+        LatLng currentPosition = new LatLng(currentLatitude, currentLongitude);
+        if (marker == null) {
+            marker = map.addMarker(new MarkerOptions().position(currentPosition).title("Marker in Target Location"));
+        } else {
+            marker.setPosition(currentPosition);
         }
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());
-    }
-
-    private void stopLocationUpdates() {
-        fusedLocationClient.removeLocationUpdates(locationCallback);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
+        // 在此处执行其他操作，例如更新UI或将位置发送到服务器
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        stopLocationUpdates();
+        locationTracker.stopLocationUpdates();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            startLocationUpdates();
-        }
+        locationTracker.startLocationUpdates();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // 权限已被授予
-                startLocationUpdates();
-            } else {
-                // 权限被拒绝，您可以在此处处理权限被拒绝的情况，例如向用户显示提示或关闭功能
-            }
-        }
+    public void onDestroy() {
+        super.onDestroy();
+        locationTracker.stopLocationUpdates();
     }
+
+
+
+
 
     /**
      * Date: 23.03.31
@@ -785,4 +740,5 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         binding = null;
         homeViewModel.getReportInfo().removeObservers(this);
     }
+
 }

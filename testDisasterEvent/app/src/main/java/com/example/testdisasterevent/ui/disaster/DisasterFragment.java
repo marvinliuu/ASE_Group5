@@ -1,5 +1,6 @@
 package com.example.testdisasterevent.ui.disaster;
 
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
 
 import android.Manifest;
@@ -10,7 +11,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.icu.text.CaseMap;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +43,8 @@ import com.example.testdisasterevent.data.model.HospitalDetails;
 import com.example.testdisasterevent.data.model.TaskDetail;
 import com.example.testdisasterevent.databinding.FragmentDisasterBinding;
 import com.example.testdisasterevent.utils.IconSettingUtils;
+import com.example.testdisasterevent.utils.LocationTracker;
+import com.example.testdisasterevent.utils.PopupwindowUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -47,7 +52,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 
 
 /**
@@ -56,7 +63,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * Author: Siyu Liao
  * Version: Week 3
  */
-public class DisasterFragment extends Fragment implements OnMapReadyCallback {
+public class DisasterFragment extends Fragment implements OnMapReadyCallback, LocationTracker.LocationUpdateListener{
 
     private DisasterViewModel disasterViewModel;
     private FragmentDisasterBinding binding;
@@ -79,6 +86,10 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
     private TextView taskDetail;
     private int index;
     private IconSettingUtils iconSettingUtils;
+    private double currentLatitude;
+    private double currentLongitude;
+    private Marker marker;
+    private LocationTracker locationTracker;
 
 
     public View onCreateView(LayoutInflater inflater,
@@ -115,7 +126,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
                 R.layout.message_popupwindow, null);
         txt_show_disaster = disasterView.findViewById(R.id.tv_pop_name);
         closeBtn_disaster = disasterView.findViewById(R.id.close_btn);
-
+        
         // click the close btn, dismiss the popup window
         closeBtn_disaster.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +147,9 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         txt_show_disaster.setTypeface(topTitleType);
         txt_show_disaster.setTextSize(25);
         // click the button, show the popup window
+
+        locationTracker = new LocationTracker(requireContext(), this);
+        locationTracker.startLocationUpdates();
 
 
         //add second view
@@ -162,6 +176,41 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         return root;
     }
 
+
+
+    @Override
+    public void onLocationUpdated(Location location) {
+        Log.i(TAG, String.format("Updated location: Latitude = %f, Longitude = %f",
+                location.getLatitude(), location.getLongitude()));
+        currentLongitude = location.getLongitude();
+        currentLatitude = location.getLatitude();
+        LatLng currentPosition = new LatLng(currentLatitude, currentLongitude);
+//        if (marker == null) {
+//            marker = map.addMarker(new MarkerOptions().position(currentPosition).title("Marker in Target Location"));
+//        } else {
+//            marker.setPosition(currentPosition);
+//        }
+//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
+        // 在此处执行其他操作，例如更新UI或将位置发送到服务器
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        locationTracker.stopLocationUpdates();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        locationTracker.startLocationUpdates();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        locationTracker.stopLocationUpdates();
+    }
     /**
      * Date: 23.03.31
      * Function: set all the button click listeners
