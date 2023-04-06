@@ -6,19 +6,36 @@ public class DisasterDetail {
     private String happenTime;
     private double latitude;
     private double longitude;
+    private int injureNum;
     private String disasterType;
     private String GardaUID;
     private int isUpdate;
 
-
-    public DisasterDetail(int radius, String location, String happenTime, double latitude, double longitude, String disasterType, String GardaUID, int isUpdate) {
+    public DisasterDetail(int radius, String location, String happenTime, double latitude, double longitude, int injureNum, String disasterType, String gardaUID, int isUpdate) {
         this.radius = radius;
         this.location = location;
         this.happenTime = happenTime;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.injureNum = injureNum;
         this.disasterType = disasterType;
-        this.GardaUID = GardaUID;
+        GardaUID = gardaUID;
+        this.isUpdate = isUpdate;
+    }
+
+    public int getInjureNum() {
+        return injureNum;
+    }
+
+    public void setInjureNum(int injureNum) {
+        this.injureNum = injureNum;
+    }
+
+    public int getIsUpdate() {
+        return isUpdate;
+    }
+
+    public void setIsUpdate(int isUpdate) {
         this.isUpdate = isUpdate;
     }
 

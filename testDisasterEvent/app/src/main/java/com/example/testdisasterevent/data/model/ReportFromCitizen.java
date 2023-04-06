@@ -10,10 +10,12 @@ public class ReportFromCitizen {
     private String accountUID;
     private int reportState;
     private String location;
+    private String imageURL;
+    private String timestamp;
 
     public ReportFromCitizen(){};
 
-    public ReportFromCitizen(float longitude, String disasterType, float latitude, int injuredNum, int radius, String otherInfo, String accountUID, int reportState, String location) {
+    public ReportFromCitizen(double longitude, String disasterType, double latitude, int injuredNum, int radius, String otherInfo, String accountUID, int reportState, String location, String imageURL, String timestamp) {
         this.longitude = longitude;
         this.disasterType = disasterType;
         this.latitude = latitude;
@@ -23,6 +25,32 @@ public class ReportFromCitizen {
         this.accountUID = accountUID;
         this.reportState = reportState;
         this.location = location;
+        this.imageURL = imageURL;
+        this.timestamp = timestamp;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public String getLocation() {

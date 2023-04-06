@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.testdisasterevent.data.HosAllocationDataSource;
 import com.example.testdisasterevent.data.ReportDataSource;
 import com.example.testdisasterevent.data.model.AccountUserInfo;
+import com.example.testdisasterevent.data.model.AllocationDetail;
 import com.example.testdisasterevent.data.model.DisasterDetail;
 import com.example.testdisasterevent.data.model.ReportFromCitizen;
 
@@ -19,11 +20,13 @@ public class ReportViewModel extends ViewModel {
     //public ReportFromCitizen ReportFromC = new ReportFromCitizen();
     public ReportDataSource reportData=new ReportDataSource();
     public HosAllocationDataSource AllocationData = new HosAllocationDataSource();
+    public AllocationDetail allocationData=new AllocationDetail();
 
 
     public void CitizenSubmit(ReportFromCitizen report){
 
         reportData.SubmitCitizenReport(report);
+
 
         Log.d("num", "citizen submit suc!");
 
@@ -36,6 +39,11 @@ public class ReportViewModel extends ViewModel {
 
         DisasterDetail disasterData=reportData.Report2Disaster(report);
         Log.d("num", "disaster generate suc!");
+
+        //allocationData=GetMLAllocation(disasterData);
+
+        AllocationSubmit(disasterData);
+
         reportData.SubmitGardaReport(disasterData);
 
 
@@ -43,9 +51,16 @@ public class ReportViewModel extends ViewModel {
 
     }
 
-    public void AllocationSubmit(ReportFromCitizen report){
+    public AllocationDetail GetMLAllocation(DisasterDetail data){
+        AllocationDetail singleAllocation=new AllocationDetail();
+        return singleAllocation;
+    }
+
+
+    public void AllocationSubmit(DisasterDetail report){
         AllocationData.AllocationSubmit(report);
-        AllocationData.evaluateHosResource(report.getLatitude(), report.getLongitude(), 1);
+        Log.d("allocation", "prepare allocation");
+        AllocationData.evaluateAll(report.getLongitude(), report.getLatitude(), 2,2,2);
     }
 
 

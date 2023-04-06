@@ -8,6 +8,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.testdisasterevent.data.model.DisasterDetail;
+import com.example.testdisasterevent.data.model.FireFighterDetail;
+import com.example.testdisasterevent.data.model.GardaDetail;
 import com.example.testdisasterevent.data.model.HospitalDetails;
 import com.example.testdisasterevent.data.model.ReportFromCitizen;
 import com.google.firebase.database.DataSnapshot;
@@ -37,16 +39,22 @@ import java.util.Queue;
 
 public class HosAllocationDataSource {
     public HospitalDetails[] details;
+    public GardaDetail[] gardaDetails;
+    public FireFighterDetail[] fireBrigadeDetails;
     private static double EARTH_RADIUS = 6378.137;	//earth radius
-    private ReportFromCitizen reportData;
+    private DisasterDetail reportData;
 
     public HosAllocationDataSource() {
+
         getHospitalData();
+        getGardaData();
+        getFireBrigadeData();
     }
 
-    public void AllocationSubmit(ReportFromCitizen data){
+    public void AllocationSubmit(DisasterDetail data){
         reportData = data;
     }
+
     public LiveData<HospitalDetails[]> getHospitalData() {
 
         final MutableLiveData<HospitalDetails[]> hospitalLiveData = new MutableLiveData<>();
@@ -83,20 +91,100 @@ public class HosAllocationDataSource {
                 // Handle error
             }
         });
+
+        Log.d("allocation", "get hospital data");
         return hospitalLiveData;
     }
 
-    private void writebackToDatabase(List<int[]> info) {
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Hospital");
+    public LiveData<GardaDetail[]> getGardaData() {
+
+        final MutableLiveData<GardaDetail[]> gardaLiveData = new MutableLiveData<>();
+        if (gardaDetails != null) {
+            gardaLiveData.setValue(gardaDetails);
+            return gardaLiveData;
+        }
+
+        DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference("Garda");
+
+        postsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int len = (int) dataSnapshot.getChildrenCount();
+                gardaDetails = new GardaDetail[len];
+                int count = 0;
+                // Process the retrieved data here
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    int hid = postSnapshot.child("gid").getValue(int.class);
+                    int n_car = postSnapshot.child("n_car").getValue(int.class);
+                    int n_ava_car = postSnapshot.child("n_ava_car").getValue(int.class);
+                    int n_police = postSnapshot.child("n_police").getValue(int.class);
+                    int n_ava_police = postSnapshot.child("n_ava_police").getValue(int.class);
+                    float latitude = postSnapshot.child("latitude").getValue(float.class);
+                    float longitude = postSnapshot.child("longitude").getValue(float.class);
+                    String name = postSnapshot.child("name").getValue(String.class);
+                    gardaDetails[count++] = new GardaDetail(hid, n_car, n_ava_car, n_police, n_ava_police,  latitude, longitude,name);
+                }
+                gardaLiveData.setValue(gardaDetails);
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Handle error
+            }
+        });
+        Log.d("allocation", "get garda data");
+        return gardaLiveData;
+    }
+    public LiveData<FireFighterDetail[]> getFireBrigadeData() {
+
+        final MutableLiveData<FireFighterDetail[]> firefighterLiveData = new MutableLiveData<>();
+        if (fireBrigadeDetails != null) {
+            firefighterLiveData.setValue(fireBrigadeDetails);
+            return firefighterLiveData;
+        }
+
+        DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference("FireBrigade");
+
+        postsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int len = (int) dataSnapshot.getChildrenCount();
+                fireBrigadeDetails = new FireFighterDetail[len];
+                int count = 0;
+                // Process the retrieved data here
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    int fid = postSnapshot.child("fid").getValue(int.class);
+                    int n_truck = postSnapshot.child("n_truck").getValue(int.class);
+                    int n_ava_truck = postSnapshot.child("n_ava_truck").getValue(int.class);
+                    int n_firefighter = postSnapshot.child("n_firefighter").getValue(int.class);
+                    int n_ava_firefighter = postSnapshot.child("n_ava_firefighter").getValue(int.class);
+                    float latitude = postSnapshot.child("latitude").getValue(float.class);
+                    float longitude = postSnapshot.child("longitude").getValue(float.class);
+                    String name = postSnapshot.child("name").getValue(String.class);
+                    fireBrigadeDetails[count++] = new FireFighterDetail(fid, n_truck, n_ava_truck, n_firefighter, n_ava_firefighter,  latitude, longitude,name);
+                }
+                firefighterLiveData.setValue(fireBrigadeDetails);
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Handle error
+            }
+        });
+        Log.d("allocation", "get fire data");
+        return firefighterLiveData;
+    }
+    private void writebackToDatabase(List<int[]> info,String dataBaseName,String dataAvaItem) {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference(dataBaseName);
         for (int[] in : info) {
-            String child = "Hospital" + Integer.toString(in[0]);
-            databaseRef.child(child).child("n_ava_ambulance").setValue(in[1]);
+            String child = dataBaseName + Integer.toString(in[0]);
+            databaseRef.child(child).child(dataAvaItem).setValue(in[1]);
         }
 
     }
 
-    private void doctorTaskGen(int need_ambulance){
-        if(need_ambulance == 0) { return; }
+
+    private void TaskGen(int need_resource,int officerType){
+        Log.d("task", "generate "+Integer.toString(need_resource)+" "+Integer.toString(officerType)+" task");
+        if(need_resource == 0) { return; }
         DatabaseReference avaOfficer = FirebaseDatabase.getInstance().getReference().child("AvailableOfficer");
         DatabaseReference task = FirebaseDatabase.getInstance().getReference().child("TaskInfo");
         avaOfficer.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -104,15 +192,15 @@ public class HosAllocationDataSource {
             public void onDataChange(DataSnapshot snapshot) {
                 int count = 0;
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    if(count == need_ambulance) { break; }
-                    long type = dataSnapshot.child("type").getValue(Long.class);
-                    if(type == 2){
-                        long uid = dataSnapshot.child("uid").getValue(Long.class);
+                    if(count == need_resource) { break; }
+
+                    int type = dataSnapshot.child("type").getValue(int.class);
+                    if(type == officerType){
+                        Long uid = dataSnapshot.child("uid").getValue(Long.class);
                         Map<String, Object> taskInfo = new HashMap<>();
                         //TODO 将ReportData传入后生成task
-//                        String location = getLocationString(reportData.getLatitude(), reportData.getLongitude());
                         taskInfo.put("disasterType", reportData.getDisasterType());
-                        taskInfo.put("injury", reportData.getInjuredNum());
+                        taskInfo.put("injury", reportData.getInjureNum());
                         taskInfo.put("latitude", reportData.getLatitude());
                         taskInfo.put("longitude", reportData.getLongitude());
                         taskInfo.put("uid", uid);
@@ -132,10 +220,23 @@ public class HosAllocationDataSource {
             public void onCancelled(DatabaseError error) {
 
             }
-        });
+        })
+        ;
+
     }
+
+    public void evaluateAll(double latitude, double longitude, int need_ambulance, int need_car, int need_fireTruck){
+
+        evaluateHosResource(latitude,longitude,need_ambulance);
+        evaluateGardaResource(latitude,longitude,need_car);
+        evaluateFirebrigadeResource(latitude,longitude,need_fireTruck);
+
+    }
+
     @TargetApi(Build.VERSION_CODES.N)
     public void evaluateHosResource(double latitude, double longitude, int need_ambulance) {
+
+        Log.d("task", "evaluate hospital resource");
         Map<Integer, Double> disIndex = new HashMap<Integer, Double>();
         double targetLat = Math.toRadians(latitude);
         double targetLong = Math.toRadians(longitude);
@@ -178,7 +279,8 @@ public class HosAllocationDataSource {
                 temp[0] = hid;
                 temp[1] = 0;
                 temp[2] = index;
-            } else {
+            }
+            else {
                 temp[0] = hid;
                 temp[1] = details[index].getAvaAmbulance() - need_ambulance;
                 temp[2] = index;
@@ -186,36 +288,126 @@ public class HosAllocationDataSource {
             }
             res.add(temp);
         }
-        writebackToDatabase(res);
-        doctorTaskGen(need_ambulance);
+        writebackToDatabase(res,"hospital","n_ava_ambulance");
+        TaskGen(need_ambulance,2);
     }
 
-    public static String getLocationString(double lat, double lng) {
-        String apiKey = "YOUR_API_KEY";
-        String urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&key=" + apiKey;
+    public void evaluateGardaResource(double latitude, double longitude, int need_car) {
 
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line;
-            StringBuilder result = new StringBuilder();
-            while ((line = rd.readLine()) != null) {
-                result.append(line);
-            }
-            rd.close();
+        Log.d("task", "evaluate garda resource");
+        Map<Integer, Double> disIndex = new HashMap<Integer, Double>();
+        double targetLat = Math.toRadians(latitude);
+        double targetLong = Math.toRadians(longitude);
 
-            JSONObject jsonObject = new JSONObject(result.toString());
-            JSONArray results = jsonObject.getJSONArray("results");
-            if (results.length() > 0) {
-                return results.getJSONObject(0).getString("formatted_address");
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        for (int i = 0; i < gardaDetails.length; i++) {
+            double sourLat = Math.toRadians(gardaDetails[i].getLatitude());
+            double sourLong = Math.toRadians(gardaDetails[i].getLongitude());
+            double a = targetLat - sourLat;
+            double b = targetLong - sourLong;
+            double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) +
+                    Math.cos(targetLat)*Math.cos(sourLat)*Math.pow(Math.sin(b/2),2)));
+            s = s * EARTH_RADIUS;
+            s = Math.round(s * 10000);
+            disIndex.put(i, s);
         }
+
+        Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return (int)(disIndex.get(o1) - disIndex.get(o2));
+            }
+        });
+
+        for (int i = 0; i < gardaDetails.length; i++) {
+            queue.add(i);
+        }
+
+        List<int[]> res = new ArrayList<>();
+        while (need_car > 0 && queue.size() > 0) {
+            int index = queue.peek();
+            queue.poll();
+            int[] temp = new int[3];
+            int gid = gardaDetails[index].getGid();
+            int avaCar = gardaDetails[index].getN_ava_car();
+            if (avaCar == 0) {
+                continue;
+            }
+            if (need_car >= avaCar) {
+                need_car -= avaCar;
+                temp[0] = gid;
+                temp[1] = 0;
+                temp[2] = index;
+            } else {
+                temp[0] = gid;
+                temp[1] = gardaDetails[index].getN_ava_car() - need_car;
+                temp[2] = index;
+                need_car = 0;
+            }
+            res.add(temp);
+        }
+        writebackToDatabase(res,"Garda","n_ava_car");
+
+
+        TaskGen(need_car,1);
     }
+
+    public void evaluateFirebrigadeResource(double latitude, double longitude, int need_truck) {
+
+        Log.d("task", "evaluate fire resource");
+        Map<Integer, Double> disIndex = new HashMap<Integer, Double>();
+        double targetLat = Math.toRadians(latitude);
+        double targetLong = Math.toRadians(longitude);
+
+        for (int i = 0; i < fireBrigadeDetails.length; i++) {
+            double sourLat = Math.toRadians(fireBrigadeDetails[i].getLatitude());
+            double sourLong = Math.toRadians(fireBrigadeDetails[i].getLongitude());
+            double a = targetLat - sourLat;
+            double b = targetLong - sourLong;
+            double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) +
+                    Math.cos(targetLat)*Math.cos(sourLat)*Math.pow(Math.sin(b/2),2)));
+            s = s * EARTH_RADIUS;
+            s = Math.round(s * 10000);
+            disIndex.put(i, s);
+        }
+
+        Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return (int)(disIndex.get(o1) - disIndex.get(o2));
+            }
+        });
+
+        for (int i = 0; i < fireBrigadeDetails.length; i++) {
+            queue.add(i);
+        }
+
+        List<int[]> res = new ArrayList<>();
+        while (need_truck > 0 && queue.size() > 0) {
+            int index = queue.peek();
+            queue.poll();
+            int[] temp = new int[3];
+            int fid = fireBrigadeDetails[index].getFid();
+            int ava_truck = fireBrigadeDetails[index].getN_ava_truck();
+            if (ava_truck == 0) {
+                continue;
+            }
+            if (need_truck >= ava_truck) {
+                need_truck -= ava_truck;
+                temp[0] = fid;
+                temp[1] = 0;
+                temp[2] = index;
+            } else {
+                temp[0] = fid;
+                temp[1] = gardaDetails[index].getN_ava_car() - need_truck;
+                temp[2] = index;
+                need_truck = 0;
+            }
+            res.add(temp);
+        }
+        writebackToDatabase(res,"FireBrigade","n_ava_truck");
+
+
+        TaskGen(need_truck,3);
+    }
+
 }

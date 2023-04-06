@@ -35,6 +35,9 @@ public class ReportDataSource {
     private static DatabaseReference UserDatabase;
 
     public Result<String> SubmitCitizenReport(ReportFromCitizen reportData) {
+
+
+
         try {
             UserDatabase = FirebaseDatabase.getInstance().getReference().child("Report");
 
@@ -44,21 +47,21 @@ public class ReportDataSource {
 
 
                     String name = "report";
-                    String timestampString = getCurrentTime();
 
 
                     Map<String, String> userData = new HashMap<>();
                     userData.put("type", reportData.getDisasterType());
                     userData.put("description", reportData.getOtherInfo());
-                    userData.put("rtime", timestampString);
+                    userData.put("rtime", reportData.getTimestamp());
                     userData.put("injury", Integer.toString(reportData.getInjuredNum()));
                     userData.put("latitude", Double.toString(reportData.getLatitude()));
                     userData.put("longitude", Double.toString(reportData.getLongitude()));
                     userData.put("state", Integer.toString(reportData.getReportState()));
+                    userData.put("imageURL",reportData.getImageURL());
 
 
-                    timestampString += "000";
-                    name += timestampString;
+
+                    name += reportData.getTimestamp()+"000";
 
                     UserDatabase.child(name).setValue(userData);
                 }
@@ -88,13 +91,13 @@ public class ReportDataSource {
                     String name = "Disaster";
 
 
-                    String timestampString = getCurrentTime();
+
 
 
                     Map<String, String> userData = new HashMap<>();
                     userData.put("type", disasterData.getDisasterType());
                     userData.put("GardaID", disasterData.getGardaUID());
-                    userData.put("happenTime", timestampString);
+                    userData.put("happenTime", disasterData.getHappenTime());
                     userData.put("isUpdate", Integer.toString(disasterData.getUpdate()));
                     userData.put("latitude", Double.toString(disasterData.getLatitude()));
                     userData.put("longitude", Double.toString(disasterData.getLongitude()));
@@ -102,7 +105,7 @@ public class ReportDataSource {
                     userData.put("location", disasterData.getLocation());
 
 
-                    name += timestampString;
+                    name += disasterData.getHappenTime();
                     UserDatabase.child(name).setValue(userData);
                 }
 
@@ -127,9 +130,10 @@ public class ReportDataSource {
         DisasterDetail disasterData = new DisasterDetail(
                 reportData.getRadius(),
                 reportData.getLocation(),
-                getCurrentTime(),
+                reportData.getTimestamp(),
                 reportData.getLatitude(),
                 reportData.getLongitude(),
+                reportData.getInjuredNum(),
                 reportData.getDisasterType(),
                 reportData.getAccountUID(),
                 1
@@ -140,15 +144,6 @@ public class ReportDataSource {
     }
 
 
-    public String getCurrentTime() {
-        long currentTimeMillis = System.currentTimeMillis();
-        Date currentDate = new Date(currentTimeMillis);
 
-        Timestamp timestamp = new Timestamp(currentDate.getTime());
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        String timestampString = dateFormat.format(timestamp);
-        return timestampString;
-    }
 }
 

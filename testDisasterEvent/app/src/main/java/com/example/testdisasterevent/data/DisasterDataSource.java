@@ -54,8 +54,9 @@ public class DisasterDataSource {
                     float longitude = postSnapshot.child("longitude").getValue(float.class);
                     String location = postSnapshot.child("location").getValue(String.class);
                     String rtype = postSnapshot.child("disasterType").getValue(String.class);
+                    int injury=postSnapshot.child("injury").getValue(int.class);
                     details[count++] = new DisasterDetail(radius, location, happenTime, latitude,
-                            longitude, rtype,"123",0);                }
+                            longitude, injury,rtype,"123",0);                }
                 disasterLiveData.setValue(details);
             }
 

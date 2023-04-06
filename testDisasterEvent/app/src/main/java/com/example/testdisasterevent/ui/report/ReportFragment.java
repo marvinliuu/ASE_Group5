@@ -67,6 +67,9 @@ import com.google.firebase.storage.UploadTask;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.FileNotFoundException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -110,8 +113,7 @@ public class ReportFragment extends Fragment {
         }
         //AccountType=1;
         reportData.setDisasterType("0");
-        mStroageRef = FirebaseStorage.getInstance().getReference().child("imageUpload");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("imageUpload");
+
     }
 
 
@@ -251,8 +253,6 @@ public class ReportFragment extends Fragment {
 
 
 
-
-
                 }
             });
         }
@@ -329,20 +329,11 @@ public class ReportFragment extends Fragment {
                 boolean informationCompleted=true;
 
 
-                uploadImage();
 
-                /**
-                 * check the whether the request tokens available
-                 */
-                if (!tokenBucketAlgorithm.allowRequest()) {
-                    ConfirmationDialogFragment dialog=ConfirmationDialogFragment.newInstance("Request reach limit!!!! Try again later");
-                    dialog.show(getFragmentManager(), "");
-                    return;
-                }
 
-                /**
-                 * need to refractory?
-                 * */
+
+
+
 
 
                 if(reportData.getDisasterType()=="0"){
@@ -379,13 +370,32 @@ public class ReportFragment extends Fragment {
                     reportData.setOtherInfo(otherInfoEditText.getText().toString());
                     reportData.setAccountUID(AccountUID);
                     reportData.setReportState(0);
+                    String timeStamp=getCurrentTime();
+                    reportData.setTimestamp(timeStamp);
                     if(AccountType!=0){
+
+
+                        /**
+                         * check the whether the request tokens available
+                         */
+                        if (!tokenBucketAlgorithm.allowRequest()) {
+                            ConfirmationDialogFragment dialog=ConfirmationDialogFragment.newInstance("Request reach limit!!!! Try again later");
+                            dialog.show(getFragmentManager(), "");
+                            return;
+                        }
+
+
                         reportViewModel.CitizenSubmit(reportData);
+
+                        /**
+                         * here to upload image with timestamp as its name
+                         * */
+                        uploadImage(timeStamp);
                         replaceFragment(new SubmitSucessFragment());
                     }
                     else{
                         reportViewModel.GardaSubmit(reportData);
-                        reportViewModel.AllocationSubmit(reportData);
+
                         replaceFragment(new GardaSubmitSucessFragment());
                     }
                 }
@@ -395,16 +405,16 @@ public class ReportFragment extends Fragment {
         return rootView;
     }
 
-//    private String getFileExtension(Uri uri) {
-//        ContentResolver cR = getContentResolver();
-//        MimeTypeMap mime = MimeTypeMap.getSingleton();
-//        return mime.getExtensionFromMimeType(cR.getType(uri));
-//    }
 
-    private void uploadImage() {
+
+    private void uploadImage(String timeStamp) {
+        mStroageRef = FirebaseStorage.getInstance().getReference().child(timeStamp);
+        //mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("imageUpload");
         Context context = getContext();
         if (mImageUri != null) {
             // Upload the image file to Firebase Storage
+
+// Upload the image file to Firebase Storage
 
             UploadTask mUploadTask = mStroageRef.putFile(mImageUri);
             // Register observers to listen for when the upload is done or if it fails
@@ -438,38 +448,6 @@ public class ReportFragment extends Fragment {
 
         }
 
-//        if (mImageUri != null) {
-//            StorageReference fileReference = mStroageRef.child(System.currentTimeMillis()
-//                    + "." + getFileExtension(mImageUri));
-//
-//
-//            UploadTask mUploadTask = mStroageRef.putFile(mImageUri);
-//            mUploadTask = fileReference.putFile(mImageUri)
-//            //fileReference.getDownloadUrl()
-//                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//
-//
-//                            Toast.makeText(context, "Upload successful", Toast.LENGTH_LONG).show();
-//                            UploadImage upload = new UploadImage("name",taskSnapshot.getDownloadUrl().toString());
-//                            String uploadId = mDatabaseRef.push().getKey();
-//                            mDatabaseRef.child(uploadId).setValue(upload);
-//                        }
-//                    })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    })
-//                    ;
-//        }
-//
-//        else {
-//
-//            Toast.makeText(context, "No file selected", Toast.LENGTH_SHORT).show();
-//        }
     }
 
 
@@ -494,6 +472,16 @@ public class ReportFragment extends Fragment {
 
 
     }
+    public String getCurrentTime() {
+        long currentTimeMillis = System.currentTimeMillis();
+        Date currentDate = new Date(currentTimeMillis);
+
+        Timestamp timestamp = new Timestamp(currentDate.getTime());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        String timestampString = dateFormat.format(timestamp);
+        return timestampString;
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -508,6 +496,8 @@ public class ReportFragment extends Fragment {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
             Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+
+
             cameraIcon.setImageBitmap(bitmap);
         }
     }
