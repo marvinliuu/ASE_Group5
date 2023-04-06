@@ -20,6 +20,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -416,8 +417,16 @@ public class ReportFragment extends Fragment {
         }
 
         else {
-
-            Toast.makeText(context, "No file selected", Toast.LENGTH_SHORT).show();
+            LayoutInflater inflater = getLayoutInflater();
+            View view = inflater.inflate(R.layout.view_toast_custom,
+                    getView().findViewById(R.id.lly_toast));
+            TextView tv_msg = (TextView) view.findViewById(R.id.tv_msg);
+            tv_msg.setText("No file selected");
+            Toast toast = new Toast(getContext());
+            toast.setGravity(Gravity.CENTER, 0, 400);
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setView(view);
+            toast.show();
         }
 
 //        if (mImageUri != null) {

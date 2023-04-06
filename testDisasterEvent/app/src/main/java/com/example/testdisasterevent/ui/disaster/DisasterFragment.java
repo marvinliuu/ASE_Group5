@@ -279,8 +279,10 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
         // Add the LinearLayout to the ScrollView
+        if(scrollView.getChildCount() == 1){
+            return;
+        }
         scrollView.addView(linearLayout);
-
         // Create and add a TextView to the RelativeLayout - Title
         TextView title = new TextView(getContext());
         title.setText("No Disaster in Dublin");
@@ -307,7 +309,12 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
         // Add the LinearLayout to the ScrollView
+        if(scrollView.getChildCount() == 1){
+            return;
+        }
         scrollView.addView(linearLayout);
+
+
         // Create multiple RelativeLayouts with multiple views and add them to the LinearLayout
         for (int i = 0; i < details.length; i++) {
             RelativeLayout relativeLayout = new RelativeLayout(getContext());
