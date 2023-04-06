@@ -60,12 +60,17 @@ public class RegisterDataSource {
                     userData.put("uid", count);
                     userData.put("r-time", generateRandomTime());
 
-                    // Check if actCode is null or empty, and assign 0 as default
-                    if (actCode == null || actCode.isEmpty()) {
+                    int actCodeInt = Integer.parseInt(actCode);
+                    if (actCode == null || actCodeInt <= 10000) {
                         userData.put("type", 0);
-                    } else {
-                        int actCodeInt = Integer.parseInt(actCode);
-                        userData.put("type", actCodeInt); // Change to int
+                    } else if (actCodeInt > 10000 && actCodeInt < 20000){
+                        userData.put("type", 1); // Change to int
+                    }
+                    else if (actCodeInt > 20000 && actCodeInt < 30000){
+                        userData.put("type", 2); // Change to int
+                    }
+                    else if (actCodeInt > 30000 && actCodeInt < 40000){
+                        userData.put("type", 3); // Change to int
                     }
 
                     userData.put("phone", phone);
