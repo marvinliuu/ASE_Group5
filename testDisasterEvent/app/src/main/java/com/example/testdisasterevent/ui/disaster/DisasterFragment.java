@@ -66,18 +66,10 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap map;
     private ImageButton closeBtn_disaster, closeBtn_task;
     private ImageView disaster_logo;
-    private TextView typeIntro;
-    private TextView typeDetail;
-    private TextView locIntro;
-    private TextView locDetail;
-    private TextView ftIntro;
-    private TextView ftDetail;
-    private TextView injuryIntro;
-    private TextView injuryDetail;
-    private TextView taskIntro;
-    private TextView taskDetail;
-    private int index;
-    private boolean isPopupWindowShown = false;
+    private TextView typeIntro, typeDetail, locIntro, locDetail;
+    private TextView ftIntro, ftDetail;
+    private TextView injuryIntro, injuryDetail;
+    private TextView taskIntro, taskDetail;
     private IconSettingUtils iconSettingUtils;
     private PopupwindowUtils popupwindowUtils;
 
@@ -145,6 +137,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         taskView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.taskdetails_popupwindow, null);
 
+        // bind view
         txt_show_task = taskView.findViewById(R.id.tv_pop_name);
         disaster_logo = taskView.findViewById(R.id.disaster_logo);
         closeBtn_task = taskView.findViewById(R.id.close_btn1);
@@ -461,7 +454,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void createTaskDetailsPopupWindow(TaskDetail[] details) {
-        String titleText = details[index].getDisasterTitle();
+        String titleText = details[0].getDisasterTitle();
         // Load the custom font from the assets folder
         Typeface topTitleType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
         // Set the font of the TextView to the custom font
@@ -487,13 +480,13 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         Typeface detailsType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_regular.ttf");
         locDetail.setTypeface(detailsType);
         locDetail.setTextSize(15);
-        locDetail.setText(details[index].getLocation());
+        locDetail.setText(details[0].getLocation());
         ftDetail.setTypeface(detailsType);
         ftDetail.setTextSize(15);
-        ftDetail.setText(details[index].getHappenTime());
+        ftDetail.setText(details[0].getHappenTime());
         injuryDetail.setTypeface(detailsType);
         injuryDetail.setTextSize(15);
-        injuryDetail.setText(details[index].getInjury());
+        injuryDetail.setText(details[0].getInjury());
         injuryDetail.setTextColor(Color.RED);
 
         typeDetail.setTypeface(detailsType);

@@ -33,6 +33,7 @@ import com.example.testdisasterevent.data.RerouteDataSource;
 import com.example.testdisasterevent.data.model.DisasterDetail;
 import com.example.testdisasterevent.databinding.FragmentDisasterDetailsBinding;
 //import com.example.testdisasterevent.ui.home.HomeViewModel;
+import com.example.testdisasterevent.utils.PopupwindowUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -93,7 +94,8 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     private Polyline prePolyLine;
     private String showingRoute;
     private List<LatLng> exitsFirst = new ArrayList<LatLng>();
-    private  List<LatLng> exitsExit = new ArrayList<LatLng>();
+    private List<LatLng> exitsExit = new ArrayList<LatLng>();
+    private PopupwindowUtils popupwindowUtils;
 
 
 
@@ -110,6 +112,9 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
             index = bundle.getInt("data_key");
             // Use the data as needed
         }
+
+        // init Utils
+        popupwindowUtils = new PopupwindowUtils();
 
         backBriefBtn = binding.backBrief;
 
@@ -345,7 +350,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
             @Override
             public void onChanged(DisasterDetail[] posts) {
                 if (posts.length > 0) {
-                    showPopwindow();
+                    popupWindow = popupwindowUtils.showPopwindow(contentView);
                     popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
                     createDisasterDetailsPopupWindow(posts);
                     selectRoadFromData(posts[index].getLatitude(), posts[index].getLongitude(), posts[index].getRadius());
@@ -366,6 +371,13 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         });
     }
 
+
+    /**
+     * Date: 23.04.06
+     * Function: set disaster detials click listener
+     * Author: Siyu Liao
+     * Version: Week 11
+     */
     void observeButtonClick(List<LatLng> selectedRoad) {
         firstBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -513,29 +525,6 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         binding = null;
     }
 
-    /**
-     * Date: 23.02.07
-     * Function: show popupWindow
-     * Author: Siyu Liao
-     * Version: Week 3
-     */
-    private void showPopwindow() {
-        popupWindow = new PopupWindow(contentView,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                700);
-        // set SelectPicPopupWindow height
-        popupWindow.setHeight(700);
-        // get focus point
-        popupWindow.setFocusable(true);
-        // set background color of blank area
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        // Click outside to disappear
-        popupWindow.setOutsideTouchable(true);
-        // Settings can be clicked
-        popupWindow.setTouchable(true);
-        // hidden animation
-        popupWindow.setAnimationStyle(R.style.ipopwindow_anim_style);
-    }
 
     @Override
     public void onRouteReady(DirectionsResult result) {
