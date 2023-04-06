@@ -67,7 +67,7 @@
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/activity_home.xml" value="0.3070652173913043" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/activity_login.xml" value="0.3070652173913043" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/disasterdetails_popupwindow.xml" value="0.4466666666666667" />
+        <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/disasterdetails_popupwindow.xml" value="0.5299539170506913" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/fragment_account.xml" value="0.3070652173913043" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/fragment_disaster.xml" value="0.1" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/fragment_disaster_details.xml" value="0.1" />
@@ -79,7 +79,7 @@
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/register_activity.xml" value="0.3070652173913043" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/register_fragment.xml" value="0.22" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/register_popupwindow.xml" value="0.1" />
-        <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/taskdetails_popupwindow.xml" value="0.5" />
+        <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/taskdetails_popupwindow.xml" value="0.3333333333333333" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/view_toast_custom.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.26851851851851855" />
         <entry key="app/src/main/res/drawable/bg_edittext.xml" value="0.36041666666666666" />

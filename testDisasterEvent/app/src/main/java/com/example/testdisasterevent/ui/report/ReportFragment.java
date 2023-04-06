@@ -95,8 +95,8 @@ public class ReportFragment extends Fragment {
         super.onCreate(savedInstanceState);
         /**
          * AccountType
-         * 0 Garda
-         * 1 citizen
+         * 0 Citizen
+         * 1 Garda
          * 2 Doctor
          * 3 Fireman
          *

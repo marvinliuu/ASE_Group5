@@ -247,7 +247,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         ftDetail.setText(details[index].getHappenTime());
         typeDetail.setTypeface(detailsType);
         typeDetail.setTextSize(15);
-        typeDetail.setText("unknown");
+        typeDetail.setText(details[index].getDisasterType());
         upDetail.setTypeface(detailsType);
         upDetail.setTextSize(15);
         upDetail.setText(details[index].getHappenTime());

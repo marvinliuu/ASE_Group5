@@ -74,32 +74,32 @@
             <TextView
                 android:id="@+id/location_details"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="26dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="2dp"
-                android:textColor="@color/black"
-                android:layout_toRightOf="@+id/location_intro" />
+                android:layout_marginTop="3dp"
+                android:layout_toRightOf="@+id/location_intro"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/ftime_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/location_intro"
+                android:layout_alignParentLeft="true"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
                 android:text="First report time:"
-                android:textColor="@color/black"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/location_intro"/>
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/ftime_details"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="26dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="3dp"
                 android:textColor="@color/black"
                 android:layout_toRightOf="@+id/ftime_intro"
-                android:layout_below="@+id/location_details"/>
+                android:layout_below="@+id/location_intro"/>
 
             <TextView
                 android:id="@+id/type_intro"
@@ -115,9 +115,9 @@
             <TextView
                 android:id="@+id/type_details"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="26dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="3dp"
                 android:textColor="@color/black"
                 android:layout_toRightOf="@+id/type_intro"
                 android:layout_below="@+id/ftime_intro"/>
@@ -136,9 +136,9 @@
             <TextView
                 android:id="@+id/update_details"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="26dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="3dp"
                 android:textColor="@color/black"
                 android:layout_toRightOf="@+id/update_intro"
                 android:layout_below="@+id/type_intro"/>
@@ -157,9 +157,9 @@
             <TextView
                 android:id="@+id/radius_details"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="26dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="3dp"
                 android:textColor="@color/black"
                 android:layout_toRightOf="@+id/radius_intro"
                 android:layout_below="@+id/update_intro"/>

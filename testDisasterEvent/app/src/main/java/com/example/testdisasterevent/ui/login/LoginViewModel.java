@@ -70,10 +70,10 @@ public class LoginViewModel extends ViewModel {
                             mobile = user.child("phone").getValue(String.class);
                             registerTime = user.child("r-time").getValue(String.class);
                             userTypeId = user.child("type").getValue(int.class);
-                            if (userTypeId == 1) userType = "Citizen";
+                            if (userTypeId == 1) userType = "Police";
                             else if (userTypeId == 2) userType = "Doctor";
                             else if (userTypeId == 3) userType = "Fireman";
-                            else userType = "Police";
+                            else userType = "Citizen";
                             accountUserInfo = new AccountUserInfo(email, displayName, password, mobile, registerTime, userTypeId, loginUserID, userType);
                             accountUserInfoMutableLiveData.setValue(accountUserInfo);
                             loginStatus = 2;

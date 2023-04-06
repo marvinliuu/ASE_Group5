@@ -44,10 +44,10 @@ public class AccountViewModel extends ViewModel {
                     String mobile = postShot.child("phone").getValue(String.class);
                     int userTypeID = postShot.child("uid").getValue(int.class);
                     String userType = "";
-                    if (userTypeID == 1) userType = "Citizen";
+                    if (userTypeID == 1) userType = "Police";
                     else if (userTypeID == 2) userType = "Doctor";
                     else if (userTypeID == 3) userType = "Fireman";
-                    else userType = "Police";
+                    else userType = "Citizen";
                     userInfo = new AccountUserInfo(email, name, "", mobile, "", userTypeID, 0L, userType);
                     break;
                 }

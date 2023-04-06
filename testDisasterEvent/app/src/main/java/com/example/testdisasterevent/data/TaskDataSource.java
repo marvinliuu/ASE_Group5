@@ -15,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TaskDataSource {
-    private String[] disasterTitles = {"Fire", "Water", "General"};
     public TaskDetail[] details;
 
     public LiveData<TaskDetail[]> getTaskDetails() {
