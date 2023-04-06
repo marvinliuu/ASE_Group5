@@ -121,16 +121,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     private FragmentHomeBinding binding;
     private SupportMapFragment mapFragment;
     private AccountViewModel aViewModel;
-    private EditText  startLocation;
-    private EditText desLocation;
+    private EditText  startLocation, desLocation;
     private ImageButton enterBtn;
     private DisasterViewModel disaterViewModel;
     private DisasterDetail[] details;
-    private LatLng startPoint;
-    private LatLng endPoint;
-    private boolean showRoute = false;
-    private String start;
-    private String end;
+    private LatLng startPoint, endPoint;
+    private String start, end;
     private String[] stop_ids;
     private ImageButton busInfoBtn;
     private HereRerouteDataSource hereRerouteDataSource;
@@ -223,10 +219,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
             marker = map.addMarker(new MarkerOptions().position(currentPosition).title("Marker in Target Location"));
         } else {
             marker.setPosition(currentPosition);
+
         }
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
         // 在此处执行其他操作，例如更新UI或将位置发送到服务器
     }
+
 
     @Override
     public void onPause() {
@@ -245,9 +243,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         super.onDestroy();
         locationTracker.stopLocationUpdates();
     }
-
-
-
 
 
     /**
@@ -294,7 +289,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
 
                 MarkerOptions markerOptions = new MarkerOptions()
                         .position(center)
-                        .icon(markerIcon);
+                        .icon(markerIcon)
+                        .anchor(0.5f, 0.5f);;
                 map.addMarker(markerOptions);
 
                 CircleOptions circleOptions = new CircleOptions();
@@ -343,15 +339,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     //When map id loaded
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        /**
-         * set lat/long here
-         */
-//        LatLng sydney = new LatLng(53.34453, -6.2542);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
-//
-//        googleMap.addMarker(new MarkerOptions()
-//                .position(sydney));
-
         GradientDrawable shapeDrawable = new GradientDrawable();
         shapeDrawable.setShape(GradientDrawable.RECTANGLE);
         shapeDrawable.setCornerRadii(new float[] { 16, 16, 16, 16, 0, 0, 0, 0 });
@@ -537,7 +524,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                 map.setMapType(MAP_TYPE_NORMAL);
                 MarkerOptions markerOptions = new MarkerOptions()
                         .position(center)
-                        .icon(markerIcon);
+                        .icon(markerIcon)
+                        .anchor(0.5f, 0.5f);
                 map.addMarker(markerOptions);
 
                 // add view by order
@@ -636,7 +624,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                                 MarkerOptions options = new MarkerOptions()
                                         .position(location)
                                         .title("vehicleId")
-                                        .icon(markerIcon);
+                                        .icon(markerIcon)
+                                        .anchor(0.5f, 0.5f);
                                 map.addMarker(options);
                             }
                         });

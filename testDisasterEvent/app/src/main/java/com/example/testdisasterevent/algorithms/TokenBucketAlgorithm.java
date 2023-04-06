@@ -16,16 +16,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TokenBucketAlgorithm {
-        private int capacity;
-        private int tokens;
-        private long lastRefillTime;
-        private long refillRate;
+        private int capacity;           // The maximum number of tokens that the bucket can hold
+        private int tokens;             // The number of tokens currently in the bucket
+        private long lastRefillTime;    // The time at which the bucket was last refilled
+        private long refillRate;        // The rate at which the bucket refills (in milliseconds)
 
+
+    /**
+         * Constructor for the TokenBucketAlgorithm class.
+         * Initializes the token bucket with the given capacity and retrieves the token information from the Firebase Realtime Database.
+         *
+         * @param capacity the capacity of the token bucket
+         */
         public TokenBucketAlgorithm(int capacity) {
             this.capacity = capacity;
             getTokenInfoFromDatabase();
         }
 
+        /**
+         * Checks if a request can be allowed based on the current state of the token bucket.
+         * If tokens are available, decrements the token count and writes the updated token information to the Firebase Realtime Database.
+         *
+         * @return true if the request can be allowed, false otherwise
+         */
         public synchronized boolean allowRequest() {
             long currentTime = System.currentTimeMillis();
             refill(currentTime);
@@ -39,11 +52,21 @@ public class TokenBucketAlgorithm {
             }
         }
 
+        /**
+         * Refills the token bucket with tokens based on the refill rate and time elapsed since the last refill.
+         * Should be called periodically to maintain a steady supply of tokens.
+         */
         public void refill() {
             long currentTime = System.currentTimeMillis();
             refill(currentTime);
         }
 
+        /**
+         * Refills the token bucket with tokens based on the refill rate and time elapsed since the last refill.
+         * Should be called periodically to maintain a steady supply of tokens.
+         *
+         * @param currentTime the current time to use for the refill calculation
+         */
         private void refill(long currentTime) {
             long timeSinceLastRefill = currentTime - lastRefillTime;
             int tokensToAdd = (int) (timeSinceLastRefill * capacity / this.refillRate);
@@ -52,6 +75,10 @@ public class TokenBucketAlgorithm {
             writeBackToDatabase(tokens, lastRefillTime);
         }
 
+        /**
+         * Retrieves the token information from the Firebase Realtime Database and updates the token bucket state accordingly.
+         * Should be called once at initialization to retrieve the initial state.
+         */
         private void getTokenInfoFromDatabase() {
             // can be launched in a separate asynchronous job
             DatabaseReference mReference;
@@ -69,6 +96,12 @@ public class TokenBucketAlgorithm {
             });
         }
 
+        /**
+         * Writes the updated token information to the Firebase Realtime Database.
+         *
+         * @param newTokens the updated token count
+         * @param newLastRefillTime the updated last refill time
+         */
         private void writeBackToDatabase(int newTokens, long newLastRefillTime) {
             if (newLastRefillTime == 0) {
                 newLastRefillTime = lastRefillTime;
@@ -97,7 +130,6 @@ public class TokenBucketAlgorithm {
                     Log.w(null, "onCancelled", databaseError.toException());
                 }
             });
-
         }
 
         private void updateTokenInfo(DataSnapshot token) {

@@ -102,6 +102,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         binding = FragmentDisasterDetailsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // get the transport info
         Bundle bundle = getArguments();
         if (bundle != null) {
             index = bundle.getInt("data_key");
@@ -118,24 +119,10 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         exitBtn = binding.exitBtn;
 
         //load popup window layout
-        contentView = LayoutInflater.from(getActivity()).inflate(
-                R.layout.disasterdetails_popupwindow, null);
+        contentView = LayoutInflater.from(getActivity()).inflate(R.layout.disasterdetails_popupwindow, null);
 
         // contentView init subview
-        txt_show = contentView.findViewById(R.id.tv_pop_name);
-        disaster_logo = contentView.findViewById(R.id.disaster_logo);
-        closeBtn = contentView.findViewById(R.id.close_btn);
-        locIntro = contentView.findViewById(R.id.location_intro);
-        locDetail = contentView.findViewById(R.id.location_details);
-        ftIntro = contentView.findViewById(R.id.ftime_intro);
-        ftDetail = contentView.findViewById(R.id.ftime_details);
-        typeIntro = contentView.findViewById(R.id.type_intro);
-        typeDetail = contentView.findViewById(R.id.type_details);
-        upIntro = contentView.findViewById(R.id.update_intro);
-        upDetail = contentView.findViewById(R.id.update_details);
-        radiusIntro = contentView.findViewById(R.id.radius_intro);
-        radiusDetail = contentView.findViewById(R.id.radius_details);
-
+        bindSubView();
 
         requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
@@ -155,6 +142,28 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         setClickListeners();
 
         return root;
+    }
+
+    /**
+     * Date: 23.04.06
+     * Function: bind all the subViews
+     * Author: Siyu Liao
+     * Version: Week 11
+     */
+    private void bindSubView() {
+        txt_show = contentView.findViewById(R.id.tv_pop_name);
+        disaster_logo = contentView.findViewById(R.id.disaster_logo);
+        closeBtn = contentView.findViewById(R.id.close_btn);
+        locIntro = contentView.findViewById(R.id.location_intro);
+        locDetail = contentView.findViewById(R.id.location_details);
+        ftIntro = contentView.findViewById(R.id.ftime_intro);
+        ftDetail = contentView.findViewById(R.id.ftime_details);
+        typeIntro = contentView.findViewById(R.id.type_intro);
+        typeDetail = contentView.findViewById(R.id.type_details);
+        upIntro = contentView.findViewById(R.id.update_intro);
+        upDetail = contentView.findViewById(R.id.update_details);
+        radiusIntro = contentView.findViewById(R.id.radius_intro);
+        radiusDetail = contentView.findViewById(R.id.radius_details);
     }
 
     /**
@@ -184,7 +193,6 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
 
                 // Commit the transaction
                 fragmentTransaction.commit();
-
             }
         });
 
@@ -208,26 +216,14 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         txt_show.setTypeface(topTitleType);
 
         // SET THE INTRODUCTION WORD TEXT STYLE
-        // Load the custom font from the assets folder
-        Typeface generalType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
-        // Set the font of the TextView to the custom font
-        locIntro.setTypeface(generalType);
-        ftIntro.setTypeface(generalType);
-        typeIntro.setTypeface(generalType);
-        upIntro.setTypeface(generalType);
-        radiusIntro.setTypeface(generalType);
+        setDisasterGeneralType();
 
-        Typeface detailsType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_regular.ttf");
-        locDetail.setTypeface(detailsType);
         locDetail.setText(details[index].getLocation());
-        ftDetail.setTypeface(detailsType);
         ftDetail.setText(details[index].getHappenTime());
-        typeDetail.setTypeface(detailsType);
         typeDetail.setText(details[index].getDisasterType());
-        upDetail.setTypeface(detailsType);
         upDetail.setText(details[index].getHappenTime());
-        radiusDetail.setTypeface(detailsType);
         radiusDetail.setText(Integer.toString(details[index].getRadius()) + " m");
+        setDisasterDetailsType();
 
         // set the title icon resource
         iconSettingUtils.setDisIconResource(titleText, disaster_logo);
@@ -247,14 +243,14 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         LatLng center = new LatLng(details[index].getLatitude(), details[index].getLongitude());
         test = center;
 
+        // add marker on the map
         zoomLevel = calZoomLevel(details[index].getRadius());
-
-
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
         map.setMapType(MAP_TYPE_NORMAL);
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(center)
-                .icon(markerIcon);
+                .icon(markerIcon)
+                .anchor(0.5f, 0.5f);
         map.addMarker(markerOptions);
         CircleOptions circleOptions = new CircleOptions()
                 .center(center)
@@ -262,6 +258,32 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
                 .fillColor(0x40FF0000)
                 .strokeWidth(0f);
         map.addCircle(circleOptions);
+    }
+
+    /**
+     * Date: 23.04.06
+     * Function: set Disaster Details Popup Window Text Type
+     * Author: Siyu Liao
+     * Version: Week 11
+     */
+    private void setDisasterDetailsType() {
+        Typeface detailsType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_regular.ttf");
+        locDetail.setTypeface(detailsType);
+        ftDetail.setTypeface(detailsType);
+        typeDetail.setTypeface(detailsType);
+        upDetail.setTypeface(detailsType);
+        radiusDetail.setTypeface(detailsType);
+    }
+
+    private void setDisasterGeneralType() {
+        Typeface generalType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
+        // Load the custom font from the assets folder
+        // Set the font of the TextView to the custom font
+        locIntro.setTypeface(generalType);
+        ftIntro.setTypeface(generalType);
+        typeIntro.setTypeface(generalType);
+        upIntro.setTypeface(generalType);
+        radiusIntro.setTypeface(generalType);
     }
 
     /**
@@ -299,9 +321,6 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        /**
-         * set lat/long here
-         */
         map = googleMap;
 
         disasterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
@@ -389,6 +408,12 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         });
     }
 
+    /**
+     * Date: 23.04.06
+     * Function: set the click map marker - trigger reroute setting logic
+     * Author: Siyu Liao
+     * Version: Week 11
+     */
     void rerouteSetting(LatLng start, LatLng end) {
         // Set up the GeoApiContext with your API key
         GeoApiContext context = new GeoApiContext.Builder()
@@ -520,36 +545,53 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
                 Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Date: 23.04.06
+     * Function: when the route ready, plot on the map
+     * Author: Siyu Liao
+     * Version: Week 11
+     */
     public void onOptimalRouteReady(DirectionsRoute route) {
-        PolylineOptions polylineOptions = new PolylineOptions();
-        if (clickType == 1) {
-            polylineOptions.color(Color.RED);
-        } else {
-            polylineOptions.color(Color.GREEN);
-        }
-        List<LatLng> points = new ArrayList<>();
         if (route == null) {
             return;
         }
         if (route.overviewPolyline == null) {
             return;
         }
+
+        List<LatLng> points = new ArrayList<>();
         List<com.google.maps.model.LatLng> path = route.overviewPolyline.decodePath();
         for (com.google.maps.model.LatLng latLng : path) {
             points.add(new LatLng(latLng.lat, latLng.lng));
         }
-        polylineOptions.addAll(points);
-        polylineOptions.width(20f);
 
-        polylineOptions.startCap(new RoundCap());
-        polylineOptions.endCap(new RoundCap());
-        polylineOptions.jointType(JointType.ROUND);
-        polylineOptions.geodesic(true);
+        PolylineOptions polylineOptions = setPolyLineOptions(points);
         if (prePolyLine != null) {
             prePolyLine.remove();
         }
         prePolyLine = map.addPolyline(polylineOptions);
     }
 
+    /**
+     * Date: 23.04.06
+     * Function: set the polyline options info for polyline shows
+     * Author: Siyu Liao
+     * Version: Week 11
+     */
+    private PolylineOptions setPolyLineOptions(List<LatLng> points) {
+        PolylineOptions polylineOptions = new PolylineOptions();
+        if (clickType == 1) {
+            polylineOptions.color(Color.RED);
+        } else {
+            polylineOptions.color(Color.GREEN);
+        }
+        polylineOptions.addAll(points);
+        polylineOptions.width(20f);
+        polylineOptions.startCap(new RoundCap());
+        polylineOptions.endCap(new RoundCap());
+        polylineOptions.jointType(JointType.ROUND);
+        polylineOptions.geodesic(true);
+        return polylineOptions;
+    }
 
 }
