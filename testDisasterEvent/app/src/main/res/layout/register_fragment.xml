@@ -61,6 +61,16 @@
         app:layout_constraintRight_toLeftOf="@+id/registerPassword"
         app:layout_constraintTop_toTopOf="@+id/registerPassword" />
 
+    <ImageView
+        android:id="@+id/mustFilledIn3"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/star"
+        android:scaleType="fitXY"
+        app:layout_constraintRight_toLeftOf="@+id/registerPhone"
+        app:layout_constraintTop_toTopOf="@+id/registerPhone" />
+
 
     <Button
         android:id="@+id/registerFinish"
@@ -163,6 +173,27 @@
         app:layout_constraintTop_toBottomOf="@+id/registerName" />
 
     <EditText
+        android:id="@+id/registerPhone"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_edittext"
+        android:ems="15"
+        android:hint="Phone Number"
+        android:textColorHint="@color/white"
+        android:inputType="textPhonetic"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@dimen/activity_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerPassword" />
+
+    <EditText
         android:id="@+id/registerActivationCode"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -180,7 +211,7 @@
         app:layout_constraintBottom_toBottomOf="@dimen/activity_horizontal_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/registerPhone" />
 
     <ImageView
         android:id="@+id/passwordVisible"

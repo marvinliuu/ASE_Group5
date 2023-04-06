@@ -37,7 +37,7 @@ public class RegisterDataSource {
      * @param email - user's email
      * @param actCode - Activation Code for type
      */
-    public Result<String> register(String username, String password, String email, String actCode) {
+    public Result<String> register(String username, String password, String email, String phone, String actCode) {
         try {
             // Write user data to Firebase Realtime Database
             mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -68,7 +68,7 @@ public class RegisterDataSource {
                         userData.put("type", actCodeInt); // Change to int
                     }
 
-                    userData.put("phone", "877022342");
+                    userData.put("phone", phone);
 
                     userId += count;
                     userDatabase.child(userId).setValue(userData);

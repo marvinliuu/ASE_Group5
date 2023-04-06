@@ -24,9 +24,9 @@ public class RegisterViewModel extends ViewModel {
         this.registerRepository = registerRepository;
     }
     // TODO: Implement the ViewModel
-    public boolean register(String username, String password, String email, String actCode) {
+    public boolean register(String username, String password, String email, String phone, String actCode) {
         // can be launched in a separate asynchronous job
-        Result<String> result = registerRepository.register(username, password, email, actCode);
+        Result<String> result = registerRepository.register(username, password, email, phone, actCode);
 
         if (result instanceof Result.Success) {
             return true;

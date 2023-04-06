@@ -40,6 +40,7 @@ public class RegisterFragment extends Fragment {
     private EditText registerName;
     private EditText registerEmail;
     private EditText registerPwd;
+    private EditText registerPhone;
     private EditText registerActCode;
     private boolean pwdFlag = false;
     private PopupWindow popupWindow;
@@ -62,6 +63,7 @@ public class RegisterFragment extends Fragment {
         registerName = binding.registerName;
         registerEmail = binding.registerEmail;
         registerPwd = binding.registerPassword;
+        registerPhone = binding.registerPhone;
         registerActCode = binding.registerActivationCode;
 
         pwdVisible = binding.passwordVisible;
@@ -99,6 +101,7 @@ public class RegisterFragment extends Fragment {
         registerEmail.addTextChangedListener(afterTextChangedListener);
         registerPwd.addTextChangedListener(afterTextChangedListener);
         registerName.addTextChangedListener(afterTextChangedListener);
+        registerPhone.addTextChangedListener(afterTextChangedListener);
         registerActCode.addTextChangedListener(afterTextChangedListener);
 
         registerBack.setOnClickListener(new View.OnClickListener() {
@@ -135,9 +138,10 @@ public class RegisterFragment extends Fragment {
                 String name = registerName.getText().toString();
                 String email = registerEmail.getText().toString();
                 String pwd = registerPwd.getText().toString();
+                String phone = registerPhone.getText().toString();
                 String actCode = registerActCode.getText().toString();
 
-                mViewModel.register(name, pwd, email, actCode);
+                mViewModel.register(name, pwd, email, phone, actCode);
 
                 Intent login_intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(login_intent);

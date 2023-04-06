@@ -23,9 +23,9 @@ public class RegisterRepository {
 
 
 
-    public Result<String> register(String username, String password, String email, String actCode) {
+    public Result<String> register(String username, String password, String email, String phone, String actCode) {
         // handle login
-        Result<String> result = dataSource.register(username, password, email, actCode);
+        Result<String> result = dataSource.register(username, password, email, phone, actCode);
         return result;
     }
 
