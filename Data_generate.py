@@ -288,15 +288,23 @@ final_data['UserInfo'] = data
 # read csv
 df = pd.read_csv('stops.csv')
 
+# filter lon and lat in dublin range
+df = df[(df['stop_lat'] >= 53.148934) & (df['stop_lat'] <= 53.627191)]
+df = df[(df['stop_lon'] >= -6.445703) & (df['stop_lon'] <= -6.043574)]
+
+# consider every line as a node
 # consider every line as a node
 nodes = {}
 for i, row in enumerate(df.itertuples(index=False)):
     node = {'BusID': i + 1}
     node.update(row._asdict())
-    nodes[f'BusID_{i + 1}'] = node
+    node.pop('stop_id')
+    # modify the key
+    nodes[row.stop_id] = node
 
 # update final_data with BusStopInfo
 final_data.update({'BusStopInfo': nodes})
+
 
 # test available offcier
 data = {}
