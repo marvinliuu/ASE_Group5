@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.testdisasterevent.algorithms.FindMaxAreaAlgorithm;
 import com.example.testdisasterevent.data.DisasterDataSource;
 import com.example.testdisasterevent.data.HosAllocationDataSource;
 import com.example.testdisasterevent.data.LoginRepository;
@@ -43,6 +44,7 @@ public class DisasterViewModel extends ViewModel {
     //private HosAllocationDataSource hosAllocationDataSource;
     private RoadsInfoDatasource roadsInfoDatasource;
     private RerouteDataSource rerouteDataSource;
+    private FindMaxAreaAlgorithm findMaxAreaAlgorithm;
 
 
     public LiveData<DisasterDetail[]> getDisasterDetails() {
@@ -79,6 +81,7 @@ public class DisasterViewModel extends ViewModel {
                 .apiKey("AIzaSyDrYjvowVSGRHTyi5vO7CZx2Py32G1BoaY")
                 .build();
         rerouteDataSource = new RerouteDataSource(context);
+        findMaxAreaAlgorithm = new FindMaxAreaAlgorithm();
     }
 
     public double distance(LatLng point1, LatLng point2) {
@@ -96,38 +99,7 @@ public class DisasterViewModel extends ViewModel {
         double distance = R * c;
         return distance;
     }
-
-    private static double calculateArea(List<LatLng> points) {
-        double area = 0;
-        int j = points.size() - 1;
-        for (int i = 0; i < points.size(); i++) {
-            area += (points.get(j).longitude + points.get(i).longitude) * (points.get(j).latitude - points.get(i).latitude);
-            j = i;
-        }
-        return Math.abs(area / 2);
-    }
-
-
-    @TargetApi(Build.VERSION_CODES.N)
-    public List<LatLng> findMaxAreaPoints(List<LatLng> points, int k) {
-        if (points == null || points.size() < k) {
-            return new ArrayList<>();
-        }
-
-        points.sort(Comparator.comparingDouble(p -> p.latitude));
-        double maxArea = 0;
-        List<LatLng> result = new ArrayList<>();
-
-        for (int i = 0; i <= points.size() - k; i++) {
-            List<LatLng> currentPoints = points.subList(i, i + k);
-            double area = calculateArea(currentPoints);
-            if (area > maxArea) {
-                maxArea = area;
-                result = currentPoints;
-            }
-        }
-        return result;
-    }
+    
 
     public List<LatLng> selectEntries(Set<LatLng> candidate, double radius) {
         int pointsNum = (int)(radius / 20);
@@ -136,7 +108,7 @@ public class DisasterViewModel extends ViewModel {
         List<LatLng> candidateList = new ArrayList<>(candidate);
         if (pointsNum == 2) return selectTwoEntries(candidate, radius);
         else {
-            List<LatLng> res = findMaxAreaPoints(candidateList, pointsNum);
+            List<LatLng> res = findMaxAreaAlgorithm.findMaxAreaPoints(candidateList, pointsNum);
             return res;
         }
     }

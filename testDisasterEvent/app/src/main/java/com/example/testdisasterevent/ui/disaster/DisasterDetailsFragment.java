@@ -33,6 +33,7 @@ import com.example.testdisasterevent.data.RerouteDataSource;
 import com.example.testdisasterevent.data.model.DisasterDetail;
 import com.example.testdisasterevent.databinding.FragmentDisasterDetailsBinding;
 //import com.example.testdisasterevent.ui.home.HomeViewModel;
+import com.example.testdisasterevent.utils.IconSettingUtils;
 import com.example.testdisasterevent.utils.PopupwindowUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -73,22 +74,15 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     private TextView txt_show;
     private ImageView disaster_logo;
     private ImageButton closeBtn;
-    private TextView locIntro;
-    private TextView locDetail;
-    private TextView ftIntro;
-    private TextView ftDetail;
-    private TextView typeIntro;
-    private TextView typeDetail;
-    private TextView upIntro;
-    private TextView upDetail;
-    private TextView radiusIntro;
-    private TextView radiusDetail;
-    private ImageButton firstBtn;
-    private ImageButton exitBtn;
+    private TextView locIntro, locDetail, ftIntro, ftDetail;
+    private TextView typeIntro, typeDetail, upIntro, upDetail;
+    private TextView radiusIntro, radiusDetail;
+    private ImageButton firstBtn, exitBtn;
     private int index;
     private Set<LatLng> roadSet;
     private List<LatLng> selectedRoad;
     private float zoomLevel;
+    // TODO: change the name of test, it means the user location
     private LatLng test;
     private int clickType;
     private Polyline prePolyLine;
@@ -96,6 +90,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     private List<LatLng> exitsFirst = new ArrayList<LatLng>();
     private List<LatLng> exitsExit = new ArrayList<LatLng>();
     private PopupwindowUtils popupwindowUtils;
+    private IconSettingUtils iconSettingUtils;
 
 
 
@@ -115,14 +110,18 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
 
         // init Utils
         popupwindowUtils = new PopupwindowUtils();
+        iconSettingUtils = new IconSettingUtils();
 
+        // binding view
         backBriefBtn = binding.backBrief;
+        firstBtn = binding.firstAidBtn;
+        exitBtn = binding.exitBtn;
 
         //load popup window layout
         contentView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.disasterdetails_popupwindow, null);
 
-        // bind view
+        // contentView init subview
         txt_show = contentView.findViewById(R.id.tv_pop_name);
         disaster_logo = contentView.findViewById(R.id.disaster_logo);
         closeBtn = contentView.findViewById(R.id.close_btn);
@@ -138,14 +137,11 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         radiusDetail = contentView.findViewById(R.id.radius_details);
 
 
-        firstBtn = binding.firstAidBtn;
-        exitBtn = binding.exitBtn;
-
-
         requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
 
+        // init map fragment
         mapFragment= (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if(mapFragment == null){
             FragmentManager fm= getFragmentManager();
@@ -155,6 +151,19 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         }
         mapFragment.getMapAsync(this);
 
+        // set Button Click
+        setClickListeners();
+
+        return root;
+    }
+
+    /**
+     * Date: 23.04.06
+     * Function: set all the button click listeners
+     * Author: Siyu Liao
+     * Version: Week 11
+     */
+    private void setClickListeners () {
 
         backBriefBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,31 +194,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
                 popupWindow.dismiss();
             }
         });
-
-        return root;
     }
-
-    private final LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            // 获取当前位置
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
-            test = new LatLng(latitude, longitude);
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-        }
-    };
 
 
     public void createDisasterDetailsPopupWindow(DisasterDetail[] details) {
@@ -221,48 +206,36 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         Typeface topTitleType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
         // Set the font of the TextView to the custom font
         txt_show.setTypeface(topTitleType);
-        txt_show.setTextSize(25);
 
         // SET THE INTRODUCTION WORD TEXT STYLE
         // Load the custom font from the assets folder
         Typeface generalType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
         // Set the font of the TextView to the custom font
         locIntro.setTypeface(generalType);
-        locIntro.setTextSize(15);
         ftIntro.setTypeface(generalType);
-        ftIntro.setTextSize(15);
         typeIntro.setTypeface(generalType);
-        typeIntro.setTextSize(15);
         upIntro.setTypeface(generalType);
-        upIntro.setTextSize(15);
         radiusIntro.setTypeface(generalType);
-        radiusIntro.setTextSize(15);
 
         Typeface detailsType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_regular.ttf");
         locDetail.setTypeface(detailsType);
-        locDetail.setTextSize(15);
         locDetail.setText(details[index].getLocation());
         ftDetail.setTypeface(detailsType);
-        ftDetail.setTextSize(15);
         ftDetail.setText(details[index].getHappenTime());
         typeDetail.setTypeface(detailsType);
-        typeDetail.setTextSize(15);
         typeDetail.setText(details[index].getDisasterType());
         upDetail.setTypeface(detailsType);
-        upDetail.setTextSize(15);
         upDetail.setText(details[index].getHappenTime());
         radiusDetail.setTypeface(detailsType);
-        radiusDetail.setTextSize(15);
         radiusDetail.setText(Integer.toString(details[index].getRadius()) + " m");
 
         // set the title icon resource
-        setDisIconResource(titleText);
+        iconSettingUtils.setDisIconResource(titleText, disaster_logo);
 
         // set the title color & text
         setDisTitle(titleText);
 
-
-        Bitmap bitmap = createDisIconOnMap(titleText);
+        Bitmap bitmap = iconSettingUtils.createDisIconOnMap(titleText, getResources());
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         float scaledWidth = width * 0.5f;
@@ -274,21 +247,10 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         LatLng center = new LatLng(details[index].getLatitude(), details[index].getLongitude());
         test = center;
 
-
-        int radius = details[index].getRadius();
-        if(radius >= 100){
-            zoomLevel = 17f;
-        }
-        else if(radius >= 20){
-            zoomLevel = 19f;
-        }
-        else{
-            zoomLevel = 20f;
-        }
+        zoomLevel = calZoomLevel(details[index].getRadius());
 
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
-
         map.setMapType(MAP_TYPE_NORMAL);
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(center)
@@ -299,18 +261,27 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
                 .radius(details[index].getRadius())
                 .fillColor(0x40FF0000)
                 .strokeWidth(0f);
-        //.fillOpacity();
         map.addCircle(circleOptions);
     }
 
-    public void setDisIconResource (String title) {
-        if (title.equals("Fire")) {
-            disaster_logo.setImageResource(R.drawable.fire_logo);
-        } else if (title.equals("Water")) {
-            disaster_logo.setImageResource(R.drawable.water_logo);
-        } else {
-            disaster_logo.setImageResource(R.drawable.other_logo);
+    /**
+     * Date: 23.04.06
+     * Function: calculate zoom level
+     * Author: Siyu Liao
+     * Version: Week 11
+     */
+    private float calZoomLevel (int radius) {
+        float zoomLevel;
+        if(radius >= 100) {
+            zoomLevel = 17f;
         }
+        else if(radius >= 20) {
+            zoomLevel = 19f;
+        }
+        else {
+            zoomLevel = 20f;
+        }
+        return zoomLevel;
     }
 
     public void setDisTitle (String title) {
@@ -324,19 +295,6 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
             txt_show.setText(title);
             txt_show.setTextColor(Color.RED);
         }
-    }
-
-    public Bitmap createDisIconOnMap (String title) {
-        // Create and add an ImageView to the RelativeLayout - disaster logo
-        Bitmap bitmap;
-        if (title.equals("Fire")) {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fire_logo);
-        } else if (title.equals("Water")) {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.water_logo);
-        } else {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.other_logo);
-        }
-        return bitmap;
     }
 
     @Override

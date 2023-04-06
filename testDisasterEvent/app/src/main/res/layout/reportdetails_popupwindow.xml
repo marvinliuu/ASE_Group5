@@ -70,6 +70,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
                 android:text="Location:"
+                android:textSize="15sp"
                 android:textColor="@color/black" />
 
             <TextView
@@ -78,6 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
+                android:textSize="15sp"
                 android:layout_toRightOf="@+id/location_intro"
                 android:textColor="@color/black" />
 
@@ -90,6 +92,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
                 android:text="Type:"
+                android:textSize="15sp"
                 android:textColor="@color/black" />
 
             <TextView
@@ -99,6 +102,7 @@
                 android:layout_below="@+id/location_intro"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
+                android:textSize="15sp"
                 android:layout_toRightOf="@+id/type_intro"
                 android:textColor="@color/black" />
 
@@ -111,6 +115,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
                 android:text="Report Time:"
+                android:textSize="15sp"
                 android:textColor="@color/black" />
 
             <TextView
@@ -120,6 +125,7 @@
                 android:layout_below="@+id/type_details"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
+                android:textSize="15sp"
                 android:layout_toRightOf="@+id/rtime_intro"
                 android:textColor="@color/black" />
 
@@ -131,6 +137,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
+                android:textSize="15sp"
                 android:text="Happened Time:"
                 android:textColor="@color/black" />
 
@@ -141,8 +148,10 @@
                 android:layout_below="@+id/rtime_details"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
+                android:textSize="15sp"
                 android:layout_toRightOf="@+id/htime_intro"
                 android:textColor="@color/black" />
+
             <TextView
                 android:id="@+id/report_injured_intro"
                 android:layout_width="wrap_content"
@@ -151,6 +160,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
+                android:textSize="15sp"
                 android:text="Report Injured:"
                 android:textColor="@color/black" />
 
@@ -161,6 +171,7 @@
                 android:layout_below="@+id/htime_details"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
+                android:textSize="15sp"
                 android:layout_toRightOf="@+id/report_injured_intro"
                 android:textColor="@color/black" />
 
@@ -172,6 +183,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
+                android:textSize="15sp"
                 android:text="Other Information:"
                 android:textColor="@color/black" />
 
@@ -182,6 +194,7 @@
                 android:layout_below="@+id/report_injured_details"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
+                android:textSize="15sp"
                 android:layout_toRightOf="@+id/otherinfo_intro"
                 android:textColor="@color/black" />
 

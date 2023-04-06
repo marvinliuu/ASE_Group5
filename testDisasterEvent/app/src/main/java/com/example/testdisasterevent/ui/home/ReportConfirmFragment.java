@@ -166,26 +166,18 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
         Typeface generalType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
         // Set the font of the TextView to the custom font
         locIntro.setTypeface(generalType);
-        locIntro.setTextSize(15);
         rtIntro.setTypeface(generalType);
-        rtIntro.setTextSize(15);
         htIntro.setTypeface(generalType);
-        htIntro.setTextSize(15);
         typeIntro.setTypeface(generalType);
-        typeIntro.setTextSize(15);
 
         Typeface detailsType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_regular.ttf");
         locDetail.setTypeface(detailsType);
-        locDetail.setTextSize(15);
         locDetail.setText(infos[index].getLocation());
         rtDetail.setTypeface(detailsType);
-        rtDetail.setTextSize(15);
         rtDetail.setText(infos[index].getReportTime());
         htDetail.setTypeface(detailsType);
-        htDetail.setTextSize(15);
         htDetail.setText(infos[index].getHappenTime());
         typeDetail.setTypeface(detailsType);
-        typeDetail.setTextSize(15);
         typeDetail.setText("unknown");
 
         report_confirm.setOnClickListener(new View.OnClickListener() {

@@ -25,6 +25,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="2dp"
         android:text="Disaster in Dublin"
+        android:textSize="25sp"
         android:textColor="@color/black"
         android:layout_toRightOf="@+id/disaster_logo" />
 
@@ -68,6 +69,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
                 android:text="Location:"
+                android:textSize="15sp"
                 android:textColor="@color/black"
                 android:layout_alignParentLeft="true" />
 
@@ -78,7 +80,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="3dp"
                 android:layout_toRightOf="@+id/location_intro"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/ftime_intro"
@@ -87,8 +90,8 @@
                 android:layout_below="@+id/location_intro"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="2dp"
                 android:text="First report time:"
+                android:textSize="15sp"
                 android:textColor="@color/black" />
 
             <TextView
@@ -97,6 +100,7 @@
                 android:layout_height="26dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="3dp"
+                android:textSize="15sp"
                 android:textColor="@color/black"
                 android:layout_toRightOf="@+id/ftime_intro"
                 android:layout_below="@+id/location_intro"/>
@@ -108,6 +112,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
                 android:text="Type:"
+                android:textSize="15sp"
                 android:textColor="@color/black"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/ftime_intro"/>
@@ -119,6 +124,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="3dp"
                 android:textColor="@color/black"
+                android:textSize="15sp"
                 android:layout_toRightOf="@+id/type_intro"
                 android:layout_below="@+id/ftime_intro"/>
 
@@ -129,6 +135,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
                 android:text="Updated:"
+                android:textSize="15sp"
                 android:textColor="@color/black"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/type_intro"/>
@@ -140,6 +147,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="3dp"
                 android:textColor="@color/black"
+                android:textSize="15sp"
                 android:layout_toRightOf="@+id/update_intro"
                 android:layout_below="@+id/type_intro"/>
 
@@ -150,6 +158,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
                 android:text="Radius:"
+                android:textSize="15sp"
                 android:textColor="@color/black"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/update_intro"/>
@@ -160,6 +169,7 @@
                 android:layout_height="26dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="3dp"
+                android:textSize="15sp"
                 android:textColor="@color/black"
                 android:layout_toRightOf="@+id/radius_intro"
                 android:layout_below="@+id/update_intro"/>

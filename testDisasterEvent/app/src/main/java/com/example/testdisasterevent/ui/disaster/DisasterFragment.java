@@ -474,34 +474,24 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
         Typeface generalType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
         // Set the font of the TextView to the custom font
         locIntro.setTypeface(generalType);
-        locIntro.setTextSize(15);
         ftIntro.setTypeface(generalType);
-        ftIntro.setTextSize(15);
         typeIntro.setTypeface(generalType);
-        typeIntro.setTextSize(15);
         injuryIntro.setTypeface(generalType);
-        injuryIntro.setTextSize(15);
         taskIntro.setTypeface(generalType);
-        taskIntro.setTextSize(15);
 
         Typeface detailsType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_regular.ttf");
         locDetail.setTypeface(detailsType);
-        locDetail.setTextSize(15);
         locDetail.setText(details[0].getLocation());
         ftDetail.setTypeface(detailsType);
-        ftDetail.setTextSize(15);
         ftDetail.setText(details[0].getHappenTime());
         injuryDetail.setTypeface(detailsType);
-        injuryDetail.setTextSize(15);
         injuryDetail.setText(details[0].getInjury());
         injuryDetail.setTextColor(Color.RED);
 
         typeDetail.setTypeface(detailsType);
-        typeDetail.setTextSize(15);
         typeDetail.setText(titleText);
 
         taskDetail.setTypeface(detailsType);
-        taskDetail.setTextSize(15);
         taskDetail.setText("unknown");
 
         // set the title icon resource
@@ -535,6 +525,5 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback {
             popupWindow_disaster.dismiss();
         }
         disasterViewModel.getDisasterDetails().removeObservers(this);
-        //disasterViewModel.getHospitalDetails().removeObservers(this);
     }
 }

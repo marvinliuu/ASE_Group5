@@ -131,13 +131,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
     private IconSettingUtils iconSettingUtils;
     private PopupwindowUtils popupwindowUtils;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
-
     private FusedLocationProviderClient fusedLocationClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
     private double currentLatitude;
     private double currentLongitude;
     private Marker marker;
+    private Polyline reroutePolyline;
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -375,9 +375,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
 
     List<GeoBox> calDisAreaGeoInfo() {
         List<GeoBox> geoBoxes = new ArrayList<GeoBox>();
-        if (details == null) return geoBoxes;
+        if (details == null)
+            return geoBoxes;
         for (DisasterDetail detail : details) {
-            LatLng[] latLng = homeViewModel.calculateDestinationLocations(new LatLng(detail.getLongitude(), detail.getLatitude()), detail.getRadius());
+            LatLng[] latLng = homeViewModel.calculateDestinationLocations(new LatLng(detail.getLatitude(), detail.getLongitude()), detail.getRadius());
             geoBoxes.add(new GeoBox(new GeoCoordinates(latLng[0].latitude, latLng[0].longitude), new GeoCoordinates(latLng[1].latitude, latLng[1].longitude)));
         }
         return geoBoxes;
@@ -408,6 +409,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
         hereRerouteDataSource.livePointData.observe(getActivity(), new Observer<List<LatLng>>() {
             @Override
             public void onChanged(List<LatLng> latLngs) {
+                if (reroutePolyline != null)
+                    reroutePolyline.remove();
                 PolylineOptions polylineOptions = new PolylineOptions();
                 polylineOptions.color(Color.YELLOW);
 
@@ -418,7 +421,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
                 polylineOptions.endCap(new RoundCap());
                 polylineOptions.jointType(JointType.ROUND);
                 polylineOptions.geodesic(true);
-                map.addPolyline(polylineOptions);
+                reroutePolyline = map.addPolyline(polylineOptions);
             }
         });
         createDisasterCircleOnMap();
@@ -634,7 +637,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
 
                 // Commit the transaction
                 fragmentTransaction.commit();
-
             }
         });
     }
@@ -746,7 +748,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback  {
                     // Open a connection to the API and set request headers
                     HttpsURLConnection connection = (HttpsURLConnection) requestUrl.openConnection();
                     connection.setRequestMethod("GET");
-//                    connection.setRequestProperty("Content-Type", "application/json");
                     connection.setRequestProperty("Cache-Control", "no-cache");
                     connection.setRequestProperty("x-api-key", "770a598030974f42a7f0adf379244ffc");
 

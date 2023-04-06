@@ -70,6 +70,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
                 android:text="Type:"
+                android:textSize="15sp"
                 android:textColor="@color/black" />
 
             <TextView
@@ -79,6 +80,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="3dp"
                 android:textColor="@color/black"
+                android:textSize="15sp"
                 android:layout_toRightOf="@+id/type_intro" />
 
             <TextView
@@ -89,6 +91,7 @@
                 android:layout_marginTop="2dp"
                 android:text="Location:"
                 android:textColor="@color/black"
+                android:textSize="15sp"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/type_intro"/>
 
@@ -99,6 +102,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="3dp"
                 android:textColor="@color/black"
+                android:textSize="15sp"
                 android:layout_toRightOf="@+id/location_intro"
                 android:layout_below="@+id/type_intro"/>
 
@@ -110,6 +114,7 @@
                 android:layout_marginTop="2dp"
                 android:text="First report time:"
                 android:textColor="@color/black"
+                android:textSize="15sp"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/location_intro"/>/>
 
@@ -120,6 +125,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="3dp"
                 android:textColor="@color/black"
+                android:textSize="15sp"
                 android:layout_toRightOf="@+id/ftime_intro"
                 android:layout_below="@+id/location_intro"/>
 
@@ -132,6 +138,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
                 android:text="Injury:"
+                android:textSize="15sp"
                 android:textColor="@color/black" />
 
             <TextView
@@ -141,6 +148,7 @@
                 android:layout_below="@+id/ftime_intro"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="3dp"
+                android:textSize="15sp"
                 android:layout_toRightOf="@+id/injury_intro"
                 android:textColor="@color/black" />
 
@@ -153,6 +161,7 @@
                 android:text="Task:"
                 android:textColor="@color/black"
                 android:layout_alignParentLeft="true"
+                android:textSize="15sp"
                 android:layout_below="@+id/injury_intro"/>
 
             <TextView
@@ -162,6 +171,7 @@
                 android:layout_below="@+id/injury_intro"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="3dp"
+                android:textSize="15sp"
                 android:layout_toRightOf="@+id/injury_intro"
                 android:textColor="@color/black" />
 
