@@ -28,6 +28,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.data.model.ReportInfo;
 import com.example.testdisasterevent.databinding.FragmentHomeReportdetailsBinding;
+import com.example.testdisasterevent.utils.IconSettingUtils;
+import com.example.testdisasterevent.utils.PopupwindowUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -60,16 +62,9 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
     private TextView rtDetail;
     private TextView htIntro;
     private TextView htDetail;
-    //        private TextView report_injuredInfo;
-//        private TextView report_injuredDetail;
-//        private TextView otherinfoIntro;
-//        private TextView otherinfoDetail;
     private int index;
-
-
-//    public void setSharedViewModel(DisaterViewModel disasterViewModel) {
-//        this.disaterViewModel = disasterViewModel;
-//    }
+    private PopupwindowUtils popupwindowUtils;
+    private IconSettingUtils iconSettingUtils;
 
 
     public View onCreateView(LayoutInflater inflater,
@@ -88,6 +83,10 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
 
         backBriefBtn = binding.backBrief;
 
+        // init Utils
+        popupwindowUtils = new PopupwindowUtils();
+        iconSettingUtils = new IconSettingUtils();
+
         //load popup window layout
         contentView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.reportdetails_popupwindow, null);
@@ -105,11 +104,6 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
         htDetail = contentView.findViewById(R.id.htime_details);
         typeIntro = contentView.findViewById(R.id.type_intro);
         typeDetail = contentView.findViewById(R.id.type_details);
-//            report_injuredInfo = contentView.findViewById(R.id.report_injured_intro);
-//            report_injuredDetail =contentView.findViewById(R.id.report_injured_details);
-//            otherinfoIntro = contentView.findViewById(R.id.otherinfo_intro);
-//            otherinfoDetail = contentView.findViewById(R.id.otherinfo_details);
-
 
 
         requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
@@ -149,8 +143,6 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
         });
 
 
-
-
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,13 +173,7 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
         htIntro.setTextSize(15);
         typeIntro.setTypeface(generalType);
         typeIntro.setTextSize(15);
-//            report_injuredInfo.setTypeface(generalType);
-//            report_injuredInfo.setTextSize(15);
-//            otherinfoIntro.setTypeface(generalType);
-//            otherinfoIntro.setTextSize(15);
 
-//            System.out.println(2222);
-//            System.out.println(String.valueOf(infos[index].toString()));
         Typeface detailsType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_regular.ttf");
         locDetail.setTypeface(detailsType);
         locDetail.setTextSize(15);
@@ -213,23 +199,14 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
             }
         });
 
-//            report_injuredDetail.setTypeface(detailsType);
-//            report_injuredDetail.setTextSize(15);
-//            report_injuredDetail.setText(infos[index].getInjured());
-//            otherinfoDetail.setTypeface(detailsType);
-//            otherinfoDetail.setTextSize(15);
-//            otherinfoDetail.setText(infos[index].getDescription());
-
-
-
         // set the title icon resource
-        setDisIconResource(titleText);
+        iconSettingUtils.setDisIconResource(titleText, disaster_logo);
 
         // set the title color & text
         setDisTitle(titleText);
 
 
-        Bitmap bitmap = createDisIconOnMap(titleText);
+        Bitmap bitmap = iconSettingUtils.createDisIconOnMap(titleText, getResources());
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         float scaledWidth = width * 0.5f;
@@ -250,15 +227,6 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
         map.addMarker(markerOptions);
     }
 
-    public void setDisIconResource (String title) {
-        if (title.equals("Fire")) {
-            disaster_logo.setImageResource(R.drawable.fire_logo);
-        } else if (title.equals("Water")) {
-            disaster_logo.setImageResource(R.drawable.water_logo);
-        } else {
-            disaster_logo.setImageResource(R.drawable.other_logo);
-        }
-    }
 
     public void setDisTitle (String title) {
         if (title.equals("Fire")) {
@@ -273,18 +241,6 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
         }
     }
 
-    public Bitmap createDisIconOnMap (String title) {
-        // Create and add an ImageView to the RelativeLayout - disaster logo
-        Bitmap bitmap;
-        if (title.equals("Fire")) {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fire_logo);
-        } else if (title.equals("Water")) {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.water_logo);
-        } else {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.other_logo);
-        }
-        return bitmap;
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -302,7 +258,7 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
             @Override
             public void onChanged(ReportInfo[] posts) {
                 if (posts.length > 0) {
-                    showPopwindow();
+                    popupWindow = popupwindowUtils.showPopwindow(contentView);
                     popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
                     createReportDetailPopupWindow(posts);
                 }
@@ -315,25 +271,5 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
         super.onDestroyView();
         binding = null;
     }
-
-
-    private void showPopwindow() {
-        popupWindow = new PopupWindow(contentView,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                700);
-        // set SelectPicPopupWindow height
-        popupWindow.setHeight(700);
-        // get focus point
-        popupWindow.setFocusable(true);
-        // set background color of blank area
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        // Click outside to disappear
-        popupWindow.setOutsideTouchable(true);
-        // Settings can be clicked
-        popupWindow.setTouchable(true);
-        // hidden animation
-        popupWindow.setAnimationStyle(R.style.ipopwindow_anim_style);
-    }
-
 }
 
