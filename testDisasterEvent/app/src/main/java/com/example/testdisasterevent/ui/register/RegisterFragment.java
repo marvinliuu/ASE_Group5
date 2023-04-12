@@ -152,7 +152,7 @@ public class RegisterFragment extends Fragment {
                     Intent login_intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(login_intent);
                 }else{
-                    String failure = "Registration failed.";
+                    String failure = "Registration failed!";
                     midToast(failure);
                     Intent res_intent = new Intent(getActivity(), RegisterActivity.class);
                     startActivity(res_intent);
@@ -192,7 +192,7 @@ public class RegisterFragment extends Fragment {
     private void midToast(String str) {
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.view_toast_custom,
-                toastView.findViewById(R.id.lly_toast));
+                (ViewGroup) getView().findViewById(R.id.lly_toast));
         TextView tv_msg = (TextView) view.findViewById(R.id.tv_msg);
         tv_msg.setText(str);
         Toast toast = new Toast(getActivity().getApplicationContext());

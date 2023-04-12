@@ -163,11 +163,11 @@ def code_generate():
 
 data = {}
 for i in range(200):
-    temp['cid'] = i + 1
+    temp = {}
     temp['number'] = code_generate()
-    temp['group'] = random.randint(1, 6)
+    temp['type'] = random.randint(1,3)
     data['IdentificationCode' + str(i + 1)] = temp
-final_data['IndentificationCode'] = data
+final_data['IdentificationCode'] = data
 
 
 # ReportInfo
@@ -280,7 +280,7 @@ for i in range(1000):
     temp['password'] = password_gen()
     temp['mail'] = mail_generate()
     temp['phone'] = phone_generate()
-    temp['type'] = random.randint(1, 4)
+    temp['type'] = random.randint(0, 3)
     data['UserInfo' + str(i + 1)] = temp
 final_data['UserInfo'] = data
 

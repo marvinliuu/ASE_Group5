@@ -591,7 +591,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     private void midToast(String str) {
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.view_toast_custom,
-                toastView.findViewById(R.id.lly_toast));
+                (ViewGroup) getView().findViewById(R.id.lly_toast));
         TextView tv_msg = (TextView) view.findViewById(R.id.tv_msg);
         tv_msg.setText(str);
         Toast toast = new Toast(getActivity().getApplicationContext());
