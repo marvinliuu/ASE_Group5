@@ -271,24 +271,10 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
      * Version: Week 10
      */
     private void setDataObserver() {
-        // disaster details observer
-        disasterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
-            @Override
-            public void onChanged(DisasterDetail[] posts) {
-                popupWindow_disaster = popupwindowUtils.showPopwindow(disasterView);
-                if (posts.length > 0) {
-                    // Update the UI with the new data
-                    createDisasterPopupWindow(posts);
-                } else {
-                    // Update the UI when no disaster happen
-                    createNoDisasterPopWindow();
-                }
-            }
-        });
-
         MainActivity mainActivity = (MainActivity) getActivity();
         AccountUserInfo accountUserInfoData = mainActivity.getAccountUserInfo();
-        // task details observer
+
+        // details observer - task & disaster
         if (accountUserInfoData != null && accountUserInfoData.getUserTypeID() != 0) {
             disasterViewModel.getTaskDetails().observe(getActivity(), new Observer<TaskDetail[]>() {
                 @Override
@@ -300,21 +286,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
                         createTaskDetailsPopupWindow(posts);
 
                     } else {
-                        disasterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
-                            @Override
-                            public void onChanged(DisasterDetail[] posts) {
-                                popupWindow_disaster = popupwindowUtils.showPopwindow(disasterView);
-                                popupWindow_disaster.showAtLocation(disasterView, Gravity.BOTTOM, 0, 0);
-                                if (posts.length > 0) {
-                                    // Update the UI with the new data
-                                    createDisasterPopupWindow(posts);
-                                } else {
-                                    // Update the UI when no disaster happen
-                                    createNoDisasterPopWindow();
-                                }
-                            }
-                        });
-
                         String notask = "No Task Now";
                         midToast(notask);
 
@@ -330,10 +301,21 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
                 }
             });
         } else {
-            String citizentask = "Citizens have no tasks.";
-            midToast(citizentask);
-            popupWindow_disaster = popupwindowUtils.showPopwindow(disasterView);
-            popupWindow_disaster.showAtLocation(disasterView, Gravity.BOTTOM, 0, 0);
+            // disaster details observer
+            disasterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
+                @Override
+                public void onChanged(DisasterDetail[] posts) {
+                    popupWindow_disaster = popupwindowUtils.showPopwindow(disasterView);
+                    popupWindow_disaster.showAtLocation(disasterView, Gravity.BOTTOM, 0, 0);
+                    if (posts.length > 0) {
+                        // Update the UI with the new data
+                        createDisasterPopupWindow(posts);
+                    } else {
+                        // Update the UI when no disaster happen
+                        createNoDisasterPopWindow();
+                    }
+                }
+            });
         }
     }
 
@@ -499,7 +481,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
                 Bundle bundle = new Bundle();
                 bundle.putInt("data_key", index);
 
-                popupWindow_disaster.dismiss();
                 // Get a reference to the child FragmentManager
                 FragmentManager fragmentManager = getChildFragmentManager();
 
@@ -516,6 +497,8 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
 
                 // Commit the transaction
                 fragmentTransaction.commit();
+
+                popupWindow_disaster.dismiss();
             }
         });
 
