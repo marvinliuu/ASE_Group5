@@ -22,13 +22,13 @@ import com.example.testdisasterevent.databinding.FragmentAccountBinding;
 import com.google.gson.Gson;
 
 public class AccountFragment extends Fragment {
+    private AccountViewModel mViewModel;  // Type: AccountViewModel, used for managing account-related data
+    private FragmentAccountBinding binding;  // Type: FragmentAccountBinding, used for binding data to the UI
+    private TextView accountType;  // Type: TextView, used for displaying the account type
+    private TextView name;  // Type: TextView, used for displaying the user's name
+    private TextView mail;  // Type: TextView, used for displaying the user's email
+    private TextView mobile;  // Type: TextView, used for displaying the user's mobile number
 
-    private AccountViewModel mViewModel;
-    private FragmentAccountBinding binding;
-    private TextView accountType;
-    private TextView name;
-    private TextView mail;
-    private TextView mobile;
 
 
     public static AccountFragment newInstance() {

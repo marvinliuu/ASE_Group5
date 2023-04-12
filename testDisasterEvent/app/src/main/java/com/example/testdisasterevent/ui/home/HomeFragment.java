@@ -1,6 +1,7 @@
 package com.example.testdisasterevent.ui.home;
 
 import static android.os.Looper.getMainLooper;
+import static android.view.View.VISIBLE;
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
 
@@ -49,6 +50,7 @@ import com.example.testdisasterevent.data.HereRerouteDataSource;
 import com.example.testdisasterevent.data.model.DisasterDetail;
 import com.example.testdisasterevent.databinding.FragmentHomeBinding;
 import com.example.testdisasterevent.ui.disaster.DisasterViewModel;
+import com.example.testdisasterevent.utils.GeoHelpers;
 import com.example.testdisasterevent.utils.IconSettingUtils;
 import com.example.testdisasterevent.utils.LocationTracker;
 import com.example.testdisasterevent.utils.PopupwindowUtils;
@@ -110,80 +112,75 @@ import android.util.Log;
 
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback, LocationTracker.LocationUpdateListener {
+    private PopupWindow popupWindow;  // Type: PopupWindow, used for displaying pop-up windows
+    private View contentView;  // Type: View, used for displaying UI elements
+    private ImageButton showWindowButton, busInfoBtn, closeBtn;  // Type: ImageButton, used for displaying buttons
+    private TextView txt_show;  // Type: TextView, used for displaying text
+    private GoogleMap map;  // Type: GoogleMap, used for displaying maps
+    private HomeViewModel homeViewModel;  // Type: HomeViewModel, used for managing home-related data
+    private FragmentHomeBinding binding;  // Type: FragmentHomeBinding, used for binding data to the UI
+    private SupportMapFragment mapFragment;  // Type: SupportMapFragment, used for displaying maps
+    private EditText startLocation, desLocation;  // Type: EditText, used for taking user input
+    private ImageButton enterBtn;  // Type: ImageButton, used for displaying buttons
+    private DisasterViewModel disaterViewModel;  // Type: DisasterViewModel, used for managing disaster-related data
+    private DisasterDetail[] details;  // Type: array of DisasterDetail objects, used for storing disaster-related data
+    private String start, end;  // Type: String, used for storing the start and end locations of a route
+    private String[] stop_ids;  // Type: array of String objects, used for storing stop IDs
+    private HereRerouteDataSource hereRerouteDataSource;  // Type: HereRerouteDataSource, used for rerouting
+    private int count;  // Type: int, used for storing a count value
+    private boolean isShowDisasterCircle;  // Type: boolean, used for indicating whether to show a disaster circle or not
+    private IconSettingUtils iconSettingUtils;  // Type: IconSettingUtils, used for setting icons
+    private PopupwindowUtils popupwindowUtils;  // Type: PopupwindowUtils, used for displaying pop-up windows
+    private GeoHelpers geoHelper;
+    private double currentLatitude;  // Type: double, used for storing the current latitude
+    private double currentLongitude;  // Type: double, used for storing the current longitude
+    private Marker marker;  // Type: Marker, used for displaying markers on the map
+    private Polyline reroutePolyline;  // Type: Polyline, used for displaying a rerouted polyline on the map
+    private LocationTracker locationTracker;  // Type: LocationTracker, used for tracking the user's location
 
-    private PopupWindow popupWindow;
-    private View contentView;
-    private ImageButton showWindowButton;
-    private TextView txt_show;
-    private GoogleMap map;
-    private ImageButton closeBtn;
-    private HomeViewModel homeViewModel;
-    private FragmentHomeBinding binding;
-    private SupportMapFragment mapFragment;
-    private AccountViewModel aViewModel;
-    private EditText  startLocation, desLocation;
-    private ImageButton enterBtn;
-    private DisasterViewModel disaterViewModel;
-    private DisasterDetail[] details;
-    private LatLng startPoint, endPoint;
-    private String start, end;
-    private String[] stop_ids;
-    private ImageButton busInfoBtn;
-    private HereRerouteDataSource hereRerouteDataSource;
-    private int count;
-    private boolean isShowDisasterCircle;
-    private IconSettingUtils iconSettingUtils;
-    private PopupwindowUtils popupwindowUtils;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
-    private FusedLocationProviderClient fusedLocationClient;
-    private LocationRequest locationRequest;
-    private LocationCallback locationCallback;
-    private double currentLatitude;
-    private double currentLongitude;
-    private Marker marker;
-    private Polyline reroutePolyline;
-    private LocationTracker locationTracker;
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        // init viewmodel
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
-
-        aViewModel =
-                new  ViewModelProvider(this).get(AccountViewModel.class);
         disaterViewModel =
                 new ViewModelProvider(this).get(DisasterViewModel.class);
-
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
 
         // init utils
         iconSettingUtils = new IconSettingUtils();
         popupwindowUtils = new PopupwindowUtils();
+        geoHelper = new GeoHelpers();
 
+        // init here map api
+        initializeHERESDK();
+        hereRerouteDataSource = new HereRerouteDataSource();
+
+        // init boolean value
         isShowDisasterCircle = false;
 
-        showWindowButton = binding.showPopwindow;
+        // bind subview
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
 
+        showWindowButton = binding.showPopwindow;
         startLocation = binding.startLocation;
         desLocation = binding.desLocation;
         enterBtn = binding.enterBtn;
         busInfoBtn = binding.getBusInfo;
 
-        initializeHERESDK();
-
-        hereRerouteDataSource = new HereRerouteDataSource();
-
         setClickListeners();
+        setDataObserver();
 
+        locationTracker = new LocationTracker(requireContext(), this);
+        locationTracker.startLocationUpdates();
+
+        // Initialize map fragment & Location permission request
         requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
 
-        locationTracker = new LocationTracker(requireContext(), this);
-        locationTracker.startLocationUpdates();
-        // Initialize map fragment
         mapFragment= (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if(mapFragment == null){
             FragmentManager fm= getFragmentManager();
@@ -192,9 +189,16 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
             ft.add(R.id.map, mapFragment).commit();
         }
         mapFragment.getMapAsync(this);
+        return root;
+    }
 
-
-
+    /**
+     * Date: 23.04.12
+     * Function: set all the viewmodel data observer
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
+    private void setDataObserver() {
         disaterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
             @Override
             public void onChanged(DisasterDetail[] posts) {
@@ -205,9 +209,43 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                 }
             }
         });
-        return root;
     }
 
+    /**
+     * Date: 23.03.31
+     * Function: set all the button click listeners
+     * Author: Siyu Liao
+     * Version: Week 10
+     */
+    private void setClickListeners () {
+        enterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                start = startLocation.getText().toString();
+                end = desLocation.getText().toString();
+                try {
+                    geoHelper.getRouteLatLngInfo(start, end, hereRerouteDataSource, details);
+                } catch (InstantiationErrorException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        busInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getRealTimeData();
+                Toast.makeText(getContext(),"Request Real Time Bus Information", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * Date: 23.04.12
+     * Function: current location update callback
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     @Override
     public void onLocationUpdated(Location location) {
         Log.i(TAG, String.format("Updated location: Latitude = %f, Longitude = %f",
@@ -222,7 +260,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
 
         }
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
-        // 在此处执行其他操作，例如更新UI或将位置发送到服务器
     }
 
 
@@ -246,34 +283,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
 
 
     /**
-     * Date: 23.03.31
-     * Function: set all the button click listeners
+     * Date: 23.04.12
+     * Function: create circle on the map about disaster radius
      * Author: Siyu Liao
-     * Version: Week 10
+     * Version: Week 12
      */
-    private void setClickListeners () {
-        enterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                start = startLocation.getText().toString();
-                end = desLocation.getText().toString();
-                try {
-                    getRouteLatLngInfo(start, end);
-                } catch (InstantiationErrorException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        busInfoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getRealTimeData();
-                Toast.makeText(getContext(),"Request Real Time Bus Information", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     private void createDisasterCircleOnMap() {
         if (details != null) {
             isShowDisasterCircle = true;
@@ -304,6 +318,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         }
     }
 
+    /**
+     * Date: 23.04.12
+     * Function: init here api sdk
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     private void initializeHERESDK() {
         // Set your credentials for the HERE SDK.
         String accessKeyID = "PTBf8nCFZijyTZMsRTrUfQ";
@@ -316,25 +336,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
             throw new RuntimeException("Initialization of HERE SDK failed: " + e.error.name());
         }
     }
-
-    void getRouteLatLngInfo (String start, String end) throws InstantiationErrorException {
-        startPoint = homeViewModel.getLocLatLng(start);
-        endPoint = homeViewModel.getLocLatLng(end);
-        List<GeoBox> geoBoxes = calDisAreaGeoInfo();
-        hereRerouteDataSource.addRoute(startPoint, endPoint, geoBoxes);
-    }
-
-    List<GeoBox> calDisAreaGeoInfo() {
-        List<GeoBox> geoBoxes = new ArrayList<GeoBox>();
-        if (details == null)
-            return geoBoxes;
-        for (DisasterDetail detail : details) {
-            LatLng[] latLng = homeViewModel.calculateDestinationLocations(new LatLng(detail.getLatitude(), detail.getLongitude()), detail.getRadius());
-            geoBoxes.add(new GeoBox(new GeoCoordinates(latLng[0].latitude, latLng[0].longitude), new GeoCoordinates(latLng[1].latitude, latLng[1].longitude)));
-        }
-        return geoBoxes;
-    }
-
 
     //When map id loaded
     @Override
@@ -400,7 +401,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         //load popup window layout
         MainActivity mainActivity = (MainActivity) getActivity();
         AccountUserInfo accountUserInfoData = mainActivity.getAccountUserInfo();
-        if (accountUserInfoData != null && accountUserInfoData.getUserTypeID() == 0) {
+        if (accountUserInfoData != null && accountUserInfoData.getUserTypeID() == 1) {
+            showWindowButton.setVisibility(VISIBLE);
             homeViewModel.getReportInfo().observe(getActivity(), new Observer<ReportInfo[]>() {
                 @Override
                 public void onChanged(ReportInfo[] posts) {
@@ -414,6 +416,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                         createNoReportPopWindow();
                     }}
             });
+        } else {
+            showWindowButton.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -675,7 +679,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                     stop_ids[i] = stop_id.substring(1, stop_id.length() - 1);
                 }
             }
-//            String stop_id = innerObj.getAsJsonObject().getAsJsonObject("trip_update").getAsJsonArray("stop_time_update").get(0).getAsJsonObject().getAsJsonPrimitive("stop_id").toString();
         }
     }
 
@@ -727,6 +730,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        if (popupWindow != null) {
+            popupWindow.dismiss();
+        }
         homeViewModel.getReportInfo().removeObservers(this);
     }
 

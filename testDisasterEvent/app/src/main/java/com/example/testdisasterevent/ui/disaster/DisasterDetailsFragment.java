@@ -63,34 +63,32 @@ import java.util.List;
 import java.util.Set;
 
 public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallback, RerouteDataSource.RouteCallback  {
+    private DisasterViewModel disasterViewModel;  // Type: DisasterViewModel, used for managing disaster-related data
+    private FragmentDisasterDetailsBinding binding;  // Type: FragmentDisasterDetailsBinding, used for binding data to the UI
+    private SupportMapFragment mapFragment;  // Type: SupportMapFragment, used for displaying maps
+    private PopupWindow popupWindow;  // Type: PopupWindow, used for displaying pop-up windows
+    private View contentView;  // Type: View, used for displaying UI elements
+    private GoogleMap map;  // Type: GoogleMap, used for displaying maps
+    private ImageButton backBriefBtn;  // Type: ImageButton, used for displaying buttons
+    private ImageView disaster_logo;  // Type: ImageView, used for displaying images
+    private ImageButton closeBtn;  // Type: ImageButton, used for displaying buttons
+    private TextView locIntro, locDetail, ftIntro, ftDetail, txt_show;  // Type: TextView, used for displaying text
+    private TextView typeIntro, typeDetail, upIntro, upDetail;  // Type: TextView, used for displaying text
+    private TextView radiusIntro, radiusDetail;  // Type: TextView, used for displaying text
+    private ImageButton firstBtn, exitBtn;  // Type: ImageButton, used for displaying buttons
+    private int index;  // Type: int, used for storing an index value
+    private Set<LatLng> roadSet;  // Type: Set<LatLng>, used for storing a set of LatLng objects
+    private List<LatLng> selectedRoad;  // Type: List<LatLng>, used for storing a list of LatLng objects
+    private float zoomLevel;  // Type: float, used for storing the zoom level of the map
+    private LatLng test;  // Type: LatLng, used for storing the user's location
+    private int clickType;  // Type: int, used for storing the type of click event
+    private Polyline prePolyLine;  // Type: Polyline, used for displaying a polyline on the map
+    private String showingRoute;  // Type: String, used for storing a string value
+    private List<LatLng> exitsFirst = new ArrayList<LatLng>();  // Type: List<LatLng>, used for storing a list of LatLng objects
+    private List<LatLng> exitsExit = new ArrayList<LatLng>();  // Type: List<LatLng>, used for storing a list of LatLng objects
+    private PopupwindowUtils popupwindowUtils;  // Type: PopupwindowUtils, used for displaying pop-up windows
+    private IconSettingUtils iconSettingUtils;  // Type: IconSettingUtils, used for setting icons
 
-    private DisasterViewModel disasterViewModel;
-    private FragmentDisasterDetailsBinding binding;
-    private SupportMapFragment mapFragment;
-    private PopupWindow popupWindow;
-    private View contentView;
-    private GoogleMap map;
-    private ImageButton backBriefBtn;
-    private TextView txt_show;
-    private ImageView disaster_logo;
-    private ImageButton closeBtn;
-    private TextView locIntro, locDetail, ftIntro, ftDetail;
-    private TextView typeIntro, typeDetail, upIntro, upDetail;
-    private TextView radiusIntro, radiusDetail;
-    private ImageButton firstBtn, exitBtn;
-    private int index;
-    private Set<LatLng> roadSet;
-    private List<LatLng> selectedRoad;
-    private float zoomLevel;
-    // TODO: change the name of test, it means the user location
-    private LatLng test;
-    private int clickType;
-    private Polyline prePolyLine;
-    private String showingRoute;
-    private List<LatLng> exitsFirst = new ArrayList<LatLng>();
-    private List<LatLng> exitsExit = new ArrayList<LatLng>();
-    private PopupwindowUtils popupwindowUtils;
-    private IconSettingUtils iconSettingUtils;
 
 
 

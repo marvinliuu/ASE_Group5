@@ -39,12 +39,11 @@ import java.util.List;
 import java.util.Set;
 
 public class DisasterViewModel extends ViewModel {
-    private DisasterDataSource disasterDataSource;
-    private TaskDataSource taskDataSource;
-    //private HosAllocationDataSource hosAllocationDataSource;
-    private RoadsInfoDatasource roadsInfoDatasource;
-    private RerouteDataSource rerouteDataSource;
-    private FindMaxAreaAlgorithm findMaxAreaAlgorithm;
+    private DisasterDataSource disasterDataSource;  // Type: DisasterDataSource, used for accessing disaster-related data
+    private TaskDataSource taskDataSource;  // Type: TaskDataSource, used for accessing task-related data
+    private RoadsInfoDatasource roadsInfoDatasource;  // Type: RoadsInfoDatasource, used for accessing road-related data
+    private RerouteDataSource rerouteDataSource;  // Type: RerouteDataSource, used for accessing reroute-related data
+    private FindMaxAreaAlgorithm findMaxAreaAlgorithm;  // Type: FindMaxAreaAlgorithm, used for finding the maximum area of a disaster circle
 
 
     public LiveData<DisasterDetail[]> getDisasterDetails() {

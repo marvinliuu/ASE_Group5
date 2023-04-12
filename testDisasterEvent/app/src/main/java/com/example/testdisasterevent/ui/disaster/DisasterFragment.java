@@ -65,27 +65,28 @@ import com.google.android.gms.maps.model.Polyline;
  * Version: Week 3
  */
 public class DisasterFragment extends Fragment implements OnMapReadyCallback, LocationTracker.LocationUpdateListener{
+    public DisasterViewModel disasterViewModel;  // Type: DisasterViewModel, used for managing disaster-related data
+    private FragmentDisasterBinding binding;  // Type: FragmentDisasterBinding, used for binding data to the UI
+    private PopupWindow popupWindow_task, popupWindow_disaster;  // Type: PopupWindow, used for displaying pop-up windows
+    private View disasterView, taskView, toastView;  // Type: View, used for displaying UI elements
+    private ImageButton showDisasterButton, showTaskButton;  // Type: ImageButton, used for displaying buttons
+    private TextView txt_show_disaster, txt_show_task;  // Type: TextView, used for displaying text
+    private GoogleMap map;  // Type: GoogleMap, used for displaying maps
+    private ImageButton closeBtn_disaster, closeBtn_task;  // Type: ImageButton, used for displaying buttons
+    private ImageView disaster_logo;  // Type: ImageView, used for displaying images
+    private TextView typeIntro, typeDetail, locIntro, locDetail;  // Type: TextView, used for displaying text
+    private TextView ftIntro, ftDetail;  // Type: TextView, used for displaying text
+    private TextView injuryIntro, injuryDetail;  // Type: TextView, used for displaying text
+    private TextView taskIntro, taskDetail;  // Type: TextView, used for displaying text
+    private IconSettingUtils iconSettingUtils;  // Type: IconSettingUtils, used for setting icons
+    private double currentLatitude;  // Type: double, used for storing the current latitude
+    private double currentLongitude;  // Type: double, used for storing the current longitude
+    private Marker marker;  // Type: Marker, used for displaying markers on the map
+    private LocationTracker locationTracker;  // Type: LocationTracker, used for tracking the user's location
+    private PopupwindowUtils popupwindowUtils;  // Type: PopupwindowUtils, used for displaying pop-up windows
+    private LayoutUtils layoutUtils;  // Type: LayoutUtils, used for managing the layout of UI elements
 
-    public DisasterViewModel disasterViewModel;
-    private FragmentDisasterBinding binding;
-    private PopupWindow popupWindow_task, popupWindow_disaster;
-    private View disasterView, taskView, toastView;
-    private ImageButton showDisasterButton, showTaskButton;
-    private TextView txt_show_disaster, txt_show_task;
-    private GoogleMap map;
-    private ImageButton closeBtn_disaster, closeBtn_task;
-    private ImageView disaster_logo;
-    private TextView typeIntro, typeDetail, locIntro, locDetail;
-    private TextView ftIntro, ftDetail;
-    private TextView injuryIntro, injuryDetail;
-    private TextView taskIntro, taskDetail;
-    private IconSettingUtils iconSettingUtils;
-    private double currentLatitude;
-    private double currentLongitude;
-    private Marker marker;
-    private LocationTracker locationTracker;
-    private PopupwindowUtils popupwindowUtils;
-    private LayoutUtils layoutUtils;
+
 
 
     public View onCreateView(LayoutInflater inflater,
