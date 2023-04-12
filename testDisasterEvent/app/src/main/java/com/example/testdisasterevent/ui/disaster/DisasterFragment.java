@@ -35,7 +35,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
+import com.example.testdisasterevent.data.model.AccountUserInfo;
 import com.example.testdisasterevent.data.model.DisasterDetail;
 import com.example.testdisasterevent.data.model.HospitalDetails;
 import com.example.testdisasterevent.data.model.TaskDetail;
@@ -64,7 +66,7 @@ import com.google.android.gms.maps.model.Polyline;
  */
 public class DisasterFragment extends Fragment implements OnMapReadyCallback, LocationTracker.LocationUpdateListener{
 
-    private DisasterViewModel disasterViewModel;
+    public DisasterViewModel disasterViewModel;
     private FragmentDisasterBinding binding;
     private PopupWindow popupWindow_task, popupWindow_disaster;
     private View disasterView, taskView, toastView;
@@ -106,7 +108,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
                 R.layout.message_popupwindow, null);
         taskView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.taskdetails_popupwindow, null);
-
 
         showDisasterButton = binding.showPopwindow;
         showTaskButton = binding.showTaskdetails;
@@ -222,11 +223,18 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
             @Override
             public void onClick(View v) {
                 TaskDetail[] posts = disasterViewModel.getTaskDetails().getValue();
-                if (posts.length > 0) {
-                    popupWindow_task.showAtLocation(taskView, Gravity.BOTTOM, 0, 0);
-                } else {
-                    String notask =  "No Task Now.";
-                    midToast(notask);
+                MainActivity mainActivity = (MainActivity) getActivity();
+                AccountUserInfo accountUserInfoData = mainActivity.getAccountUserInfo();
+                if (accountUserInfoData != null && accountUserInfoData.getUserTypeID() != 0) {
+                    if (posts.length > 0) {
+                        popupWindow_task.showAtLocation(taskView, Gravity.BOTTOM, 0, 0);
+                    } else {
+                        String notask =  "No Task Now.";
+                        midToast(notask);
+                    }
+                } else{
+                    String citizentask = "Citizens have no tasks.";
+                    midToast(citizentask);
                 }
             }
         });
@@ -278,44 +286,55 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
             }
         });
 
+        MainActivity mainActivity = (MainActivity) getActivity();
+        AccountUserInfo accountUserInfoData = mainActivity.getAccountUserInfo();
         // task details observer
-        disasterViewModel.getTaskDetails().observe(getActivity(), new Observer<TaskDetail[]>() {
-            @Override
-            public void onChanged(TaskDetail[] posts) {
-                if (posts.length > 0) {
-                    popupWindow_task = popupwindowUtils.showPopwindow(taskView);
-                    popupWindow_task.showAtLocation(taskView, Gravity.BOTTOM, 0, 0);
-                    // Update the UI with the new data
-                    createTaskDetailsPopupWindow(posts);
+        if (accountUserInfoData != null && accountUserInfoData.getUserTypeID() != 0) {
+            disasterViewModel.getTaskDetails().observe(getActivity(), new Observer<TaskDetail[]>() {
+                @Override
+                public void onChanged(TaskDetail[] posts) {
+                    if (posts.length > 0) {
+                        popupWindow_task = popupwindowUtils.showPopwindow(taskView);
+                        popupWindow_task.showAtLocation(taskView, Gravity.BOTTOM, 0, 0);
+                        // Update the UI with the new data
+                        createTaskDetailsPopupWindow(posts);
 
-                } else {
-                    disasterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
-                        @Override
-                        public void onChanged(DisasterDetail[] posts) {
-                            popupWindow_disaster = popupwindowUtils.showPopwindow(disasterView);
-                            popupWindow_disaster.showAtLocation(disasterView, Gravity.BOTTOM, 0, 0);
-                            if (posts.length > 0) {
-                                // Update the UI with the new data
-                                createDisasterPopupWindow(posts);
-                            } else {
-                                // Update the UI when no disaster happen
-                                createNoDisasterPopWindow();
-                            }
-                        }
-                    });
-                    String notask =  "No Task Now";
-                    midToast(notask);
-                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        // Permission has already been granted
-                        // Call setMyLocationEnabled() method here
-                        map.setMyLocationEnabled(true);
                     } else {
-                        // Request permission from the user
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                        disasterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
+                            @Override
+                            public void onChanged(DisasterDetail[] posts) {
+                                popupWindow_disaster = popupwindowUtils.showPopwindow(disasterView);
+                                popupWindow_disaster.showAtLocation(disasterView, Gravity.BOTTOM, 0, 0);
+                                if (posts.length > 0) {
+                                    // Update the UI with the new data
+                                    createDisasterPopupWindow(posts);
+                                } else {
+                                    // Update the UI when no disaster happen
+                                    createNoDisasterPopWindow();
+                                }
+                            }
+                        });
+
+                        String notask = "No Task Now";
+                        midToast(notask);
+
+                        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                            // Permission has already been granted
+                            // Call setMyLocationEnabled() method here
+                            map.setMyLocationEnabled(true);
+                        } else {
+                            // Request permission from the user
+                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                        }
                     }
                 }
-            }
-        });
+            });
+        } else {
+            String citizentask = "Citizens have no tasks.";
+            midToast(citizentask);
+            popupWindow_disaster = popupwindowUtils.showPopwindow(disasterView);
+            popupWindow_disaster.showAtLocation(disasterView, Gravity.BOTTOM, 0, 0);
+        }
     }
 
 

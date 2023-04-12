@@ -29,8 +29,8 @@ public class LoginActivityTest<ActivityTestRule> {
 
     @Test
     public void testValidLogin() {
-        onView(withId(R.id.username)).perform(typeText("Lucas@tcd.ie"), closeSoftKeyboard());
-        onView(withId(R.id.password)).perform(typeText("cai111111"), closeSoftKeyboard());
+        onView(withId(R.id.username)).perform(typeText("1@1.com"), closeSoftKeyboard());
+        onView(withId(R.id.password)).perform(typeText("111111"), closeSoftKeyboard());
 
         // Click on the login button
         onView(withId(R.id.login)).perform(click());

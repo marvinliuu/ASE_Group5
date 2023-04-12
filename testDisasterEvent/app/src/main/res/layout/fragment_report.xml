@@ -323,7 +323,7 @@
                 android:layout_height="43dp"
                 android:layout_marginStart="45dp"
 
-                android:background="@drawable/report_submit"
+                android:background="@drawable/button_report_confirm"
                 android:scaleType="fitXY"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
