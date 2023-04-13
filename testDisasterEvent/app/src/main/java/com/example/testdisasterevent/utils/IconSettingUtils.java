@@ -49,7 +49,7 @@ public class IconSettingUtils {
         }
     }
 
-    public void setDisTitle (String title, TextView txt_show_task) {
+    public void setTaskTitle (String title, TextView txt_show_task) {
         if (title.equals("fire")) {
             txt_show_task.setText("Task");
             txt_show_task.setTextColor(Color.RED);
@@ -59,6 +59,19 @@ public class IconSettingUtils {
         } else {
             txt_show_task.setText("Task");
             txt_show_task.setTextColor(Color.BLACK);
+        }
+    }
+
+    public void setReportTitle (String title, TextView txt_show) {
+        if (title.equals("Fire")) {
+            txt_show.setText(title);
+            txt_show.setTextColor(Color.RED);
+        } else if (title.equals("Water")) {
+            txt_show.setText(title);
+            txt_show.setTextColor(Color.BLUE);
+        } else {
+            txt_show.setText(title);
+            txt_show.setTextColor(Color.RED);
         }
     }
 

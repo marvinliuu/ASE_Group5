@@ -1,9 +1,7 @@
 package com.example.testdisasterevent.ui.home;
 
-import static android.os.Looper.getMainLooper;
 import static android.view.View.VISIBLE;
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
-import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
 
 import android.Manifest;
 import android.graphics.Bitmap;
@@ -12,7 +10,6 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.location.Location;
 import android.os.Bundle;
@@ -21,7 +18,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -41,22 +37,16 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
-import com.example.testdisasterevent.data.RerouteDataSource;
 import com.example.testdisasterevent.data.model.AccountUserInfo;
 import com.example.testdisasterevent.data.model.ReportInfo;
 import com.example.testdisasterevent.databinding.FragmentHomeBinding;
-import com.example.testdisasterevent.ui.account.AccountViewModel;
 import com.example.testdisasterevent.data.HereRerouteDataSource;
 import com.example.testdisasterevent.data.model.DisasterDetail;
-import com.example.testdisasterevent.databinding.FragmentHomeBinding;
 import com.example.testdisasterevent.ui.disaster.DisasterViewModel;
 import com.example.testdisasterevent.utils.GeoHelpers;
 import com.example.testdisasterevent.utils.IconSettingUtils;
 import com.example.testdisasterevent.utils.LocationTracker;
 import com.example.testdisasterevent.utils.PopupwindowUtils;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -66,7 +56,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -83,8 +72,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.here.sdk.core.GeoBox;
-import com.here.sdk.core.GeoCoordinates;
 import com.here.sdk.core.engine.SDKNativeEngine;
 import com.here.sdk.core.engine.SDKOptions;
 import com.here.sdk.core.errors.InstantiationErrorException;
@@ -94,21 +81,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
-import android.Manifest;
-import android.content.pm.PackageManager;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import com.google.android.gms.location.*;
-import android.location.Location;
-import androidx.fragment.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.util.Log;
 
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback, LocationTracker.LocationUpdateListener {
@@ -266,7 +240,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         showWindowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+                if (popupWindow != null) {
+                    popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+                }
             }
         });
     }
@@ -365,7 +341,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                 MarkerOptions markerOptions = new MarkerOptions()
                         .position(center)
                         .icon(markerIcon)
-                        .anchor(0.5f, 0.5f);;
+                        .anchor(0.5f, 0.5f);
+
                 map.addMarker(markerOptions);
 
                 CircleOptions circleOptions = new CircleOptions();
@@ -453,6 +430,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                     }}
             });
         } else {
+            System.out.println("get here");
             showWindowButton.setVisibility(View.INVISIBLE);
         }
     }
@@ -681,6 +659,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     }
 
 
+    /**
+     * Date: 23.04.13
+     * Function: read bus real time data from api or defautl data
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     private void readBusContent (JsonObject jsonObject) {
         if (jsonObject == null) {
             try {
@@ -717,6 +701,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         }
     }
 
+    /**
+     * Date: 23.04.13
+     * Function: request the bus info api
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     private void getRealTimeData() {
         // Create a new Thread to handle the API request and response
         Thread thread = new Thread(new Runnable() {

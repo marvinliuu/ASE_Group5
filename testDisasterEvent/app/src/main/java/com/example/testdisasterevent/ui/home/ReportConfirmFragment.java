@@ -43,55 +43,48 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class ReportConfirmFragment extends Fragment implements OnMapReadyCallback {
 
-    private HomeViewModel homeViewModel;
-    private FragmentHomeReportdetailsBinding binding;
-    private SupportMapFragment mapFragment;
-    private PopupWindow popupWindow;
-    private View contentView;
-    private GoogleMap map;
-    private ImageButton backBriefBtn;
-    private TextView txt_show;
-    private ImageView disaster_logo;
-    private ImageButton closeBtn;
-    private ImageButton report_confirm;
-    private TextView locIntro;
-    private TextView locDetail;
-    private TextView typeIntro;
-    private TextView typeDetail;
-    private TextView rtIntro;
-    private TextView rtDetail;
-    private TextView htIntro;
-    private TextView htDetail;
-    private int index;
-    private PopupwindowUtils popupwindowUtils;
-    private IconSettingUtils iconSettingUtils;
+    private HomeViewModel homeViewModel;  // Type: HomeViewModel, used for managing home-related data
+    private FragmentHomeReportdetailsBinding binding;  // Type: FragmentHomeReportdetailsBinding, used for binding data to the UI
+    private SupportMapFragment mapFragment;  // Type: SupportMapFragment, used for displaying maps
+    private PopupWindow popupWindow;  // Type: PopupWindow, used for displaying pop-up windows
+    private View contentView;  // Type: View, used for displaying UI elements
+    private GoogleMap map;  // Type: GoogleMap, used for displaying maps
+    private ImageButton backBriefBtn;  // Type: ImageButton, used for displaying buttons
+    private TextView txt_show;  // Type: TextView, used for displaying text
+    private ImageView disaster_logo;  // Type: ImageView, used for displaying images
+    private ImageButton closeBtn;  // Type: ImageButton, used for displaying buttons
+    private ImageButton report_confirm;  // Type: ImageButton, used for confirming a report
+    private TextView locIntro, locDetail;  // Type: TextView, used for displaying text
+    private TextView typeIntro, typeDetail;  // Type: TextView, used for displaying text
+    private TextView rtIntro, rtDetail;  // Type: TextView, used for displaying text
+    private TextView htIntro, htDetail;  // Type: TextView, used for displaying text
+    private int index;  // Type: int, used for storing an index value
+    private PopupwindowUtils popupwindowUtils;  // Type: PopupwindowUtils, used for displaying pop-up windows
+    private IconSettingUtils iconSettingUtils;  // Type: IconSettingUtils, used for setting icons
 
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        // init viewmodel
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
-        binding = FragmentHomeReportdetailsBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
+        // get data index key from home fragment
         Bundle bundle = getArguments();
         if (bundle != null) {
             index = bundle.getInt("data_key");
             // Use the data as needed
         }
 
-        backBriefBtn = binding.backBrief;
 
-        // init Utils
-        popupwindowUtils = new PopupwindowUtils();
-        iconSettingUtils = new IconSettingUtils();
-
+        binding = FragmentHomeReportdetailsBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
         //load popup window layout
         contentView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.reportdetails_popupwindow, null);
 
         // bind view
+        backBriefBtn = binding.backBrief;
         txt_show = contentView.findViewById(R.id.tv_pop_name);
         disaster_logo = contentView.findViewById(R.id.disaster_logo);
         closeBtn = contentView.findViewById(R.id.close_btn);
@@ -105,7 +98,11 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
         typeIntro = contentView.findViewById(R.id.type_intro);
         typeDetail = contentView.findViewById(R.id.type_details);
 
+        // init Utils
+        popupwindowUtils = new PopupwindowUtils();
+        iconSettingUtils = new IconSettingUtils();
 
+        // google map config
         requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
@@ -119,7 +116,19 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
         }
         mapFragment.getMapAsync(this);
 
+        // set click listeners
+        setClickListeners();
 
+        return root;
+    }
+
+    /**
+     * Date: 23.04.13
+     * Function: set all the button click listeners
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
+    private void setClickListeners () {
         backBriefBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,15 +151,12 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
             }
         });
 
-
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
             }
         });
-
-        return root;
     }
 
     public void createReportDetailPopupWindow(ReportInfo[] infos){
@@ -163,31 +169,20 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
 
         // SET THE INTRODUCTION WORD TEXT STYLE
         // Load the custom font from the assets folder
-        Typeface generalType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
-        // Set the font of the TextView to the custom font
-        locIntro.setTypeface(generalType);
-        rtIntro.setTypeface(generalType);
-        htIntro.setTypeface(generalType);
-        typeIntro.setTypeface(generalType);
+        setReportGeneralType();
+        setReportDetailsType();
 
-        Typeface detailsType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_regular.ttf");
-        locDetail.setTypeface(detailsType);
         locDetail.setText(infos[index].getLocation());
-        rtDetail.setTypeface(detailsType);
         rtDetail.setText(infos[index].getReportTime());
-        htDetail.setTypeface(detailsType);
         htDetail.setText(infos[index].getHappenTime());
-        typeDetail.setTypeface(detailsType);
         typeDetail.setText("unknown");
 
         report_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Report");
                 ref.child(infos[index].getReportNumber()).child("report_state").setValue(1);
                 popupWindow.dismiss();
-
             }
         });
 
@@ -195,9 +190,18 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
         iconSettingUtils.setDisIconResource(titleText, disaster_logo);
 
         // set the title color & text
-        setDisTitle(titleText);
+        iconSettingUtils.setReportTitle(titleText, txt_show);
 
+        addReportLocMarker(titleText, infos);
+    }
 
+    /**
+     * Date: 23.04.13
+     * Function: add report location marker
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
+    private void addReportLocMarker(String titleText, ReportInfo[] infos) {
         Bitmap bitmap = iconSettingUtils.createDisIconOnMap(titleText, getResources());
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
@@ -220,17 +224,29 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
     }
 
 
-    public void setDisTitle (String title) {
-        if (title.equals("Fire")) {
-            txt_show.setText(title);
-            txt_show.setTextColor(Color.RED);
-        } else if (title.equals("Water")) {
-            txt_show.setText(title);
-            txt_show.setTextColor(Color.BLUE);
-        } else {
-            txt_show.setText(title);
-            txt_show.setTextColor(Color.RED);
-        }
+    /**
+     * Date: 23.04.13
+     * Function: set Disaster report Popup Window Text Type
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
+    private void setReportDetailsType() {
+        Typeface detailsType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_regular.ttf");
+        locDetail.setTypeface(detailsType);
+        rtDetail.setTypeface(detailsType);
+        htDetail.setTypeface(detailsType);
+        typeDetail.setTypeface(detailsType);
+    }
+
+
+    private void setReportGeneralType() {
+        Typeface generalType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
+        // Load the custom font from the assets folder
+        // Set the font of the TextView to the custom font
+        locIntro.setTypeface(generalType);
+        rtIntro.setTypeface(generalType);
+        htIntro.setTypeface(generalType);
+        typeIntro.setTypeface(generalType);
     }
 
 

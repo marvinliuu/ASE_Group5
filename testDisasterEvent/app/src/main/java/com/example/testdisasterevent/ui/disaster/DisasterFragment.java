@@ -559,7 +559,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         iconSettingUtils.setDisIconResource(titleText, disaster_logo);
 
         // set the title color & text
-        iconSettingUtils.setDisTitle(titleText, txt_show_task);
+        iconSettingUtils.setTaskTitle(titleText, txt_show_task);
     }
 
 
