@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.testdisasterevent.R;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 public class IconSettingUtils {
     public ImageView createDisIconOnWindow (String title, Context context) {
@@ -20,6 +22,19 @@ public class IconSettingUtils {
             imageView.setImageResource(R.drawable.water_logo);
         } else {
             imageView.setImageResource(R.drawable.other_logo);
+        }
+        return imageView;
+    }
+
+    public ImageView createReportEvenIconOnWindow (String title, Context context) {
+        // Create and add an ImageView to the RelativeLayout - disaster logo
+        ImageView imageView = new ImageView(context);
+        if (title.equals("fire")) {
+            imageView.setImageResource(R.drawable.fire_event_image);
+        } else if (title.equals("water")) {
+            imageView.setImageResource(R.drawable.water_event_image);
+        } else {
+            imageView.setImageResource(R.drawable.other_event_image);
         }
         return imageView;
     }
@@ -47,7 +62,7 @@ public class IconSettingUtils {
         }
     }
 
-    public void setDisTitle (String title, TextView txt_show_task) {
+    public void setTaskTitle (String title, TextView txt_show_task) {
         if (title.equals("fire")) {
             txt_show_task.setText("Task");
             txt_show_task.setTextColor(Color.RED);
@@ -59,4 +74,29 @@ public class IconSettingUtils {
             txt_show_task.setTextColor(Color.BLACK);
         }
     }
+
+    public void setReportTitle (String title, TextView txt_show) {
+        if (title.equals("Fire")) {
+            txt_show.setText(title);
+            txt_show.setTextColor(Color.RED);
+        } else if (title.equals("Water")) {
+            txt_show.setText(title);
+            txt_show.setTextColor(Color.BLUE);
+        } else {
+            txt_show.setText(title);
+            txt_show.setTextColor(Color.RED);
+        }
+    }
+
+    public Bitmap setOriDesIcon (Boolean ori, Resources resources) {
+        // Create and add an ImageView to the RelativeLayout - disaster logo
+        Bitmap bitmap;
+        if (ori) {
+            bitmap = BitmapFactory.decodeResource(resources, R.drawable.originpoint);
+        } else {
+            bitmap = BitmapFactory.decodeResource(resources, R.drawable.destination);
+        }
+        return bitmap;
+    }
+
 }

@@ -11,12 +11,14 @@ import java.util.regex.Pattern;
 import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.data.RegisterRepository;
 import com.example.testdisasterevent.data.Result;
+
 import com.example.testdisasterevent.ui.register.RegisterResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 
 
 public class RegisterViewModel extends ViewModel {
@@ -30,6 +32,7 @@ public class RegisterViewModel extends ViewModel {
     RegisterViewModel(RegisterRepository registerRepository) {
         this.registerRepository = registerRepository;
     }
+
     // TODO: Implement the ViewModel
     public void register(String username, String password, String email, String phone, String actCode) {
         // can be launched in a separate asynchronous job
@@ -45,7 +48,6 @@ public class RegisterViewModel extends ViewModel {
                         break;
                     }
                 }
-                Log.d("BBB","HereHere");
                 if(!status.equals("repeated")){
                     Result<String> result = registerRepository.register(username, password, email, phone, actCode);
                     String resultStatus = ((Result.Success<String>) result).getData();
@@ -78,7 +80,6 @@ public class RegisterViewModel extends ViewModel {
         }
     }
 
-    // A placeholder username validation check
 
     //Check if the input email is valid.
     public static boolean isEmailValid(String email) {
@@ -87,7 +88,6 @@ public class RegisterViewModel extends ViewModel {
         Matcher m = p.matcher(email);
         return m.matches();
     }
-
 
     // A placeholder password validation check
     public boolean isPasswordValid(String password) {

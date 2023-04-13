@@ -199,7 +199,7 @@ for i in range(200):
     temp['latitude'] = 53.35 + random.random() % 0.03
     temp['longitude'] = -6.26 + random.random() % 0.03
     temp['report_state'] = random.randint(0, 1)
-    temp['description'] = description_generate()
+    temp['description'] = "Please go to" + temp['location'] + "quickly!"
     temp['injury'] = injure[random.randint(0, 6)]
     data['Report' + str(i + 1)] = temp
 final_data['Report'] = data

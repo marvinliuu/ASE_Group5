@@ -93,6 +93,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
                              ViewGroup container, Bundle savedInstanceState) {
         disasterViewModel =
                 new ViewModelProvider(this).get(DisasterViewModel.class);
+        String res;
 
         // init utils
         iconSettingUtils = new IconSettingUtils();
@@ -112,6 +113,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
 
         showDisasterButton = binding.showPopwindow;
         showTaskButton = binding.showTaskdetails;
+        popupWindow_disaster = popupwindowUtils.showPopwindow(disasterView);
 
 
         // Map API initialize
@@ -186,13 +188,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         currentLongitude = location.getLongitude();
         currentLatitude = location.getLatitude();
         LatLng currentPosition = new LatLng(currentLatitude, currentLongitude);
-//        if (marker == null) {
-//            marker = map.addMarker(new MarkerOptions().position(currentPosition).title("Marker in Target Location"));
-//        } else {
-//            marker.setPosition(currentPosition);
-//        }
-//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
-        // 在此处执行其他操作，例如更新UI或将位置发送到服务器
     }
 
     @Override
@@ -260,7 +255,20 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         showDisasterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupWindow_disaster.showAtLocation(disasterView, Gravity.BOTTOM, 0, 0);
+                // disaster details observer
+                disasterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
+                    @Override
+                    public void onChanged(DisasterDetail[] posts) {
+                        popupWindow_disaster.showAtLocation(disasterView, Gravity.BOTTOM, 0, 0);
+                        if (posts.length > 0) {
+                            // Update the UI with the new data
+                            createDisasterPopupWindow(posts);
+                        } else {
+                            // Update the UI when no disaster happen
+                            createNoDisasterPopWindow();
+                        }
+                    }
+                });
             }
         });
     }
@@ -306,7 +314,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
             disasterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
                 @Override
                 public void onChanged(DisasterDetail[] posts) {
-                    popupWindow_disaster = popupwindowUtils.showPopwindow(disasterView);
                     popupWindow_disaster.showAtLocation(disasterView, Gravity.BOTTOM, 0, 0);
                     if (posts.length > 0) {
                         // Update the UI with the new data
@@ -324,11 +331,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-
-        LatLng sydney = new LatLng(53.3442016, -6.2544264);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
-        googleMap.addMarker(new MarkerOptions()
-                .position(sydney).anchor(0.5f, 0.5f));
     }
 
     /**
@@ -557,7 +559,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         iconSettingUtils.setDisIconResource(titleText, disaster_logo);
 
         // set the title color & text
-        iconSettingUtils.setDisTitle(titleText, txt_show_task);
+        iconSettingUtils.setTaskTitle(titleText, txt_show_task);
     }
 
 

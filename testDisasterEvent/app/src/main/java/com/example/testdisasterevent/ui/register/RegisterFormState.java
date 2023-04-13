@@ -27,7 +27,6 @@ public class RegisterFormState {
     Integer getUsernameError() {
         return usernameError;
     }
-
     Integer getPasswordError() {
         return passwordError;
     }

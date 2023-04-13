@@ -27,7 +27,7 @@ public class GeoHelpers {
         hereRerouteDataSource.addRoute(startPoint, endPoint, geoBoxes);
     }
 
-    private LatLng getLocLatLng(String locName) {
+    public LatLng getLocLatLng(String locName) {
         LatLng res = null;
         try {
             // Set up the GeoApiContext with your API key
