@@ -206,7 +206,7 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
         BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
 
-        LatLng center = new LatLng(infos[index].getLongitude(), infos[index].getLatitude());
+        LatLng center = new LatLng(infos[index].getLatitude(), infos[index].getLongitude());
         float zoomLevel;
         zoomLevel = 20f;
 
@@ -236,15 +236,7 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        /**
-         * set lat/long here
-         */
         map = googleMap;
-        LatLng sydney = new LatLng(-37.812439, 144.972755);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
-
-        googleMap.addMarker(new MarkerOptions()
-                .position(sydney));
 
         homeViewModel.getReportInfo().observe(getActivity(), new Observer<ReportInfo[]>() {
             @Override
@@ -252,6 +244,7 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
                 if (posts.length > 0) {
                     popupWindow = popupwindowUtils.showPopwindow(contentView);
                     popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+                    popupWindow.setHeight(400);
                     createReportDetailPopupWindow(posts);
                 }
             }

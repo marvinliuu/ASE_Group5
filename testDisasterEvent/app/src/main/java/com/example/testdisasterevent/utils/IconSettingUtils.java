@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.testdisasterevent.R;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 public class IconSettingUtils {
     public ImageView createDisIconOnWindow (String title, Context context) {
@@ -59,4 +61,16 @@ public class IconSettingUtils {
             txt_show_task.setTextColor(Color.BLACK);
         }
     }
+
+    public Bitmap setOriDesIcon (Boolean ori, Resources resources) {
+        // Create and add an ImageView to the RelativeLayout - disaster logo
+        Bitmap bitmap;
+        if (ori) {
+            bitmap = BitmapFactory.decodeResource(resources, R.drawable.originpoint);
+        } else {
+            bitmap = BitmapFactory.decodeResource(resources, R.drawable.destination);
+        }
+        return bitmap;
+    }
+
 }

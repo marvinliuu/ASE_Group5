@@ -127,7 +127,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     private String start, end;  // Type: String, used for storing the start and end locations of a route
     private String[] stop_ids;  // Type: array of String objects, used for storing stop IDs
     private HereRerouteDataSource hereRerouteDataSource;  // Type: HereRerouteDataSource, used for rerouting
-    private int count;  // Type: int, used for storing a count value
+    private int count, busInfoLimit = 30;  // Type: int, used for storing a count value
     private boolean isShowDisasterCircle;  // Type: boolean, used for indicating whether to show a disaster circle or not
     private IconSettingUtils iconSettingUtils;  // Type: IconSettingUtils, used for setting icons
     private PopupwindowUtils popupwindowUtils;  // Type: PopupwindowUtils, used for displaying pop-up windows
@@ -163,6 +163,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         // bind subview
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        contentView = LayoutInflater.from(getActivity()).inflate(
+                R.layout.message_home_report_popupwindow, null);
+
 
         showWindowButton = binding.showPopwindow;
         startLocation = binding.startLocation;
@@ -170,8 +173,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         enterBtn = binding.enterBtn;
         busInfoBtn = binding.getBusInfo;
 
+        txt_show = contentView.findViewById(R.id.tv_pop_name);
+        closeBtn = contentView.findViewById(R.id.close_btn);
+
         setClickListeners();
         setDataObserver();
+        initSubView();
 
         locationTracker = new LocationTracker(requireContext(), this);
         locationTracker.startLocationUpdates();
@@ -182,7 +189,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                 Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
 
         mapFragment= (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        if(mapFragment == null){
+        if(mapFragment == null) {
             FragmentManager fm= getFragmentManager();
             FragmentTransaction ft= fm.beginTransaction();
             mapFragment= SupportMapFragment.newInstance();
@@ -190,6 +197,14 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         }
         mapFragment.getMapAsync(this);
         return root;
+    }
+
+    private void initSubView() {
+        // Load the custom font from the assets folder
+        Typeface topTitleType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
+        // Set the font of the TextView to the custom font
+        txt_show.setTypeface(topTitleType);
+        txt_show.setTextSize(25);
     }
 
     /**
@@ -225,6 +240,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                 end = desLocation.getText().toString();
                 try {
                     geoHelper.getRouteLatLngInfo(start, end, hereRerouteDataSource, details);
+                    addOriDesMarkers(start, end);
                 } catch (InstantiationErrorException e) {
                     e.printStackTrace();
                 }
@@ -238,6 +254,51 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                 Toast.makeText(getContext(),"Request Real Time Bus Information", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // click the close btn, dismiss the popup window
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+
+        showWindowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+            }
+        });
+    }
+
+
+    /**
+     * Date: 23.04.12
+     * Function: add reroute start & end marker on the map
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
+    private void addOriDesMarkers(String start, String end) {
+        LatLng startPoint = geoHelper.getLocLatLng(start);
+        LatLng endPoint = geoHelper.getLocLatLng(end);
+        addOnePointMarker(true, startPoint);
+        addOnePointMarker(false, endPoint);
+    }
+
+    private void addOnePointMarker(boolean ori, LatLng point) {
+        Bitmap bitmap = iconSettingUtils.setOriDesIcon(ori, getResources());
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        float scaledWidth = width * 0.4f;
+        float scaledHeight = height * 0.4f;
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
+        BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
+
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(point)
+                .icon(markerIcon)
+                .anchor(0.5f, 0.5f);;
+        map.addMarker(markerOptions);
     }
 
     /**
@@ -355,7 +416,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                 if (reroutePolyline != null)
                     reroutePolyline.remove();
                 PolylineOptions polylineOptions = new PolylineOptions();
-                polylineOptions.color(Color.YELLOW);
+                polylineOptions.color(Color.CYAN);
 
                 polylineOptions.addAll(latLngs);
                 polylineOptions.width(20f);
@@ -373,31 +434,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        contentView = LayoutInflater.from(getActivity()).inflate(
-                R.layout.message_home_report_popupwindow, null);
-
-        txt_show = contentView.findViewById(R.id.tv_pop_name);
-        closeBtn = contentView.findViewById(R.id.close_btn);
-
-        // click the close btn, dismiss the popup window
-        closeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-        // Load the custom font from the assets folder
-        Typeface topTitleType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
-        // Set the font of the TextView to the custom font
-        txt_show.setTypeface(topTitleType);
-        txt_show.setTextSize(25);
-        showWindowButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
-            }
-        });
         //load popup window layout
         MainActivity mainActivity = (MainActivity) getActivity();
         AccountUserInfo accountUserInfoData = mainActivity.getAccountUserInfo();
@@ -421,7 +457,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         }
     }
 
-
+    /**
+     * Date: 23.04.12
+     * Function: create no report popup window
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     public void createNoReportPopWindow() {
         // Find the ScrollView in the layout and add content to it
         ScrollView scrollView = contentView.findViewById(R.id.disasterReportScrollView);
@@ -449,7 +490,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         linearLayout.addView(title, titleParams);
     }
 
-
+    /**
+     * Date: 23.04.12
+     * Function: create report listing popup window
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     public void createReportPopupWindow(ReportInfo[] infos) {
         // Find the ScrollView in the layout and add content to it
         ScrollView scrollView = contentView.findViewById(R.id.disasterReportScrollView);
@@ -471,37 +517,24 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                 relativeLayout.setId(i);
 
                 // Create and add a TextView to the RelativeLayout - Title
-                TextView title = new TextView(getContext());
+                TextView title = createTitleView();
                 String titleText = infos[i].getReportTitle();
                 title.setText(titleText);
-                title.setId(View.generateViewId());
-                title.setTextColor(Color.BLACK);
-                title.setTextSize(20);
 
-                // Load the custom font from the assets folder
-                Typeface customFont = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
-
-                // Set the font of the TextView to the custom font
-                title.setTypeface(customFont);
                 RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 titleParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
                 // Create and add a TextView to the RelativeLayout - Location
-                TextView location = new TextView(getContext());
-                location.setText(infos[i].getLocation());
-                location.setId(View.generateViewId());
-                location.setTextColor(Color.BLACK);
+                TextView location = createLocationView();
 
                 RelativeLayout.LayoutParams locationParams = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 locationParams.addRule(RelativeLayout.BELOW, title.getId());
 
                 // Create and add a TextView to the RelativeLayout - Time
-                TextView time = new TextView(getContext());
+                TextView time = createTimeView();
                 time.setText(infos[i].getHappenTime());
-                time.setId(View.generateViewId());
-                time.setTextColor(Color.BLACK);
 
                 RelativeLayout.LayoutParams timeParams = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -513,32 +546,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                 imageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 
-                Bitmap bitmap = iconSettingUtils.createDisIconOnMap(titleText, getResources());
-                int width = bitmap.getWidth();
-                int height = bitmap.getHeight();
-                float scaledWidth = width * 0.5f;
-                float scaledHeight = height * 0.5f;
-                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
-                BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
-
-
-                LatLng center = new LatLng(infos[i].getLatitude(), infos[i].getLongitude());
-                float zoomLevel = 13f;
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
-                map.setMapType(MAP_TYPE_NORMAL);
-                MarkerOptions markerOptions = new MarkerOptions()
-                        .position(center)
-                        .icon(markerIcon)
-                        .anchor(0.5f, 0.5f);
-                map.addMarker(markerOptions);
-
                 // add view by order
                 relativeLayout.addView(title, titleParams);
                 relativeLayout.addView(location, locationParams);
                 relativeLayout.addView(time, timeParams);
                 relativeLayout.addView(imageView, imageParams);
 
-                setDisasterItemClickListener(relativeLayout);
+                setReportItemClickListener(relativeLayout);
 
                 // Add the RelativeLayout to the LinearLayout
                 linearLayout.addView(relativeLayout);
@@ -552,13 +566,50 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         }
     }
 
+
+    /**
+     * Date: 23.04.05
+     * Following Function: create Text View for the popupwindow item - Title, Location
+     * Author: Siyu Liao
+     * Version: Week 11
+     */
+
+    // Create and add a TextView to the RelativeLayout - Title
+    private TextView createTitleView() {
+        TextView title = new TextView(getContext());
+        title.setTextColor(Color.BLACK);
+        title.setId(View.generateViewId());
+        title.setTextSize(20);
+        // Load the custom font from the assets folder
+        Typeface customFont = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
+        // Set the font of the TextView to the custom font
+        title.setTypeface(customFont);
+        return title;
+    }
+
+    // Create and add a TextView to the RelativeLayout - Location
+    private TextView createLocationView() {
+        TextView location = new TextView(getContext());
+        location.setId(View.generateViewId());
+        location.setTextColor(Color.BLACK);
+        return location;
+    }
+
+    // Create and add a TextView to the RelativeLayout - Location
+    private TextView createTimeView() {
+        TextView time = new TextView(getContext());
+        time.setId(View.generateViewId());
+        time.setTextColor(Color.BLACK);
+        return time;
+    }
+
     /**
      * Date: 23.03.31
-     * Function: set disaster item click listener
+     * Function: set report item click listener
      * Author: Siyu Liao
      * Version: Week 10
      */
-    private void setDisasterItemClickListener(RelativeLayout relativeLayout) {
+    private void setReportItemClickListener(RelativeLayout relativeLayout) {
         // set the response event after clicking the RelativeLayout item
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -588,6 +639,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         });
     }
 
+    /**
+     * Date: 23.04.13
+     * Function: parase the real time bus data info
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     private void parseRealTimeData() {
         if (stop_ids.length == 0) return;
         count = 0;
@@ -595,19 +652,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         DatabaseReference stopsRef = database.getReference("BusStopInfo");
         for (int i = 0; i < stop_ids.length; i++) {
             String stopId = stop_ids[i];
-            if (stopId == null) {
-                continue;
-            }
-            if (count > 30) {
-                return;
-            }
+            if (stopId == null)  continue;
+            if (count > busInfoLimit) return;
             stopsRef.child(stopId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        if (count > 30) {
-                            return;
-                        }
+                        if (count > busInfoLimit) return;
                         count++;
                         // Get the latitude and longitude values from the snapshot
                         double latitude = snapshot.child("stop_lat").getValue(Double.class);
@@ -616,26 +667,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bus_icon);
-                                int width = bitmap.getWidth();
-                                int height = bitmap.getHeight();
-                                float scaledWidth = width * 0.4f;
-                                float scaledHeight = height * 0.4f;
-                                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
-                                BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
-                                // Add a marker to the map for the vehicle's location
-                                LatLng location = new LatLng(latitude, longitude);
-                                MarkerOptions options = new MarkerOptions()
-                                        .position(location)
-                                        .title("vehicleId")
-                                        .icon(markerIcon)
-                                        .anchor(0.5f, 0.5f);
-                                map.addMarker(options);
+                                addBusMarker(latitude, longitude);
                             }
                         });
-                    } else {
-                        System.out.println("No data available for stop_id: " + stopId);
-                    }
+                    } else System.out.println("No data available for stop_id: " + stopId);
                 }
                 @Override
                 public void onCancelled(DatabaseError error) {
@@ -723,6 +758,30 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         });
         // Start the Thread
         thread.start();
+    }
+
+    /**
+     * Date: 23.04.13
+     * Function: add bus marker for each bus on the map
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
+    private void addBusMarker(double latitude, double longitude) {
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bus_icon);
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        float scaledWidth = width * 0.4f;
+        float scaledHeight = height * 0.4f;
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
+        BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
+        // Add a marker to the map for the vehicle's location
+        LatLng location = new LatLng(latitude, longitude);
+        MarkerOptions options = new MarkerOptions()
+                .position(location)
+                .title("vehicleId")
+                .icon(markerIcon)
+                .anchor(0.5f, 0.5f);
+        map.addMarker(options);
     }
 
 
