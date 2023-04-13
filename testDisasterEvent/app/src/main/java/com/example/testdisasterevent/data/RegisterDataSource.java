@@ -5,6 +5,7 @@ import android.os.Build;
 import android.util.Log;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import java.time.LocalDateTime;
@@ -29,6 +30,7 @@ public class RegisterDataSource {
     public final String TAG = "RegisterDataSource";
     private String userId;
     private long count;
+    private boolean registerFlag;
 
     /**
      * process of register, with writing sequentially into firebase
@@ -42,22 +44,23 @@ public class RegisterDataSource {
             // Write user data to Firebase Realtime Database
             mDatabase = FirebaseDatabase.getInstance().getReference();
             DatabaseReference userDatabase = mDatabase.child("UserInfo");
-            DatabaseReference ICodes = mDatabase.child("IdentificationCode");
-            String uid = userDatabase.push().getKey();
+            String UserKey = userDatabase.push().getKey();
 
-            ICodes.addListenerForSingleValueEvent(new ValueEventListener() {
+            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot snapshot) {
+                public void onDataChange(DataSnapshot root) {
+                    DataSnapshot ICodes = root.child("IdentificationCode");
+                    count = root.child("UserInfo").getChildrenCount();
                     String code;
                     Integer type = 0;
                     Map<String, Object> userData = new HashMap<>();
-                    userData.put("mail", email);
+                    userData.put("mail", email.toLowerCase(Locale.ROOT));
                     userData.put("name", username);
                     userData.put("password", PasswordEncryption.encryptPassword(password));
-                    userData.put("uid", uid);
+                    userData.put("uid", count + 1);
                     userData.put("r-time", generateRandomTime());
                     userData.put("phone", phone);
-                    for(DataSnapshot ICode:snapshot.getChildren()){
+                    for(DataSnapshot ICode:ICodes.getChildren()){
                         code = ICode.child("number").getValue(String.class);
                         if(code.equals(actCode)){
                             type = ICode.child("type").getValue(Integer.class);
@@ -65,12 +68,13 @@ public class RegisterDataSource {
                         }
                     }
                     userData.put("type", type);
-                    userDatabase.child(uid).setValue(userData);
+                    userDatabase.child(UserKey).setValue(userData);
                     String tempKey = mDatabase.child("AvailableOfficer").push().getKey();
                     Map<String, Object> ava_data = new HashMap<>();
-                    ava_data.put("uid", uid);
+                    ava_data.put("uid", count + 1);
                     ava_data.put("type", type);
                     mDatabase.child("AvailableOfficer").child(tempKey).setValue(ava_data);
+
                 }
 
                 @Override
@@ -78,53 +82,9 @@ public class RegisterDataSource {
 
                 }
             });
-//            userDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    // Save the number of users
-//                    count = dataSnapshot.getChildrenCount() + 1;
-//                    countDatabase.setValue(count);
-//
-//                    // Write user data into the database
-//                    Map<String, Object> userData = new HashMap<>();
-//                    userData.put("mail", email);
-//                    userData.put("name", username);
-//                    userData.put("password", PasswordEncryption.encryptPassword(password));
-//                    userData.put("uid", count);
-//                    userData.put("r-time", generateRandomTime());
-//
-//                    // Check if actCode is null or empty, and assign 0 as default
-//                    int actCodeInt = Integer.parseInt(actCode);
-//                    if (actCode.isEmpty() || actCodeInt<10000) {
-//                        userData.put("type", 0);
-//                    } else if(actCodeInt>=10000 || actCodeInt<20000) {
-//                        userData.put("type", 1);
-//                    } else if(actCodeInt>=20000 || actCodeInt<30000) {
-//                        userData.put("type", 2);
-//                    } else if(actCodeInt>=30000 || actCodeInt<40000) {
-//                        userData.put("type", 3);
-//                    }
-//
-//
-//                    userData.put("phone", phone);
-//
-//                    userId += count;
-//                    userDatabase.child(userId).setValue(userData);
-//
-//                    String tempKey = mDatabase.child("AvailableOfficer").push().getKey();
-//                    Map<String, Object> ava_data = new HashMap<>();
-//                    ava_data.put("uid", count);
-//                    ava_data.put("type", 1);
-//                    mDatabase.child("AvailableOfficer").child(tempKey).setValue(ava_data);
-//                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//                    Log.w(TAG, "onCancelled", databaseError.toException());
-//                }
-//            });
 
-            return new Result.Success<>("Register Success" + username);
+
+            return new Result.Success<>("success");
         } catch (Exception e) {
             return new Result.Error(new IOException("Error registering user", e));
         }

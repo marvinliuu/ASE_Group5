@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 
@@ -114,6 +115,27 @@ public class RegisterFragment extends Fragment {
             }
         });
 
+        mViewModel.getRegisterResult().observe(getViewLifecycleOwner(), new Observer<RegisterResult>() {
+            @Override
+            public void onChanged(RegisterResult registerResult) {
+                if(registerResult.getStatus().equals("success")){
+                    String success = "Registration successful!";
+                    midToast(success);
+                    Intent login_intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(login_intent);
+                } else if(registerResult.getStatus().equals("fail")){
+                    String failure = "Registration failed!";
+                    midToast(failure);
+                    Intent res_intent = new Intent(getActivity(), RegisterActivity.class);
+                    startActivity(res_intent);
+                } else if(registerResult.getStatus().equals("repeated")){
+                    String repeated = "This E-mail address has been registered!";
+                    midToast(repeated);
+                    Intent res_intent = new Intent(getActivity(), RegisterActivity.class);
+                    startActivity(res_intent);
+                }
+            }
+        });
         pwdVisible.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -145,18 +167,8 @@ public class RegisterFragment extends Fragment {
                 String pwd = registerPwd.getText().toString();
                 String phone = registerPhone.getText().toString();
                 String actCode = registerActCode.getText().toString();
+                mViewModel.register(name, pwd, email, phone, actCode);
 
-                if(mViewModel.register(name, pwd, email, phone, actCode) == true){
-                    String success = "Registration successful!";
-                    midToast(success);
-                    Intent login_intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(login_intent);
-                }else{
-                    String failure = "Registration failed!";
-                    midToast(failure);
-                    Intent res_intent = new Intent(getActivity(), RegisterActivity.class);
-                    startActivity(res_intent);
-                };
             }
         });
         actDescription.setOnClickListener(new View.OnClickListener() {

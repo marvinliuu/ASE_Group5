@@ -1,6 +1,8 @@
 package com.example.testdisasterevent.ui.register;
 
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -9,30 +11,57 @@ import java.util.regex.Pattern;
 import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.data.RegisterRepository;
 import com.example.testdisasterevent.data.Result;
-
-
+import com.example.testdisasterevent.ui.register.RegisterResult;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class RegisterViewModel extends ViewModel {
     private MutableLiveData<RegisterFormState> registerFormState = new MutableLiveData<>();
     private RegisterRepository registerRepository;
+    private MutableLiveData<RegisterResult> registerResult = new MutableLiveData<>();
     LiveData<RegisterFormState> getRegisterFormState() {
         return registerFormState;
     }
-
+    LiveData<RegisterResult> getRegisterResult() { return registerResult; }
     RegisterViewModel(RegisterRepository registerRepository) {
         this.registerRepository = registerRepository;
     }
     // TODO: Implement the ViewModel
-    public boolean register(String username, String password, String email, String phone, String actCode) {
+    public void register(String username, String password, String email, String phone, String actCode) {
         // can be launched in a separate asynchronous job
-        Result<String> result = registerRepository.register(username, password, email, phone, actCode);
+        DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("UserInfo");
+        users.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                String status = "";
+                for(DataSnapshot user : snapshot.getChildren()){
+                    String testMail = user.child("mail").getValue(String.class);
+                    if(testMail.equals(email)){
+                        status = "repeated";
+                        break;
+                    }
+                }
+                Log.d("BBB","HereHere");
+                if(!status.equals("repeated")){
+                    Result<String> result = registerRepository.register(username, password, email, phone, actCode);
+                    String resultStatus = ((Result.Success<String>) result).getData();
+                    registerResult.setValue(new RegisterResult(resultStatus));
+                }
+                else{
+                    registerResult.setValue(new RegisterResult(("repeated")));
+                }
+            }
 
-        if (result instanceof Result.Success) {
-            return true;
-        } else {
-            return false;
-        }
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
+
     }
 
     public void RegisterDataChanged(String username, String password, String email, String actCode) {

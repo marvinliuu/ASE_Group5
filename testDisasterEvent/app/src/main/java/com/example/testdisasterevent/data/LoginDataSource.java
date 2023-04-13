@@ -22,10 +22,10 @@ public class LoginDataSource {
                 return new Result.Success<>(loggedUser);
             }
             else if(loginStatus == 1){
-                return new Result.Failure(R.string.login_wrong);
+                return new Result.Failure("Wrong username or wrong password");
             }
             else{
-                return new Result.Failure(R.string.no_user);
+                return new Result.Failure("User doesn\'t exist");
             }
 
         } catch (Exception e) {

@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,8 +46,7 @@ public class LoginViewModel extends ViewModel {
      */
     public void login(String username, String password) {
         // can be launched in a separate asynchronous job
-        DatabaseReference mReference;
-        mReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference users = mReference.child("UserInfo");
         users.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -61,7 +61,7 @@ public class LoginViewModel extends ViewModel {
                 String userType = "";
                 int userTypeId;
                 for(DataSnapshot user : dataSnapshot.getChildren()){
-                    if(user.child("mail").getValue(String.class).equals(username)){
+                    if(user.child("mail").getValue(String.class).equals(username.toLowerCase(Locale.ROOT))){
                         loginStatus = 1;
                         if(user.child("password").getValue(String.class).equals(PasswordEncryption.encryptPassword(password))){
                             displayName = user.child("name").getValue(String.class);
@@ -87,11 +87,11 @@ public class LoginViewModel extends ViewModel {
                     loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
                 }
                 else if(result instanceof Result.Failure) {
-                    Integer data = ((Result.Failure) result).getStatus();
+                    String data = ((Result.Failure) result).getStatus();
                     loginResult.setValue(new LoginResult(data));
                 }
                 else {
-                    loginResult.setValue(new LoginResult(R.string.login_failed));
+                    loginResult.setValue(new LoginResult("Login failed."));
                 }
             }
 

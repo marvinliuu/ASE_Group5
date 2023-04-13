@@ -14,18 +14,12 @@ class LoginResult {
 
     LoginResult( String failure) { this.failure = failure; }
 
-    LoginResult( Integer error) { this.error = error; }
-
     LoginResult( LoggedInUserView success) {
         this.success = success;
     }
 
     LoggedInUserView getSuccess() {
         return success;
-    }
-
-    Integer getError() {
-        return error;
     }
 
     String  getWrong() { return failure; }

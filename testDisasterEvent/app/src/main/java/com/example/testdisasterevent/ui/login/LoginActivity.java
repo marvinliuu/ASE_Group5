@@ -75,8 +75,6 @@ public class LoginActivity extends AppCompatActivity {
         Glide.with(this).load(R.drawable.disaster_fire_logo).into(logo);
         loginButton.setEnabled(false);
         pwdVisible = binding.passwordVisible;
-
-
         /**
          * Observer
          * Function: observe the LoginFormState class data change signal
@@ -119,9 +117,9 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
-                }
+//                if (loginResult.getError() != null) {
+//                    showLoginFailed(loginResult.getError());
+//                }
                 if(loginResult.getWrong() != null) {
                     showLoginFailed(loginResult.getWrong());
                 }
@@ -279,16 +277,5 @@ public class LoginActivity extends AppCompatActivity {
     private void showLoginFailed(String failure){
         midToast(failure);
     }
-    /**
-     * process the invalid user login event - show dialog
-     * @param errorString
-     */
-    private void showLoginFailed(Integer errorString) {
-        if(errorString != R.string.login_failed){
-            midToast(errorString);
-        }
-        else{
-            Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
-        }
-    }
+
 }
