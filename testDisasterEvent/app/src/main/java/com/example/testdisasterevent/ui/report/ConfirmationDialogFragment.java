@@ -15,6 +15,12 @@ import com.example.testdisasterevent.R;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+/**
+ * Date: 23.04.12
+ * Function: create confirm dialog fragment
+ * Author: Zhipeng Fu
+ * Version: Week 12
+ */
 public class ConfirmationDialogFragment extends DialogFragment {
     private static final String ARG_NAME = "new";
 
@@ -29,9 +35,6 @@ public class ConfirmationDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-
-
         String name = getArguments().getString(ARG_NAME);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -39,22 +42,9 @@ public class ConfirmationDialogFragment extends DialogFragment {
                 .setMessage("The " + name+" are required")
                 .setPositiveButton("Back", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
                         Log.d("Button click", "message back clicked!");
-
-
                     }
-                })
-//                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//
-//
-//
-//                        Log.d("Button click", "message no clicked!");
-//                    }
-//                })
-        ;
-
+                });
         return builder.create();
     }
 }

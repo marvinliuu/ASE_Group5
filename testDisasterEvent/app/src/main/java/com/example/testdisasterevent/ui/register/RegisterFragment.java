@@ -30,23 +30,18 @@ import android.widget.Toast;
 
 
 public class RegisterFragment extends Fragment {
-    private ImageView imageView;
     private HideReturnsTransformationMethod method_show;
     private RegisterViewModel mViewModel;
     private RegisterFragmentBinding binding;
-    private Button registerBack;
-    private Button registerFinish;
+    private Button registerBack, registerFinish;
     private ImageView pwdVisible;
     private Button actDescription;
-    private EditText nickNameText;
-    private EditText registerName;
-    private EditText registerEmail;
-    private EditText registerPwd;
-    private EditText registerPhone;
+    private EditText registerName, registerEmail;
+    private EditText registerPwd, registerPhone;
     private EditText registerActCode;
     private boolean pwdFlag = false;
     private PopupWindow popupWindow;
-    private View contentView, toastView;
+    private View contentView;
 
     public static RegisterFragment newInstance() {
         return new RegisterFragment();
@@ -61,7 +56,6 @@ public class RegisterFragment extends Fragment {
 
         registerBack = binding.registerBack;
         registerFinish = binding.registerFinish;
-        nickNameText = binding.registerName;
         registerName = binding.registerName;
         registerEmail = binding.registerEmail;
         registerPwd = binding.registerPassword;
@@ -135,8 +129,6 @@ public class RegisterFragment extends Fragment {
             }
         });
 
-        toastView = LayoutInflater.from(getActivity()).inflate(
-                R.layout.view_toast_custom, null);
         registerFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

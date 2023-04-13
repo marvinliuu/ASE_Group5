@@ -26,6 +26,19 @@ public class IconSettingUtils {
         return imageView;
     }
 
+    public ImageView createReportEvenIconOnWindow (String title, Context context) {
+        // Create and add an ImageView to the RelativeLayout - disaster logo
+        ImageView imageView = new ImageView(context);
+        if (title.equals("fire")) {
+            imageView.setImageResource(R.drawable.fire_event_image);
+        } else if (title.equals("water")) {
+            imageView.setImageResource(R.drawable.water_event_image);
+        } else {
+            imageView.setImageResource(R.drawable.other_event_image);
+        }
+        return imageView;
+    }
+
     public Bitmap createDisIconOnMap (String title, Resources resources) {
         // Create and add an ImageView to the RelativeLayout - disaster logo
         Bitmap bitmap;

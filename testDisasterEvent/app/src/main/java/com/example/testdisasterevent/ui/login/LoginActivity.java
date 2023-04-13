@@ -46,37 +46,48 @@ public class LoginActivity extends AppCompatActivity {
     private LoginViewModel loginViewModel;
     private HideReturnsTransformationMethod method_show;
     private ActivityLoginBinding binding;
-    private ImageView pwdVisible;
+    private ImageView pwdVisible, logo;
     private boolean pwdFlag = false;
+    private EditText usernameEditText, passwordEditText;
+    private Button loginButton, backButton;
+    private ProgressBar loadingProgressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // create new object of the view model
+        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
+                .get(LoginViewModel.class);
 
         // bind the certain activity xml
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-        // create new object of the view model
-
-        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
-
         // get the certain widget in the activity xml
-        final EditText usernameEditText = binding.username;
-        final EditText passwordEditText = binding.password;
-        final Button loginButton = binding.login;
-        final Button backButton = binding.loginback;
-        final ProgressBar loadingProgressBar = binding.loading;
-
+        usernameEditText = binding.username;
+        passwordEditText = binding.password;
+        loginButton = binding.login;
+        backButton = binding.loginback;
+        loadingProgressBar = binding.loading;
         // set image of the imageview
-        final ImageView logo = (ImageView) findViewById(R.id.app_logo);
+        logo = (ImageView) findViewById(R.id.app_logo);
         Glide.with(this).load(R.drawable.disaster_fire_logo).into(logo);
-        loginButton.setEnabled(false);
         pwdVisible = binding.passwordVisible;
 
+        loginButton.setEnabled(false);
 
+        // set all the observer
+        setDataObserver();
+        setListeners();
+    }
+
+    /**
+     * Date: 23.04.12
+     * Function: set all the viewmodel data observer
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
+    private void setDataObserver() {
         /**
          * Observer
          * Function: observe the LoginFormState class data change signal
@@ -100,11 +111,8 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel.getMyData().observe(this, new Observer<AccountUserInfo>() {
             @Override
             public void onChanged(AccountUserInfo accountUserInfo) {
-//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 Gson gson = new Gson();
                 accountUserInfoJson = gson.toJson(accountUserInfo);
-//                intent.putExtra("accountUserInfoJson", accountUserInfoJson);
-//                startActivityForResult(intent, 1);
             }
         });
 
@@ -134,21 +142,24 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
 
+    /**
+     * Date: 23.03.31
+     * Function: set all the data and button listeners
+     * Author: Siyu Liao
+     * Version: Week 10
+     */
+    private void setListeners () {
         /**
-         * Listener
          * Function: listen the edittext widget input data change signal
          */
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // ignore
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // ignore
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -161,7 +172,6 @@ public class LoginActivity extends AppCompatActivity {
 
         // input enter then go into this listen
         passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -173,7 +183,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         /**
-         * Listener
          * Function: listen the login button click event
          */
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -186,7 +195,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         /**
-         * Listener
          * Function: listen the back button click event
          */
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -198,7 +206,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         /**
-         * Listener
          * Function: listen the pwdVisible button click event
          */
         pwdVisible.setOnClickListener(new View.OnClickListener() {
@@ -220,7 +227,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
 
@@ -242,6 +248,7 @@ public class LoginActivity extends AppCompatActivity {
         toast.setView(view);
         toast.show();
     }
+
     private void midToast(int strID){
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.view_toast_custom,
@@ -281,14 +288,14 @@ public class LoginActivity extends AppCompatActivity {
     }
     /**
      * process the invalid user login event - show dialog
-     * @param errorString
+     * @param errorInt
      */
-    private void showLoginFailed(Integer errorString) {
-        if(errorString != R.string.login_failed){
-            midToast(errorString);
+    private void showLoginFailed(Integer errorInt) {
+        if(errorInt != R.string.login_failed){
+            midToast(errorInt);
         }
         else{
-            Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), errorInt, Toast.LENGTH_SHORT).show();
         }
     }
 }

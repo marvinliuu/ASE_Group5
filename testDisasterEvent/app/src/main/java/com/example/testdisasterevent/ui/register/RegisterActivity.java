@@ -18,13 +18,11 @@ public class RegisterActivity extends AppCompatActivity {
                     .replace(R.id.container, RegisterFragment.newInstance())
                     .commitNow();
         }
-
     }
 
     // listen the return(home) button on topBar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if(item.getItemId()==android.R.id.home){
             finish();
         }

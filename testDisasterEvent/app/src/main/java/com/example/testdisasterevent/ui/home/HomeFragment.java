@@ -518,9 +518,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                         RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 timeParams.addRule(RelativeLayout.BELOW, location.getId());
 
-                ImageView imageView = iconSettingUtils.createDisIconOnWindow(titleText, getContext());
+                ImageView imageView = iconSettingUtils.createReportEvenIconOnWindow(titleText, getContext());
                 RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(
-                        70, 70);
+                        140, 140);
                 imageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 

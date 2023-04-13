@@ -11,8 +11,6 @@ import com.example.testdisasterevent.data.RegisterRepository;
 import com.example.testdisasterevent.data.Result;
 
 
-
-
 public class RegisterViewModel extends ViewModel {
     private MutableLiveData<RegisterFormState> registerFormState = new MutableLiveData<>();
     private RegisterRepository registerRepository;
@@ -23,11 +21,10 @@ public class RegisterViewModel extends ViewModel {
     RegisterViewModel(RegisterRepository registerRepository) {
         this.registerRepository = registerRepository;
     }
-    // TODO: Implement the ViewModel
+
     public boolean register(String username, String password, String email, String phone, String actCode) {
         // can be launched in a separate asynchronous job
         Result<String> result = registerRepository.register(username, password, email, phone, actCode);
-
         if (result instanceof Result.Success) {
             return true;
         } else {
@@ -49,7 +46,6 @@ public class RegisterViewModel extends ViewModel {
         }
     }
 
-    // A placeholder username validation check
 
     //Check if the input email is valid.
     public static boolean isEmailValid(String email) {
@@ -58,7 +54,6 @@ public class RegisterViewModel extends ViewModel {
         Matcher m = p.matcher(email);
         return m.matches();
     }
-
 
     // A placeholder password validation check
     public boolean isPasswordValid(String password) {
