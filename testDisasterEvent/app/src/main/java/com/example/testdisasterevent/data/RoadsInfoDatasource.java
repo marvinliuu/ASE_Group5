@@ -24,6 +24,12 @@ public class RoadsInfoDatasource {
     private static final String ROADS_API_BASE = "https://roads.googleapis.com/v1/nearestRoads";
     private static final String KEY = "AIzaSyDrYjvowVSGRHTyi5vO7CZx2Py32G1BoaY"; // replace with your own API key
 
+    /**
+     * Date: 23.04.14
+     * Function: select 8 points near the disaster effect radius
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     public List<LatLng> selectNearByLocation (double latitude, double longitude, double radius) {
         // Define the center point of the circle as a LatLng object
         LatLng center = new LatLng(latitude, longitude);
@@ -41,6 +47,12 @@ public class RoadsInfoDatasource {
         return circlePoints;
     }
 
+    /**
+     * Date: 23.04.14
+     * Function: get the roads near by a geo points - calc more than one point function
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     public LiveData<List<LatLng>> getNearbyRoads(double latitude, double longitude, double radius) {
         List<LatLng> pathPoints = selectNearByLocation(latitude, longitude, radius);
         MutableLiveData<List<LatLng>> roadInfos = new MutableLiveData<>();
@@ -98,6 +110,12 @@ public class RoadsInfoDatasource {
     return roadInfos;
     }
 
+    /**
+     * Date: 23.04.14
+     * Function: get the nearest road close to the user current point - calc one point function
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     public LiveData<List<LatLng>> getUserNearbyRoads(double latitude, double longitude) {
         MutableLiveData<List<LatLng>> userRoadInfos = new MutableLiveData<>();
         List<LatLng> pointSet = new ArrayList<>();
@@ -150,4 +168,5 @@ public class RoadsInfoDatasource {
         userRoadInfos.setValue(pointSet);
         return userRoadInfos;
     }
+
 }

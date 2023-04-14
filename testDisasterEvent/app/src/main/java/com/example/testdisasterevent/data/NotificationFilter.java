@@ -14,11 +14,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class NotificationFilter {
+    /**
+     * Date: 23.04.14
+     * Function: add task listener of the task data in order to get he latest task for the user
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     public void addTaskListener(Context context, long uid){
         DatabaseReference mReference;
         mReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference tasks = mReference.child("TaskInfo");
-
 
         tasks.addChildEventListener(new ChildEventListener() {
             @Override

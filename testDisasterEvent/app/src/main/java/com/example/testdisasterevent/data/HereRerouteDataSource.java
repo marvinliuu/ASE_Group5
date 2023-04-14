@@ -56,7 +56,12 @@ public class HereRerouteDataSource {
         }
     }
 
-
+    /**
+     * Date: 23.04.14
+     * Function: search the here api engine, find a proper route
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     public void addRoute(LatLng startPoint, LatLng desPoint, List<GeoBox> geoBoxes) throws InstantiationErrorException {
 
         Waypoint startWaypoint = new Waypoint(new GeoCoordinates(startPoint.latitude, startPoint.longitude));
@@ -67,6 +72,7 @@ public class HereRerouteDataSource {
 
         CarOptions carOptions = new CarOptions();
         AvoidanceOptions avoidanceOptions = new AvoidanceOptions();
+        // mock data
 //        geoBoxes.add(new GeoBox(new GeoCoordinates(53.34516591066565,-6.2531348024413616), new GeoCoordinates(53.34389407985007,-6.255265165785585)));
 
         avoidanceOptions.avoidAreas = geoBoxes;
@@ -88,6 +94,12 @@ public class HereRerouteDataSource {
                 });
     }
 
+    /**
+     * Date: 23.04.14
+     * Function: collect the route geo points and return the points array
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     private void showRouteOnMap(Route route) {
         // Show route as polyline.
         GeoPolyline routeGeoPolyline = route.getGeometry();
@@ -102,7 +114,5 @@ public class HereRerouteDataSource {
             points.add(new LatLng(temp.latitude, temp.longitude));
         }
         livePointData.setValue(points);
-
     }
-
 }

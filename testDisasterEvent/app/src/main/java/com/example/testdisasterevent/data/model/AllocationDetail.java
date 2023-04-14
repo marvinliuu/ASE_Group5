@@ -18,31 +18,24 @@ public class AllocationDetail {
     public int getAmbulance() {
         return ambulance;
     }
-
     public void setAmbulance(int ambulance) {
         this.ambulance = ambulance;
     }
-
     public int getBus() {
         return bus;
     }
-
     public void setBus(int bus) {
         this.bus = bus;
     }
-
     public int getPolice() {
         return police;
     }
-
     public void setPolice(int police) {
         this.police = police;
     }
-
     public int getFireTruck() {
         return fireTruck;
     }
-
     public void setFireTruck(int fireTruck) {
         this.fireTruck = fireTruck;
     }

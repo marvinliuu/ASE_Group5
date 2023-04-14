@@ -15,9 +15,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ReportDataSource_Police {
-    //private String[] reportTitles = {"Fire", "Water", "General"};
     public ReportInfo[] infos;
 
+    /**
+     * Date: 23.04.14
+     * Function: get unconfirm report info for police from database
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     public LiveData<ReportInfo[]> getReportInfo() {
         final MutableLiveData<ReportInfo[]> reportLiveData = new MutableLiveData<>();
         if (infos != null) {
@@ -28,14 +33,8 @@ public class ReportDataSource_Police {
         DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference("Report");
         // real data
         long startOfDay = System.currentTimeMillis() - 43200000;
-        // fake and test data
-//        startOfDay = System.currentTimeMillis() - 43200000 * 10;
-//        long endOfDay = startOfDay + 86400000;
-        startOfDay = System.currentTimeMillis() - 43200000 * 5;
-        long endOfDay = System.currentTimeMillis() + 86400000;
 
-//        long startOfDay = new GregorianCalendar(2023, Calendar.MARCH, 17).getTimeInMillis();
-//        long endOfDay = new GregorianCalendar(2023, Calendar.MARCH, 18).getTimeInMillis();
+        long endOfDay = System.currentTimeMillis() + 86400000;
 
         Query postsQuery = postsRef.orderByChild("htime").startAt(startOfDay).endAt(endOfDay);
 
@@ -49,19 +48,13 @@ public class ReportDataSource_Police {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Long htime = postSnapshot.child("htime").getValue(Long.class);
                     String happenTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(htime));
-//                    int injured = postSnapshot.child("injury").getValue(int.class);
                     float latitude = postSnapshot.child("latitude").getValue(float.class);
                     float longitude = postSnapshot.child("longitude").getValue(float.class);
                     String location = postSnapshot.child("location").getValue(String.class);
                     String rtype = postSnapshot.child("report_type").getValue(String.class);
-//                    String description = postSnapshot.child("description").getValue(String.class);
                     int reportState = postSnapshot.child("report_state").getValue(int.class);
                     infos[count++] = new ReportInfo(location, happenTime, latitude,
                             longitude, rtype, reportState, postSnapshot.getKey());
-//                    System.out.println(21212121);
-//                    System.out.println(postSnapshot.getKey());
-
-
                 }
                 reportLiveData.setValue(infos);
             }

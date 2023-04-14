@@ -11,15 +11,6 @@
         <entry key="..\:/Android/Android Project/1/app/src/main/res/layout/activity_main.xml" value="0.17447916666666666" />
         <entry key="..\:/Android/Android Project/1/app/src/main/res/layout/register_activity.xml" value="0.17447916666666666" />
         <entry key="..\:/Android/Android Project/1/app/src/main/res/layout/view_toast_custom.xml" value="0.17447916666666666" />
-        <entry key="..\:/Android/Android Project/ASE/testDisasterEvent/app/src/main/res/layout/activity_home.xml" value="0.23541666666666666" />
-        <entry key="..\:/Android/Android Project/ASE/testDisasterEvent/app/src/main/res/layout/fragment_home.xml" value="0.23541666666666666" />
-        <entry key="..\:/Android/Android Project/ASE/testDisasterEvent/app/src/main/res/layout/fragment_report.xml" value="0.17291666666666666" />
-        <entry key="..\:/Android/Android Project/ASE/testDisasterEvent/app/src/main/res/layout/fragment_report_garda.xml" value="0.17291666666666666" />
-        <entry key="..\:/Android/Android Project/ASE/testDisasterEvent/app/src/main/res/layout/fragment_report_map.xml" value="0.17291666666666666" />
-        <entry key="..\:/Android/Android Project/ASE/testDisasterEvent/app/src/main/res/layout/fragment_submit_success.xml" value="0.17291666666666666" />
-        <entry key="..\:/Android/Android Project/ASE/testDisasterEvent/app/src/main/res/layout/reportdetails_popupwindow.xml" value="0.23541666666666666" />
-        <entry key="..\:/Android/Android Project/ASE/testDisasterEvent/app/src/main/res/layout/view_toast_custom.xml" value="0.17291666666666666" />
-        <entry key="..\:/Android/Android Project/ASE/testDisasterEvent/app/src/main/res/menu/bottom_nav_menu.xml" value="0.23541666666666666" />
         <entry key="..\:/Android/Android Project/CityDisasterResponser/testDisasterEvent/app/src/main/res/layout/fragment_disaster.xml" value="0.3333333333333333" />
         <entry key="..\:/Android/Android Project/CityDisasterResponser/testDisasterEvent/app/src/main/res/layout/message_popupwindow.xml" value="0.3333333333333333" />
         <entry key="..\:/Android/Android Project/CityDisasterResponser/testDisasterEvent/app/src/main/res/layout/register_fragment.xml" value="0.3333333333333333" />
@@ -131,6 +122,9 @@
         <entry key="app/src/main/res/layout/fragment_home_reportdetails.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.23777173913043478" />
         <entry key="app/src/main/res/layout/fragment_report.xml" value="0.23489583333333333" />
+        <entry key="app/src/main/res/layout/fragment_report_garda.xml" value="0.2563405797101449" />
+        <entry key="app/src/main/res/layout/fragment_report_map.xml" value="0.2563405797101449" />
+        <entry key="app/src/main/res/layout/fragment_submit_success.xml" value="0.2563405797101449" />
         <entry key="app/src/main/res/layout/message_home_report_popupwindow.xml" value="0.1" />
         <entry key="app/src/main/res/layout/message_popupwindow.xml" value="0.23489583333333333" />
         <entry key="app/src/main/res/layout/register_activity.xml" value="0.4134963768115942" />

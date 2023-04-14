@@ -17,6 +17,12 @@ import java.util.Date;
 public class TaskDataSource {
     public TaskDetail[] details;
 
+    /**
+     * Date: 23.04.14
+     * Function: get task details info from database
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     public LiveData<TaskDetail[]> getTaskDetails() {
         final MutableLiveData<TaskDetail[]> taskLiveData = new MutableLiveData<>();
         if (details != null) {
@@ -27,7 +33,6 @@ public class TaskDataSource {
         DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference("TaskInfo");
         // real data
         long startOfDay = System.currentTimeMillis() - 43200000;
-
         long endOfDay = System.currentTimeMillis() + 86400000;
 
         Query postsQuery = postsRef.orderByChild("otime").startAt(startOfDay).endAt(endOfDay);

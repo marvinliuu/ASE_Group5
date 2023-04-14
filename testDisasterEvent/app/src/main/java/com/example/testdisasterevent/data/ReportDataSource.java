@@ -34,18 +34,19 @@ import org.json.JSONObject;
 public class ReportDataSource {
     private static DatabaseReference UserDatabase;
 
+    /**
+     * Date: 23.04.14
+     * Function: submit the citizen report into database
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     public Result<String> SubmitCitizenReport(ReportFromCitizen reportData) {
-
-
-
         try {
             UserDatabase = FirebaseDatabase.getInstance().getReference().child("Report");
 
             UserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-
-
                     String name = "report";
 
                     Map<String, String> userData = new HashMap<>();
@@ -58,27 +59,27 @@ public class ReportDataSource {
                     userData.put("state", Integer.toString(reportData.getReportState()));
                     userData.put("imageURL",reportData.getImageURL());
 
-
-
                     name += reportData.getTimestamp()+"000";
-
                     UserDatabase.child(name).setValue(userData);
                 }
-
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     Log.w("report", "report database error", databaseError.toException());
                 }
             });
-
-
             return new Result.Success<>("report from citizen push Success");
         } catch (Exception e) {
             return new Result.Error(new IOException("Error report submit", e));
         }
     }
 
+    /**
+     * Date: 23.04.14
+     * Function: submit the garda report into database
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     public Result<String> SubmitGardaReport(DisasterDetail disasterData) {
         try {
             UserDatabase = FirebaseDatabase.getInstance().getReference().child("DisasterInfo");
@@ -88,10 +89,6 @@ public class ReportDataSource {
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                     String name = "Disaster";
-
-
-
-
 
                     Map<String, String> userData = new HashMap<>();
                     userData.put("type", disasterData.getDisasterType());
@@ -103,29 +100,28 @@ public class ReportDataSource {
                     userData.put("radius", Integer.toString(disasterData.getRadius()));
                     userData.put("location", disasterData.getLocation());
 
-
                     name += disasterData.getHappenTime();
                     UserDatabase.child(name).setValue(userData);
                 }
-
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     Log.w("disaster", "disaster database error", databaseError.toException());
                 }
             });
-
-
             return new Result.Success<>("report from garda push Success");
         } catch (Exception e) {
             return new Result.Error(new IOException("Error garda report submit", e));
         }
     }
 
-
+    /**
+     * Date: 23.04.14
+     * Function: transfer report to disaster
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     public DisasterDetail Report2Disaster(ReportFromCitizen reportData) {
-
-
         DisasterDetail disasterData = new DisasterDetail(
                 reportData.getRadius(),
                 reportData.getLocation(),
@@ -137,12 +133,7 @@ public class ReportDataSource {
                 reportData.getAccountUID(),
                 1
         );
-
         return disasterData;
-
     }
-
-
-
 }
 

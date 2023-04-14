@@ -15,9 +15,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DisasterDataSource {
-    //private String[] disasterTitles = {"Fire", "Water", "General"};
     public DisasterDetail[] details;
 
+    /**
+     * Date: 23.04.14
+     * Function: get disaster details info from database
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     public LiveData<DisasterDetail[]> getDisasterDetails() {
         final MutableLiveData<DisasterDetail[]> disasterLiveData = new MutableLiveData<>();
         if (details != null) {
@@ -27,18 +32,15 @@ public class DisasterDataSource {
 
         DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference("DisasterInfo");
         // real data
-        long startOfDay = System.currentTimeMillis() - 43200000;
+        long startOfDay = System.currentTimeMillis() - 43200000*3;
         // fake and test data
 
-        startOfDay = System.currentTimeMillis() - 43200000 * 5;
-
+//        startOfDay = System.currentTimeMillis() - 43200000 * 5;
         long endOfDay = System.currentTimeMillis() + 86400000;
 
-//        long startOfDay = new GregorianCalendar(2023, Calendar.MARCH, 17).getTimeInMillis();
-//        long endOfDay = new GregorianCalendar(2023, Calendar.MARCH, 18).getTimeInMillis();
 
         Query postsQuery = postsRef.orderByChild("otime").startAt(startOfDay).endAt(endOfDay);
-
+        // post query to database
         postsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

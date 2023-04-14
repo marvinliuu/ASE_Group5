@@ -27,10 +27,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class RegisterDataSource {
     private DatabaseReference mDatabase;
     private int userType;
-    public final String TAG = "RegisterDataSource";
-    private String userId;
     private long count;
-    private boolean registerFlag;
 
     /**
      * process of register, with writing sequentially into firebase
@@ -100,7 +97,6 @@ public class RegisterDataSource {
     }
 
     public void setUserType(int userType) {
-        // TODO: check if type valid
         this.userType = userType;
     }
 }
