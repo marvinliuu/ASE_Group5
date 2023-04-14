@@ -49,7 +49,7 @@
         android:background="#ffffff"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/report_top">
+        app:layout_constraintTop_toBottomOf="@+id/report_where">
 
         <TextView
             android:layout_width="wrap_content"
@@ -141,7 +141,7 @@
         android:background="#ffffff"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/report_type">
+        app:layout_constraintTop_toBottomOf="@+id/report_top">
 
         <TextView
             android:layout_width="wrap_content"
@@ -204,7 +204,7 @@
         android:background="#ffffff"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/report_where">
+        app:layout_constraintTop_toBottomOf="@+id/report_type">
 
         <TextView
             android:layout_width="wrap_content"

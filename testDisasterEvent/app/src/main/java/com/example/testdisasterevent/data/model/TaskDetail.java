@@ -7,21 +7,71 @@ public class TaskDetail {
     private String  disasterTitle;
     private String happenTime;
     private String location;
+    private String state;
 
-    public TaskDetail(String location, float latitude, float longitude, int injury, String disasterTitle, String happenTime) {
-        this.location = location;
+    public TaskDetail(float latitude, float longitude, int injury, String disasterTitle, String happenTime, String location, String state) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.injury = injury;
         this.disasterTitle = disasterTitle;
         this.happenTime = happenTime;
+        this.location = location;
+        this.state = state;
     }
 
-    public String getLocation() {return this.location;}
-    public String getHappenTime() {return this.happenTime;}
-    public String getDisasterTitle() {return this.disasterTitle;}
-    public float getLatitude() {return this.latitude;}
-    public float getLongitude() {return this.longitude;}
-    public String getInjury() {return String.valueOf(this.injury);}
+    public float getLatitude() {
+        return latitude;
+    }
 
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
+
+    public int getInjury() {
+        return injury;
+    }
+
+    public void setInjury(int injury) {
+        this.injury = injury;
+    }
+
+    public String getDisasterTitle() {
+        return disasterTitle;
+    }
+
+    public void setDisasterTitle(String disasterTitle) {
+        this.disasterTitle = disasterTitle;
+    }
+
+    public String getHappenTime() {
+        return happenTime;
+    }
+
+    public void setHappenTime(String happenTime) {
+        this.happenTime = happenTime;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 }

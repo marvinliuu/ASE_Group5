@@ -48,7 +48,6 @@ public class ReportDataSource {
 
                     String name = "report";
 
-
                     Map<String, String> userData = new HashMap<>();
                     userData.put("type", reportData.getDisasterType());
                     userData.put("description", reportData.getOtherInfo());

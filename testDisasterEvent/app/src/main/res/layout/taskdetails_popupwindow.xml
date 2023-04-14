@@ -30,10 +30,10 @@
 
     <ImageButton
         android:id="@+id/close_btn1"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="2dp"
         android:background="@drawable/closebutton"
         android:layout_alignParentRight="true"/>
 
@@ -49,7 +49,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
         android:orientation="vertical"
         android:padding="10dp"
         android:fillViewport="false"
@@ -110,13 +110,13 @@
                 android:id="@+id/ftime_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/location_intro"
+                android:layout_alignParentLeft="true"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
                 android:text="First report time:"
                 android:textColor="@color/black"
-                android:textSize="15sp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/location_intro"/>/>
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/ftime_details"
@@ -175,7 +175,40 @@
                 android:layout_toRightOf="@+id/injury_intro"
                 android:textColor="@color/black" />
 
+
+            <ImageView
+                android:id="@+id/task_complete"
+                android:layout_width="72dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="140dp"
+                android:background="@drawable/task_complete"
+                android:scaleType="fitXY"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/task_direction"
+                android:layout_width="72dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="180dp"
+                android:layout_marginTop="140dp"
+                android:background="@drawable/direction"
+                android:scaleType="fitXY"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </RelativeLayout>
+
+
+
+
+
+
+
+
+
 
     </ScrollView>
 

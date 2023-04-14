@@ -52,6 +52,7 @@ public class ReportViewModel extends ViewModel {
     }
 
     public AllocationDetail GetMLAllocation(DisasterDetail data){
+
         AllocationDetail singleAllocation=new AllocationDetail();
         return singleAllocation;
     }

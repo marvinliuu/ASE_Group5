@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -47,6 +48,12 @@ import com.google.firebase.storage.UploadTask;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -70,6 +77,7 @@ public class ReportFragment extends Fragment {
 
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -89,7 +97,7 @@ public class ReportFragment extends Fragment {
             AccountType=accountUserInfoData.getUserTypeID();
             AccountUID=Long.toString(accountUserInfoData.getUid());
         }
-        //AccountType=1;
+
         reportData.setDisasterType("0");
 
     }
@@ -100,7 +108,7 @@ public class ReportFragment extends Fragment {
         Boolean isChosen=false;
         View rootView = inflater.inflate(R.layout.fragment_report_garda, container, false);
 
-        if(AccountType!=0)
+        if(AccountType!=1)
             rootView = inflater.inflate(R.layout.fragment_report, container, false);
 
         Bundle bundle = getArguments();
@@ -217,7 +225,7 @@ public class ReportFragment extends Fragment {
             }
         });
 
-        if(AccountType!=0){
+        if(AccountType!=1){
             cameraIcon = rootView.findViewById(R.id.report_camera);
             cameraIcon.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -350,7 +358,7 @@ public class ReportFragment extends Fragment {
                     reportData.setReportState(0);
                     String timeStamp=getCurrentTime();
                     reportData.setTimestamp(timeStamp);
-                    if(AccountType!=0){
+                    if(AccountType!=1){
 
 
                         /**
@@ -389,7 +397,22 @@ public class ReportFragment extends Fragment {
         mStroageRef = FirebaseStorage.getInstance().getReference().child(timeStamp);
         //mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("imageUpload");
         Context context = getContext();
+
+
+
+
+
         if (mImageUri != null) {
+//            InputStream inputStream = getActivity().getContentResolver().openInputStream(mImageUri);
+//            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+//
+//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
+//            byte[] bytesArray = byteArrayOutputStream.toByteArray();
+//            Bitmap bitmapCompressedImage = BitmapFactory.decodeByteArray(bytesArray, 0, bytesArray.length);
+
+
+
             // Upload the image file to Firebase Storage
 
 // Upload the image file to Firebase Storage
@@ -465,8 +488,12 @@ public class ReportFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
-            //Uri uri = data.getData();
             mImageUri = data.getData();
+//            try {
+//                mImageUri = compressImage(uri);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
             String[] projection = {MediaStore.Images.Media.DATA};
             Cursor cursor = getActivity().getContentResolver().query(mImageUri, projection, null, null, null);
             cursor.moveToFirst();
@@ -476,11 +503,11 @@ public class ReportFragment extends Fragment {
             Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
 
 
+
+
             cameraIcon.setImageBitmap(bitmap);
         }
     }
-
-
 
 
 

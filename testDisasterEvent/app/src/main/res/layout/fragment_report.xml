@@ -41,97 +41,9 @@
 
 
 
-        <LinearLayout
-            android:id="@+id/report_type"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:background="#ffffff"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/report_top">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="4dp"
-                android:fontFamily="@font/alibaba_extrabold"
-                android:text="Type:"
-                android:textColor="@color/black"
-                android:textSize="20dp" />
-            <RadioGroup
-                android:id="@+id/report_radioGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:layout_marginStart="1dp"
-                android:orientation="horizontal">
-                <RadioButton
-                    android:id="@+id/report_fire"
-                    android:layout_width="65dp"
-                    android:layout_height="45dp"
-                    android:text="Fire"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-
-    />
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="28dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/report_fire"/>
-                <RadioButton
-                    android:id="@+id/report_water"
-                    android:layout_width="75dp"
-                    android:layout_height="45dp"
-                    android:text="Water"
-
-                   />
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginTop="9dp"
-                    android:background="@drawable/report_water"/>
-                <RadioButton
-                    android:id="@+id/report_otherevent"
-                    android:layout_width="75dp"
-                    android:layout_height="45dp"
-                    android:text="Other"
-
-                    />
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/report_other"/>
-            </RadioGroup>
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/report_pulldown_icon"-->
-    <!--            android:layout_width="40dp"-->
-    <!--            android:layout_height="40dp"-->
-    <!--            android:layout_marginLeft="240dp"-->
-    <!--            android:layout_marginTop="4dp"-->
-    <!--            android:background="@drawable/report_pulldown"-->
-    <!--            android:scaleType="fitXY"-->
-    <!--            app:layout_constraintLeft_toLeftOf="@+id/report_type"-->
-    <!--            app:layout_constraintTop_toTopOf="@+id/report_type" />-->
 
 
 
-        </LinearLayout>
-
-        <View
-
-            android:layout_width="365dp"
-            android:layout_height="1dp"
-
-            android:background="@color/grey_define"
-            app:layout_constraintBottom_toBottomOf="@+id/report_type"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <LinearLayout
             android:id="@+id/report_where"
@@ -141,7 +53,7 @@
             android:background="#ffffff"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/report_type">
+            app:layout_constraintTop_toBottomOf="@+id/report_top">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -176,13 +88,109 @@
 
 
         </LinearLayout>
+
+
+
+    <View
+
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+
+        android:background="@color/grey_define"
+        app:layout_constraintBottom_toBottomOf="@+id/report_where"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/report_type"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/report_where">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/alibaba_extrabold"
+            android:text="Type:"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+        <RadioGroup
+            android:id="@+id/report_radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginStart="1dp"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/report_fire"
+                android:layout_width="65dp"
+                android:layout_height="45dp"
+                android:text="Fire"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/report_fire"/>
+            <RadioButton
+                android:id="@+id/report_water"
+                android:layout_width="75dp"
+                android:layout_height="45dp"
+                android:text="Water"
+
+                />
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="9dp"
+                android:background="@drawable/report_water"/>
+            <RadioButton
+                android:id="@+id/report_otherevent"
+                android:layout_width="75dp"
+                android:layout_height="45dp"
+                android:text="Other"
+
+                />
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/report_other"/>
+        </RadioGroup>
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/report_pulldown_icon"-->
+        <!--            android:layout_width="40dp"-->
+        <!--            android:layout_height="40dp"-->
+        <!--            android:layout_marginLeft="240dp"-->
+        <!--            android:layout_marginTop="4dp"-->
+        <!--            android:background="@drawable/report_pulldown"-->
+        <!--            android:scaleType="fitXY"-->
+        <!--            app:layout_constraintLeft_toLeftOf="@+id/report_type"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/report_type" />-->
+
+
+
+    </LinearLayout>
+
         <View
 
             android:layout_width="match_parent"
             android:layout_height="1dp"
 
             android:background="@color/grey_define"
-            app:layout_constraintBottom_toBottomOf="@+id/report_where"
+            app:layout_constraintBottom_toBottomOf="@+id/report_type"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -194,7 +202,7 @@
             android:background="#ffffff"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/report_where">
+            app:layout_constraintTop_toBottomOf="@+id/report_type">
 
             <TextView
                 android:layout_width="wrap_content"

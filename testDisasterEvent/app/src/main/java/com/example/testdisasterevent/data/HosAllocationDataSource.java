@@ -134,6 +134,7 @@ public class HosAllocationDataSource {
         Log.d("allocation", "get garda data");
         return gardaLiveData;
     }
+
     public LiveData<FireFighterDetail[]> getFireBrigadeData() {
 
         final MutableLiveData<FireFighterDetail[]> firefighterLiveData = new MutableLiveData<>();
@@ -172,6 +173,7 @@ public class HosAllocationDataSource {
         Log.d("allocation", "get fire data");
         return firefighterLiveData;
     }
+
     private void writebackToDatabase(List<int[]> info,String dataBaseName,String dataAvaItem) {
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference(dataBaseName);
         for (int[] in : info) {

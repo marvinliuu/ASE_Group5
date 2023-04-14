@@ -56,6 +56,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -64,7 +69,7 @@ import com.google.android.gms.maps.model.Polyline;
  * Author: Siyu Liao
  * Version: Week 3
  */
-public class DisasterFragment extends Fragment implements OnMapReadyCallback, LocationTracker.LocationUpdateListener{
+public class DisasterFragment extends Fragment implements OnMapReadyCallback, LocationTracker.LocationUpdateListener {
     public DisasterViewModel disasterViewModel;  // Type: DisasterViewModel, used for managing disaster-related data
     private FragmentDisasterBinding binding;  // Type: FragmentDisasterBinding, used for binding data to the UI
     private PopupWindow popupWindow_task, popupWindow_disaster;  // Type: PopupWindow, used for displaying pop-up windows
@@ -85,15 +90,22 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     private LocationTracker locationTracker;  // Type: LocationTracker, used for tracking the user's location
     private PopupwindowUtils popupwindowUtils;  // Type: PopupwindowUtils, used for displaying pop-up windows
     private LayoutUtils layoutUtils;  // Type: LayoutUtils, used for managing the layout of UI elements
-
-
-
+    private ImageView task_complete;
+    private ImageView task_direction;
+    public AccountUserInfo accountUserInfoData;
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         disasterViewModel =
                 new ViewModelProvider(this).get(DisasterViewModel.class);
         String res;
+
+
+
+        MainActivity mainActivity = (MainActivity) getActivity();
+        accountUserInfoData = mainActivity.getAccountUserInfo();
+
+
 
         // init utils
         iconSettingUtils = new IconSettingUtils();
@@ -112,8 +124,15 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
                 R.layout.taskdetails_popupwindow, null);
 
         showDisasterButton = binding.showPopwindow;
+
+
         showTaskButton = binding.showTaskdetails;
         popupWindow_disaster = popupwindowUtils.showPopwindow(disasterView);
+
+        if(accountUserInfoData!=null && accountUserInfoData.getUserTypeID() == 0){
+            showTaskButton.setVisibility(View.INVISIBLE);
+        }
+
 
 
         // Map API initialize
@@ -134,26 +153,40 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         mapFragment.getMapAsync(this);
 
         bindSubView();
-        initViewConfig();
+        //initViewConfig();
 
         setClickListeners();
         setDataObserver();
-        return root;
-    }
 
-    /**
-     * Date: 23.04.06
-     * Function: init the subview's propertype
-     * Author: Siyu Liao
-     * Version: Week 11
-     */
-    private void initViewConfig() {
+
+
+        // click the close btn, dismiss the popup window
+        closeBtn_disaster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow_disaster.dismiss();
+            }
+        });
+
+        // click the show btn, open the popup window
+        showDisasterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow_disaster.showAtLocation(disasterView, Gravity.BOTTOM, 0, 0);
+            }
+        });
         // Load the custom font from the assets folder
         Typeface topTitleType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
         // Set the font of the TextView to the custom font
         txt_show_disaster.setTypeface(topTitleType);
         txt_show_disaster.setTextSize(25);
+
+
+
+        return root;
     }
+
+
 
     /**
      * Date: 23.04.06
@@ -177,6 +210,8 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         injuryDetail = taskView.findViewById(R.id.injury_details);
         taskIntro = taskView.findViewById(R.id.task_intro);
         taskDetail = taskView.findViewById(R.id.task_details);
+        task_complete=taskView.findViewById(R.id.task_complete);
+        task_direction=taskView.findViewById(R.id.task_direction);
     }
 
 
@@ -219,19 +254,19 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
             @Override
             public void onClick(View v) {
                 TaskDetail[] posts = disasterViewModel.getTaskDetails().getValue();
-                MainActivity mainActivity = (MainActivity) getActivity();
-                AccountUserInfo accountUserInfoData = mainActivity.getAccountUserInfo();
-                if (accountUserInfoData != null && accountUserInfoData.getUserTypeID() != 0) {
+
+                if (accountUserInfoData != null) {
                     if (posts.length > 0) {
                         popupWindow_task.showAtLocation(taskView, Gravity.BOTTOM, 0, 0);
                     } else {
                         String notask =  "No Task Now.";
                         midToast(notask);
                     }
-                } else{
-                    String citizentask = "Citizens have no tasks.";
-                    midToast(citizentask);
                 }
+//                else{
+//                    String citizentask = "Citizens have no tasks.";
+//                    midToast(citizentask);
+//                }
             }
         });
 
@@ -271,6 +306,51 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
                 });
             }
         });
+
+        /**button clicked to complete task and write this officer back to available database
+         *and dismiss the popupwindow and give a midtoast
+         * and delete the task
+         * */
+
+        task_complete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Task", "task complete success");
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("AvailableOfficer");
+
+                String newNodeKey = myRef.push().getKey();
+
+                Map<String, String> avaOfficerData = new HashMap<>();
+                avaOfficerData.put("type", Integer.toString(accountUserInfoData.getUserTypeID()));
+                avaOfficerData.put("uid", Long.toString(accountUserInfoData.getUid()));
+
+                myRef.child(newNodeKey).setValue(avaOfficerData);
+                Log.d("Task", "task officer write back success");
+
+
+
+
+
+
+                popupWindow_task.dismiss();
+                midToast("Task completed!");
+
+
+
+            }
+        });
+
+        /**button clicked to navigate map to the disaster zone
+        *
+        * */
+        task_direction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Task", "task direction click");
+            }
+        });
+
+
     }
 
     /**
@@ -280,15 +360,14 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
      * Version: Week 10
      */
     private void setDataObserver() {
-        MainActivity mainActivity = (MainActivity) getActivity();
-        AccountUserInfo accountUserInfoData = mainActivity.getAccountUserInfo();
+
 
         // details observer - task & disaster
         if (accountUserInfoData != null && accountUserInfoData.getUserTypeID() != 0) {
             disasterViewModel.getTaskDetails().observe(getActivity(), new Observer<TaskDetail[]>() {
                 @Override
                 public void onChanged(TaskDetail[] posts) {
-                    if (posts.length > 0) {
+                    if (posts.length > 0 ) {
                         popupWindow_task = popupwindowUtils.showPopwindow(taskView);
                         popupWindow_task.showAtLocation(taskView, Gravity.BOTTOM, 0, 0);
                         // Update the UI with the new data
@@ -309,7 +388,9 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
                     }
                 }
             });
-        } else {
+        }
+
+        else {
             // disaster details observer
             disasterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
                 @Override
@@ -597,7 +678,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         TextView tv_msg = (TextView) view.findViewById(R.id.tv_msg);
         tv_msg.setText(str);
         Toast toast = new Toast(getActivity().getApplicationContext());
-        toast.setGravity(Gravity.CENTER, 0, 10);
+        //toast.setGravity(Gravity.CENTER, 0, 10);
         toast.setDuration(Toast.LENGTH_LONG);
         toast.setView(view);
         toast.show();
