@@ -1,6 +1,7 @@
 package com.example.testdisasterevent.ui.home;
 
 
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
 
 import android.Manifest;
@@ -9,7 +10,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +32,7 @@ import com.example.testdisasterevent.R;
 import com.example.testdisasterevent.data.model.ReportInfo;
 import com.example.testdisasterevent.databinding.FragmentHomeReportdetailsBinding;
 import com.example.testdisasterevent.utils.IconSettingUtils;
+import com.example.testdisasterevent.utils.LocationTracker;
 import com.example.testdisasterevent.utils.PopupwindowUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,6 +41,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -253,6 +258,15 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+//        LatLng currentPosition = new LatLng(currentLatitude, currentLongitude);
+        LatLng sydney = new LatLng(-37.812439, 144.972755);
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
+//
+//        googleMap.addMarker(new MarkerOptions().position(currentPosition));
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
+
+        googleMap.addMarker(new MarkerOptions().position(sydney));
 
         homeViewModel.getReportInfo().observe(getActivity(), new Observer<ReportInfo[]>() {
             @Override

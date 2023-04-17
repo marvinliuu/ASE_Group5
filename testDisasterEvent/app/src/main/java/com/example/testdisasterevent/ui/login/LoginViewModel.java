@@ -65,7 +65,8 @@ public class LoginViewModel extends ViewModel {
                         loginStatus = 1;
                         if(user.child("password").getValue(String.class).equals(PasswordEncryption.encryptPassword(password))){
                             displayName = user.child("name").getValue(String.class);
-                            loginUserID = user.child("uid").getValue((long.class));
+//                            loginUserID = user.child("uid").getValue((long.class));
+                            loginUserID = 10;
                             email = user.child("mail").getValue(String.class);
                             mobile = user.child("phone").getValue(String.class);
                             registerTime = user.child("r-time").getValue(String.class);

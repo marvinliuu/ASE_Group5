@@ -37,6 +37,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
+import com.example.testdisasterevent.algorithms.ResearchAllocation;
+import com.example.testdisasterevent.data.RerouteDataSource;
 import com.example.testdisasterevent.data.model.AccountUserInfo;
 import com.example.testdisasterevent.data.model.ReportInfo;
 import com.example.testdisasterevent.databinding.FragmentHomeBinding;

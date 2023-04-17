@@ -46,6 +46,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.ByteArrayOutputStream;
@@ -455,9 +456,9 @@ public class ReportFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+//        reportViewModel = new ViewModelProviders.of(this).get(ReportViewModel.class);
+
         reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
-
-
 
     }
 

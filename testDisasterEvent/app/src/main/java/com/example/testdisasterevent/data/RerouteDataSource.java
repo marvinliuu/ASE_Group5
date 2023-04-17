@@ -59,7 +59,7 @@ public class RerouteDataSource {
 
             // Set request parameters
             directionsRequest.origin(org.substring(10, org.length() - 1));
-            directionsRequest.destination(des.substring(10, org.length() - 1));
+            directionsRequest.destination(des.substring(10, des.length() - 1));
             directionsRequest.mode(TravelMode.WALKING);
 
             // Sending requests and getting return results
@@ -119,7 +119,7 @@ public class RerouteDataSource {
                 String des = destination.toString();
                 DirectionsApiRequest request = DirectionsApi.newRequest(context)
                         .origin(org.substring(10, org.length() - 1))
-                        .destination(des.substring(10, org.length() - 1))
+                        .destination(des.substring(10, des.length() - 1))
                         .mode(mode)
                         .avoid(restrictions);
                 return request.await();

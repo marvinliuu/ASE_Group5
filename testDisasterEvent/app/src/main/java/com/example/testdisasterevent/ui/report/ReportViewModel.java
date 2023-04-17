@@ -1,5 +1,6 @@
 package com.example.testdisasterevent.ui.report;
 
+import android.content.Context;
 import android.text.Editable;
 import android.util.Log;
 
@@ -9,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 
+import com.example.testdisasterevent.algorithms.ResearchAllocation;
 import com.example.testdisasterevent.data.HosAllocationDataSource;
 import com.example.testdisasterevent.data.ReportDataSource;
 import com.example.testdisasterevent.data.model.AccountUserInfo;
@@ -21,6 +23,11 @@ public class ReportViewModel extends ViewModel {
     public ReportDataSource reportData=new ReportDataSource();
     public HosAllocationDataSource AllocationData = new HosAllocationDataSource();
     public AllocationDetail allocationData=new AllocationDetail();
+    private Context context;
+
+    public ReportViewModel(Context context) {
+        this.context = context;
+    }
 
 
     public void CitizenSubmit(ReportFromCitizen report){
@@ -40,7 +47,7 @@ public class ReportViewModel extends ViewModel {
         DisasterDetail disasterData=reportData.Report2Disaster(report);
         Log.d("num", "disaster generate suc!");
 
-        //allocationData=GetMLAllocation(disasterData);
+        allocationData=GetMLAllocation(disasterData);
 
         AllocationSubmit(disasterData);
 
@@ -52,8 +59,13 @@ public class ReportViewModel extends ViewModel {
     }
 
     public AllocationDetail GetMLAllocation(DisasterDetail data){
-
+//        ResearchAllocation researchAllocation = new ResearchAllocation();
+//        double[][] input = new double[1][2];
+//        input[0][0] = data.getRadius();
+//        input[0][1] = data.getInjureNum();
+//        researchAllocation.getResource(context, input);
         AllocationDetail singleAllocation=new AllocationDetail();
+
         return singleAllocation;
     }
 

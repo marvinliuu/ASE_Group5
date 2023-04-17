@@ -35,6 +35,7 @@ import com.bumptech.glide.Glide;
 import com.example.testdisasterevent.HomeActivity;
 import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
+import com.example.testdisasterevent.algorithms.ResearchAllocation;
 import com.example.testdisasterevent.data.model.AccountUserInfo;
 import com.example.testdisasterevent.databinding.ActivityLoginBinding;
 import com.google.gson.Gson;

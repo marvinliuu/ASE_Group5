@@ -1,5 +1,6 @@
 package com.example.testdisasterevent.ui.disaster;
 
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
 
 import android.Manifest;
@@ -18,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,11 +31,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testdisasterevent.R;
+import com.example.testdisasterevent.algorithms.ResearchAllocation;
 import com.example.testdisasterevent.data.RerouteDataSource;
 import com.example.testdisasterevent.data.model.DisasterDetail;
 import com.example.testdisasterevent.databinding.FragmentDisasterDetailsBinding;
 //import com.example.testdisasterevent.ui.home.HomeViewModel;
 import com.example.testdisasterevent.utils.IconSettingUtils;
+import com.example.testdisasterevent.utils.LocationTracker;
 import com.example.testdisasterevent.utils.PopupwindowUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -62,7 +66,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallback, RerouteDataSource.RouteCallback  {
+public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallback, RerouteDataSource.RouteCallback, LocationTracker.LocationUpdateListener {
     private DisasterViewModel disasterViewModel;  // Type: DisasterViewModel, used for managing disaster-related data
     private FragmentDisasterDetailsBinding binding;  // Type: FragmentDisasterDetailsBinding, used for binding data to the UI
     private SupportMapFragment mapFragment;  // Type: SupportMapFragment, used for displaying maps
@@ -88,7 +92,10 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     private List<LatLng> exitsExit = new ArrayList<LatLng>();  // Type: List<LatLng>, used for storing a list of LatLng objects
     private PopupwindowUtils popupwindowUtils;  // Type: PopupwindowUtils, used for displaying pop-up windows
     private IconSettingUtils iconSettingUtils;  // Type: IconSettingUtils, used for setting icons
-
+    private double currentLatitude;
+    private double currentLongitude;
+    private Marker marker;
+    private LocationTracker locationTracker;
 
 
 
@@ -135,11 +142,60 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
             ft.add(R.id.detailsMap, mapFragment).commit();
         }
         mapFragment.getMapAsync(this);
-
+        locationTracker = new LocationTracker(requireContext(), this);
+        locationTracker.startLocationUpdates();
         // set Button Click
         setClickListeners();
 
         return root;
+    }
+
+
+    /**
+     * Date: 23.04.13
+     * Function: Get user current location
+     * Author: Haoxian Liu
+     * Version: Week 12
+     */
+    @Override
+    public void onLocationUpdated(Location location) {
+        Log.i(TAG, String.format("Updated location: Latitude = %f, Longitude = %f",
+                location.getLatitude(), location.getLongitude()));
+        currentLongitude = location.getLongitude();
+        currentLatitude = location.getLatitude();
+        LatLng currentPosition = new LatLng(currentLatitude, currentLongitude);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        locationTracker.stopLocationUpdates();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        locationTracker.startLocationUpdates();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        locationTracker.stopLocationUpdates();
+    }
+
+    public boolean isWithinRadius(double centerLat, double centerLon, double pointLat, double pointLon, double radius) {
+        radius /= 1000;
+        final double R = 6371; // earth radius
+
+        double latDistance = Math.toRadians(pointLat - centerLat);
+        double lonDistance = Math.toRadians(pointLon - centerLon);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(centerLat)) * Math.cos(Math.toRadians(pointLat))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = R * c; // calculate the distance
+        return distance <= radius;
     }
 
     /**
@@ -239,7 +295,16 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
 
 
         LatLng center = new LatLng(details[index].getLatitude(), details[index].getLongitude());
-        test = center;
+        if (isWithinRadius(currentLatitude, currentLongitude, details[index].getLatitude(), details[index].getLongitude(), details[index].getRadius())) {
+            test = new LatLng(currentLatitude, currentLongitude);
+            if (marker == null) {
+                marker = map.addMarker(new MarkerOptions().position(test).title("Marker in Target Location"));
+            }
+        } else {
+            test = center;
+
+        }
+
 
         // add marker on the map
         zoomLevel = calZoomLevel(details[index].getRadius());

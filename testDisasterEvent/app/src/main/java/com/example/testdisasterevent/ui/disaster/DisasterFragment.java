@@ -223,6 +223,12 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         currentLongitude = location.getLongitude();
         currentLatitude = location.getLatitude();
         LatLng currentPosition = new LatLng(currentLatitude, currentLongitude);
+        if (marker == null) {
+            marker = map.addMarker(new MarkerOptions().position(currentPosition).title("Your Position"));
+        } else {
+            marker.setPosition(currentPosition);
+        }
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
     }
 
     @Override
