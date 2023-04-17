@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.testdisasterevent.algorithms.TokenUpdateObserver;
 import com.example.testdisasterevent.data.NotificationFilter;
+import com.example.testdisasterevent.data.TaskDataSource;
 import com.example.testdisasterevent.data.model.AccountUserInfo;
 
 
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     public String accountUserInfoJson;
     Gson gson = new Gson();
     public AccountUserInfo accountUserInfo;
+    public static long currentUserId;
     private TokenUpdateObserver tokenUpdateObserver;
 
 
@@ -126,9 +128,9 @@ public class MainActivity extends AppCompatActivity {
                 });
         notificationFilter = new NotificationFilter();
         if (accountUserInfo != null) {
-            long uid = accountUserInfo.getUid();
-            Log.d("uid",Long.toString(uid));
-            notificationFilter.addTaskListener(getApplicationContext(), uid);
+            currentUserId = accountUserInfo.getUid();
+            Log.d("uid",Long.toString(currentUserId));
+            notificationFilter.addTaskListener(getApplicationContext(), currentUserId);
         } else {
             Log.d("accountUserInfo is null", "accountUserInfo is null");
         }

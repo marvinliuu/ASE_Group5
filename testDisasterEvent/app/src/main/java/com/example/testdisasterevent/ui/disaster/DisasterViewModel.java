@@ -98,7 +98,7 @@ public class DisasterViewModel extends ViewModel {
         double distance = R * c;
         return distance;
     }
-    
+
 
     public List<LatLng> selectEntries(Set<LatLng> candidate, double radius) {
         int pointsNum = (int)(radius / 20);
