@@ -241,7 +241,6 @@ public class HosAllocationDataSource {
                         task.child(taskKey).setValue(taskInfo);
                         avaOfficer.child(dataSnapshot.getKey()).removeValue();
                         count++;
-                        Log.d("AAA",dataSnapshot.getKey());
                     }
                 }
             }

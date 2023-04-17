@@ -194,7 +194,7 @@ for i in range(200):
     temp['rid'] = i + 1
     temp['report_type'] = disaster_type[random.randint(0,2)]
     temp['location'] = name_generate()
-    temp['htime'] = times[0]
+    #temp['htime'] = times[0]
     temp['rtime'] = times[1]
     temp['latitude'] = 53.35 + random.random() % 0.03
     temp['longitude'] = -6.26 + random.random() % 0.03
@@ -202,6 +202,17 @@ for i in range(200):
     temp['description'] = "Please go to" + temp['location'] + "quickly!"
     temp['injury'] = injure[random.randint(0, 6)]
     data['Report' + str(i + 1)] = temp
+temp = {}
+temp['rid'] = 201
+temp['report_type'] = 'fire'
+temp['location'] = name_generate()
+temp['rtime'] = int(time.time() * 1000)
+temp['latitude'] = 53.35 + random.random() % 0.03
+temp['longitude'] = -6.26 + random.random() % 0.03
+temp['report_state'] = 0
+temp['description'] = "Please go to" + temp['location'] + "quickly!"
+temp['injury'] = injure[random.randint(0, 6)]
+data['A-test-Report'] = temp
 final_data['Report'] = data
 
 # Task
@@ -216,7 +227,8 @@ for i in range(1000):
     temp['latitude'] = 53.35 + random.random() - 0.5
     temp['longitude'] = -6.26 + random.random() - 0.5
     temp['injury'] = random.randint(0, 5)
-    temp['task'] = str("Please go to the ** place")
+    temp['task'] = str("Please go to " + temp['location'])
+    temp['state'] = '0'
     data['TaskInfo' + str(i + 1)] = temp
 
 final_data['TaskInfo'] = data

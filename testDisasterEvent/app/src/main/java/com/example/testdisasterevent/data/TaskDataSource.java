@@ -52,8 +52,8 @@ public class TaskDataSource {
                             String location = postSnapshot.child("location").getValue(String.class);
                             String rtype = postSnapshot.child("disasterType").getValue(String.class);
                             int injury = postSnapshot.child("injury").getValue(int.class);
-
-                            earliestDetail = new TaskDetail(latitude, longitude, injury, rtype, happenTime, location, "0");
+                            String taskKey = postSnapshot.getKey();
+                            earliestDetail = new TaskDetail(latitude, longitude, injury, rtype, happenTime, location, "0", taskKey);
                         }
                     }
                 }
