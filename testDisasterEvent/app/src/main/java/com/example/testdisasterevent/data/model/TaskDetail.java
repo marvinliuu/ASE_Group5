@@ -21,6 +21,7 @@ public class TaskDetail {
         this.taskKey = taskKey;
     }
 
+
     public float getLatitude() {
         return latitude;
     }

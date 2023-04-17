@@ -69,11 +69,15 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.RoundCap;
 
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -81,6 +85,8 @@ import com.google.gson.JsonObject;
 import com.here.sdk.core.engine.SDKNativeEngine;
 import com.here.sdk.core.engine.SDKOptions;
 import com.here.sdk.core.errors.InstantiationErrorException;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -117,7 +123,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     private Marker marker;  // Type: Marker, used for displaying markers on the map
     private Polyline reroutePolyline;  // Type: Polyline, used for displaying a rerouted polyline on the map
     private LocationTracker locationTracker;  // Type: LocationTracker, used for tracking the user's location
-
+    final long ONE_MEGABYTE = 1024 * 1024;
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -511,17 +517,55 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                         RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 timeParams.addRule(RelativeLayout.BELOW, location.getId());
 
-                ImageView imageView = iconSettingUtils.createReportEvenIconOnWindow(titleText, getContext());
+
+                //create report image
+                ImageView reportImage=new ImageView(getContext());
+
+
+                String imageName =infos[i].getHappenTime();
+                StorageReference mStroageRef= FirebaseStorage.getInstance().getReference().child(imageName);
+
+                mStroageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        reportImage.setImageBitmap(bitmap);
+                        Log.d("reportImage","report download image from cloud successfully");
+
+                    }
+                })
+                        .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.d("reportImage","warning, report download image from cloud unsuccessfully");
+                        //defaultImage = iconSettingUtils.createReportEvenIconOnWindow(titleText, getContext());
+                        if (title.equals("fire")) {
+                            reportImage.setImageResource(R.drawable.fire_event_image);
+                        } else if (title.equals("water")) {
+                            reportImage.setImageResource(R.drawable.water_event_image);
+                        } else {
+                            reportImage.setImageResource(R.drawable.other_event_image);
+                        }
+                    }
+                })
+                ;
+
                 RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(
                         140, 140);
                 imageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 
+
                 // add view by order
                 relativeLayout.addView(title, titleParams);
                 relativeLayout.addView(location, locationParams);
                 relativeLayout.addView(time, timeParams);
-                relativeLayout.addView(imageView, imageParams);
+                relativeLayout.addView(reportImage, imageParams);
+                //relativeLayout.addView(defaultImage, imageParams);
+
+
+
 
                 setReportItemClickListener(relativeLayout);
 

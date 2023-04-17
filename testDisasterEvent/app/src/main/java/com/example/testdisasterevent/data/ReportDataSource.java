@@ -52,14 +52,14 @@ public class ReportDataSource {
                     Map<String, String> userData = new HashMap<>();
                     userData.put("type", reportData.getDisasterType());
                     userData.put("description", reportData.getOtherInfo());
-                    userData.put("rtime", reportData.getTimestamp());
+                    userData.put("rtime", Long.toString(reportData.getTimestamp()));
                     userData.put("injury", Integer.toString(reportData.getInjuredNum()));
                     userData.put("latitude", Double.toString(reportData.getLatitude()));
                     userData.put("longitude", Double.toString(reportData.getLongitude()));
                     userData.put("state", Integer.toString(reportData.getReportState()));
                     userData.put("imageURL",reportData.getImageURL());
 
-                    name += reportData.getTimestamp()+"000";
+                    name += reportData.getTimestamp();
                     UserDatabase.child(name).setValue(userData);
                 }
 
@@ -125,7 +125,7 @@ public class ReportDataSource {
         DisasterDetail disasterData = new DisasterDetail(
                 reportData.getRadius(),
                 reportData.getLocation(),
-                reportData.getTimestamp(),
+                Long.toString(reportData.getTimestamp()),
                 reportData.getLatitude(),
                 reportData.getLongitude(),
                 reportData.getInjuredNum(),

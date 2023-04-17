@@ -341,7 +341,7 @@ public class ReportFragment extends Fragment {
                     reportData.setOtherInfo(otherInfoEditText.getText().toString());
                     reportData.setAccountUID(AccountUID);
                     reportData.setReportState(0);
-                    String timeStamp=getCurrentTime();
+                    Long timeStamp=getCurrentTime();
                     reportData.setTimestamp(timeStamp);
                     if(AccountType!=1){
                         /**
@@ -356,7 +356,7 @@ public class ReportFragment extends Fragment {
                         /**
                          * here to upload image with timestamp as its name
                          * */
-                        uploadImage(timeStamp);
+                        uploadImage(Long.toString(timeStamp));
                         replaceFragment(new SubmitSucessFragment());
                     } else{
                         reportViewModel.GardaSubmit(reportData, getContext());
@@ -382,21 +382,17 @@ public class ReportFragment extends Fragment {
 
 
         if (mImageUri != null) {
-//            InputStream inputStream = getActivity().getContentResolver().openInputStream(mImageUri);
-//            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//
-//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
-//            byte[] bytesArray = byteArrayOutputStream.toByteArray();
-//            Bitmap bitmapCompressedImage = BitmapFactory.decodeByteArray(bytesArray, 0, bytesArray.length);
 
 
+            Bitmap compressedBitmap = compressImage(mImageUri);
 
-            // Upload the image file to Firebase Storage
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] data = baos.toByteArray();
 
-// Upload the image file to Firebase Storage
 
-            UploadTask mUploadTask = mStroageRef.putFile(mImageUri);
+            UploadTask mUploadTask = mStroageRef.putBytes(data);
+
             // Register observers to listen for when the upload is done or if it fails
             mUploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -431,6 +427,33 @@ public class ReportFragment extends Fragment {
     }
 
 
+    private Bitmap compressImage(Uri imageUri) {
+
+        // Get the original bitmap from the imageUri
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Calculate the new width and height
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int newWidth = 280;
+        int newHeight = (int) (height * ((float) newWidth / width));
+
+        // Create a new bitmap with the new width and height
+        Bitmap newBitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, false);
+
+        // Compress the new bitmap to JPEG format
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        newBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+
+        return newBitmap;
+    }
+
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -449,27 +472,23 @@ public class ReportFragment extends Fragment {
 
 
     }
-    public String getCurrentTime() {
-        long currentTimeMillis = System.currentTimeMillis();
-        Date currentDate = new Date(currentTimeMillis);
 
-        Timestamp timestamp = new Timestamp(currentDate.getTime());
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        String timestampString = dateFormat.format(timestamp);
-        return timestampString;
+    public Long getCurrentTime() {
+        Long currentTimeMillis = System.currentTimeMillis();
+
+
+
+        return currentTimeMillis;
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
             mImageUri = data.getData();
-//            try {
-//                mImageUri = compressImage(uri);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+
             String[] projection = {MediaStore.Images.Media.DATA};
             Cursor cursor = getActivity().getContentResolver().query(mImageUri, projection, null, null, null);
             cursor.moveToFirst();

@@ -11,11 +11,11 @@ public class ReportFromCitizen {
     private int reportState;
     private String location;
     private String imageURL;
-    private String timestamp;
+    private Long timestamp;
 
     public ReportFromCitizen(){};
 
-    public ReportFromCitizen(double longitude, String disasterType, double latitude, int injuredNum, int radius, String otherInfo, String accountUID, int reportState, String location, String imageURL, String timestamp) {
+    public ReportFromCitizen(double longitude, String disasterType, double latitude, int injuredNum, int radius, String otherInfo, String accountUID, int reportState, String location, String imageURL, Long timestamp) {
         this.longitude = longitude;
         this.disasterType = disasterType;
         this.latitude = latitude;
@@ -29,10 +29,10 @@ public class ReportFromCitizen {
         this.timestamp = timestamp;
     }
 
-    public String getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
     public void setLongitude(double longitude) {

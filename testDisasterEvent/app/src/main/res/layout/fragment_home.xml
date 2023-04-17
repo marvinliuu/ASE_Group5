@@ -18,6 +18,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </FrameLayout>
 
 
@@ -49,12 +50,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/show_popwindow"
         />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="115dp"
+        android:layout_marginTop="-15dp"
+        android:layout_marginStart="-18dp"
+        android:layout_marginEnd="-8dp"
+        android:background="@drawable/search_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="110dp"
-        android:layout_marginTop="0dp"
-        android:background="@drawable/reroutebg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
@@ -104,8 +113,8 @@
             android:layout_height="80dp"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginRight="0dp"
             android:background="@drawable/searchbtn" />
 
     </RelativeLayout>

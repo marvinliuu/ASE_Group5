@@ -36,7 +36,7 @@ public class ReportDataSource_Police {
 
         long endOfDay = System.currentTimeMillis() + 86400000;
 
-        Query postsQuery = postsRef.orderByChild("htime").startAt(startOfDay).endAt(endOfDay);
+        Query postsQuery = postsRef.orderByChild("rtime").startAt(startOfDay).endAt(endOfDay);
 
         postsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -46,8 +46,8 @@ public class ReportDataSource_Police {
                 int count = 0;
                 // Process the retrieved data here
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Long htime = postSnapshot.child("htime").getValue(Long.class);
-                    String happenTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(htime));
+                    Long rtime = postSnapshot.child("rtime").getValue(Long.class);
+                    String happenTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(rtime));
                     float latitude = postSnapshot.child("latitude").getValue(float.class);
                     float longitude = postSnapshot.child("longitude").getValue(float.class);
                     String location = postSnapshot.child("location").getValue(String.class);

@@ -234,8 +234,9 @@ public class HosAllocationDataSource {
                         taskInfo.put("latitude", reportData.getLatitude());
                         taskInfo.put("longitude", reportData.getLongitude());
                         taskInfo.put("uid", uid);
-                        taskInfo.put("otime", System.currentTimeMillis());
+                        taskInfo.put("otime", reportData.getHappenTime());
                         taskInfo.put("location", reportData.getLocation());
+                        taskInfo.put("state", "0");
                         taskInfo.put("task", "Please go to "+ reportData.getLocation());
                         String taskKey = task.push().getKey();
                         task.child(taskKey).setValue(taskInfo);

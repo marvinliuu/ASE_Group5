@@ -300,45 +300,10 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
             }
         });
 
-        /**button clicked to complete task and write this officer back to available database
-         *and dismiss the popupwindow and give a midtoast
-         * and delete the task
-         * */
 
-        task_complete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("Task", "task complete success");
-                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("AvailableOfficer");
 
-                String newNodeKey = myRef.push().getKey();
 
-                Map<String, String> avaOfficerData = new HashMap<>();
-                avaOfficerData.put("type", Integer.toString(accountUserInfoData.getUserTypeID()));
-                avaOfficerData.put("uid", Long.toString(accountUserInfoData.getUid()));
 
-                myRef.child(newNodeKey).setValue(avaOfficerData);
-                Log.d("Task", "task officer write back success");
-
-                popupWindow_task.dismiss();
-                midToast("Task completed!");
-
-            }
-        });
-
-        /**button clicked to navigate map to the disaster zone
-        *
-        * */
-        task_direction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LatLng end = new LatLng(taskDetails.getLatitude(), taskDetails.getLongitude());
-                LatLng start = new LatLng(currentLatitude, currentLongitude);
-                rerouteSetting(start, end);
-                geoHelper.addOnePointMarker(false, end, map, getResources());
-                Log.d("Task", "task direction click");
-            }
-        });
     }
 
     /**
@@ -599,6 +564,9 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     }
 
     public void createTaskDetailsPopupWindow(TaskDetail tasks) {
+
+        setTaskButtonListener(tasks);
+
         String titleText = tasks.getDisasterTitle();
         // Load the custom font from the assets folder
         Typeface topTitleType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
@@ -625,8 +593,74 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
 
         // set the title color & text
         iconSettingUtils.setTaskTitle(titleText, txt_show_task);
+
+
+
+
+
+
     }
 
+    private void setTaskButtonListener(TaskDetail details){
+        /**button clicked to complete task and write this officer back to available database
+         *and dismiss the popupwindow and give a midtoast
+         * and change the task state
+         * */
+
+        task_complete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Task", "task complete success");
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("AvailableOfficer");
+
+                String newNodeKey = myRef.push().getKey();
+
+                Map<String, String> avaOfficerData = new HashMap<>();
+                avaOfficerData.put("type", Integer.toString(accountUserInfoData.getUserTypeID()));
+                avaOfficerData.put("uid", Long.toString(accountUserInfoData.getUid()));
+
+                DatabaseReference taskRef = FirebaseDatabase.getInstance().getReference("TaskInfo").child(details.getTaskKey());
+                taskRef.child("state").setValue("1");
+
+
+
+                myRef.child(newNodeKey).setValue(avaOfficerData);
+                Log.d("Task", "task officer write back success");
+
+
+
+                popupWindow_task.dismiss();
+                midToast("Task completed!");
+
+            }
+        });
+
+
+
+
+
+
+
+
+    /**button clicked to navigate map to the disaster zone
+     *
+     * */
+    task_direction.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            LatLng end = new LatLng(taskDetails.getLatitude(), taskDetails.getLongitude());
+            LatLng start = new LatLng(currentLatitude, currentLongitude);
+            rerouteSetting(start, end);
+            geoHelper.addOnePointMarker(false, end, map, getResources());
+            Log.d("Task", "task direction click");
+        }
+    });
+
+
+
+
+
+    }
 
     /**
      * Date: 23.04.06
