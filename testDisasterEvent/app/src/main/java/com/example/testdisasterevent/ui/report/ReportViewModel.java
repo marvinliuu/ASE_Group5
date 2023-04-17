@@ -36,16 +36,16 @@ public class ReportViewModel extends ViewModel {
         Log.d("num", "disaster generate suc!");
         allocationData = GetMLAllocation(disasterData, context);
         if (allocationData == null) return;
-        AllocationSubmit(disasterData);
+        AllocationSubmit(disasterData, allocationData);
         reportData.SubmitGardaReport(disasterData);
         Log.d("num", "garda submit suc!");
     }
 
     public AllocationDetail GetMLAllocation(DisasterDetail data, Context context){
         ResearchAllocation researchAllocation = new ResearchAllocation();
-        String[][] inputData = new String[1][2];
-        inputData[0][0] = String.valueOf(data.getRadius());
-        inputData[0][1] = String.valueOf(data.getInjureNum());
+        float[][] inputData = new float[1][2];
+        inputData[0][0] = data.getRadius();
+        inputData[0][1] = data.getInjureNum();
         try{
             // (int ambulance, int bus, int police, int fireTruck)
             AllocationDetail singleAllocation = new AllocationDetail(
@@ -61,16 +61,12 @@ public class ReportViewModel extends ViewModel {
     }
 
 
-    public void AllocationSubmit(DisasterDetail report){
+    public void AllocationSubmit(DisasterDetail report, AllocationDetail allocationDetail){
         AllocationData.AllocationSubmit(report);
+        if (report.getDisasterType() == "fire" && allocationDetail.getFireTruck() == 0) {
+            allocationDetail.fireTruck = 1;
+        }
         Log.d("allocation", "prepare allocation");
-        AllocationData.evaluateAll(report.getLongitude(), report.getLatitude(), 2,2,2);
+        AllocationData.evaluateAll(report.getLongitude(), report.getLatitude(), allocationDetail.getAmbulance(),allocationDetail.getPolice(),allocationDetail.getFireTruck());
     }
-
-
-
-
-
-
-
 }

@@ -19,18 +19,14 @@ import com.example.testdisasterevent.ml.Ambulance;
 
 public class ResearchAllocation {
     // Load the TFLite model from assets folder
-    public int getAllocation (Context context, String[][] input, int modelType) {
+    public int getAllocation (Context context, float[][] input, int modelType) {
         try {
             Interpreter tflite = new Interpreter(loadModelFile(context, modelType), new Interpreter.Options());
             // Run inference
-            double[][] input1 = new double[1][2];
-            input1[0][0] = 1.0f;
-            input1[0][1] = 2.0f;
-
-            String[][] output = new String[1][1];
-            tflite.run(input1, output);
+            float[][] output = new float[1][1];
+            tflite.run(input, output);
             // Get inference result
-            return Integer.parseInt(output[0][0]);
+            return (int)output[0][0];
         } catch (IOException ex) {
             // Handle the exception
             return 0;

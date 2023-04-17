@@ -4,7 +4,7 @@ public class AllocationDetail {
     private int ambulance;
     private int bus;
     private int police;
-    private int fireTruck;
+    public int fireTruck;
     public AllocationDetail() {
 
     }
