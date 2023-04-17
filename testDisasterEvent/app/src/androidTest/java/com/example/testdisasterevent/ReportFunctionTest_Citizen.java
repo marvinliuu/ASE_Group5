@@ -19,7 +19,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 
-public class ReportFunctionTest {
+public class ReportFunctionTest_Citizen {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule
             = new ActivityScenarioRule<>(MainActivity.class);

@@ -32,95 +32,72 @@ public class ReportFromCitizen {
     public String getTimestamp() {
         return timestamp;
     }
-
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
-
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
-
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
-
     public String getImageURL() {
         return imageURL;
     }
-
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
-
     public String getLocation() {
         return location;
     }
-
     public void setLocation(String location) {
         this.location = location;
     }
-
     public int getReportState() {
         return reportState;
     }
-
     public void setReportState(int reportState) {
         this.reportState = reportState;
     }
-
     public String getAccountUID() {
         return accountUID;
     }
-
     public void setAccountUID(String accountUID) {
         this.accountUID = accountUID;
     }
-
     public void setDisasterType(String disasterType) {
         this.disasterType = disasterType;
     }
-
     public void setInjuredNum(int injuredNum) {
         this.injuredNum = injuredNum;
     }
-
     public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
-
     public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
-
     public void setOtherInfo(String otherInfo) {
         this.otherInfo = otherInfo;
     }
-
     public void setRadius(int radius) {
         this.radius = radius;
     }
-
     public String getDisasterType() {
         return disasterType;
     }
-
     public int getInjuredNum() {
         return injuredNum;
     }
-
     public double getLatitude() {
         return latitude;
     }
-
     public double getLongitude() {
         return longitude;
     }
-
     public String getOtherInfo() {
         return otherInfo;
     }
-
     public int getRadius() {
         return radius;
     }

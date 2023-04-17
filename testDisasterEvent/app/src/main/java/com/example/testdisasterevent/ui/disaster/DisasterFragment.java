@@ -367,7 +367,8 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
             disasterViewModel.getTaskDetails().observe(getActivity(), new Observer<TaskDetail[]>() {
                 @Override
                 public void onChanged(TaskDetail[] posts) {
-                    if (posts.length > 0 ) {
+                    int lon = posts.length;
+                    if (lon > 0 ) {
                         popupWindow_task = popupwindowUtils.showPopwindow(taskView);
                         popupWindow_task.showAtLocation(taskView, Gravity.BOTTOM, 0, 0);
                         // Update the UI with the new data
@@ -628,7 +629,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
 
         locDetail.setText(details[0].getLocation());
         ftDetail.setText(details[0].getHappenTime());
-        injuryDetail.setText(details[0].getInjury());
+        injuryDetail.setText(Integer.toString(details[0].getInjury()));
         injuryDetail.setTextColor(Color.RED);
         typeDetail.setText(titleText);
         taskDetail.setText("unknown");
@@ -683,7 +684,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         toast.setView(view);
         toast.show();
     }
-
 
     @Override
     public void onDestroyView() {

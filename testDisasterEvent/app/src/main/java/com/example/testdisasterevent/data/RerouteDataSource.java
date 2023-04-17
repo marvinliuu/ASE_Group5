@@ -39,6 +39,12 @@ public class RerouteDataSource {
         this.context = context;
     }
 
+    /**
+     * Date: 23.04.14
+     * Function: find the route that takes the minimum time from origin to destination
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     public DirectionsRoute findMinTimeRoute(List<LatLng> exits, LatLng currentLocation) throws InterruptedException, ApiException, IOException {
         // Init Max Value
         Duration shortestDuration = new Duration();
@@ -82,8 +88,13 @@ public class RerouteDataSource {
         new DirectionsTask(context, origin, destination, mode, restrictions, callback).execute();
     }
 
+    /**
+     * Date: 23.04.14
+     * Function: Execute the reroute directions task - Google Map
+     * Author: Siyu Liao
+     * Version: Week 12
+     */
     private static class DirectionsTask extends AsyncTask<Void, Void, DirectionsResult> {
-
         private GeoApiContext context;
         private LatLng origin;
         private LatLng destination;
