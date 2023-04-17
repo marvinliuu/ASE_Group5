@@ -51,7 +51,7 @@ public class ReportDataSource_Police {
                     float latitude = postSnapshot.child("latitude").getValue(float.class);
                     float longitude = postSnapshot.child("longitude").getValue(float.class);
                     String location = postSnapshot.child("location").getValue(String.class);
-                    String rtype = postSnapshot.child("report_type").getValue(String.class);
+                    String rtype = postSnapshot.child("type").getValue(String.class);
                     int reportState = postSnapshot.child("state").getValue(int.class);
                     infos[count++] = new ReportInfo(location, happenTime, latitude,
                             longitude, rtype, reportState, postSnapshot.getKey());
