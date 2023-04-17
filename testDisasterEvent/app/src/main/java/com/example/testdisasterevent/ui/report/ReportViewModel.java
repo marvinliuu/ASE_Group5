@@ -23,50 +23,41 @@ public class ReportViewModel extends ViewModel {
     public ReportDataSource reportData=new ReportDataSource();
     public HosAllocationDataSource AllocationData = new HosAllocationDataSource();
     public AllocationDetail allocationData=new AllocationDetail();
-    private Context context;
-
-    public ReportViewModel(Context context) {
-        this.context = context;
-    }
 
 
     public void CitizenSubmit(ReportFromCitizen report){
-
         reportData.SubmitCitizenReport(report);
-
-
         Log.d("num", "citizen submit suc!");
-
     }
 
 
-    public void GardaSubmit(ReportFromCitizen report){
-
-
-
+    public void GardaSubmit(ReportFromCitizen report, Context context){
         DisasterDetail disasterData=reportData.Report2Disaster(report);
         Log.d("num", "disaster generate suc!");
-
-        allocationData=GetMLAllocation(disasterData);
-
+        allocationData = GetMLAllocation(disasterData, context);
+        if (allocationData == null) return;
         AllocationSubmit(disasterData);
-
         reportData.SubmitGardaReport(disasterData);
-
-
         Log.d("num", "garda submit suc!");
-
     }
 
-    public AllocationDetail GetMLAllocation(DisasterDetail data){
-//        ResearchAllocation researchAllocation = new ResearchAllocation();
-//        double[][] input = new double[1][2];
-//        input[0][0] = data.getRadius();
-//        input[0][1] = data.getInjureNum();
-//        researchAllocation.getResource(context, input);
-        AllocationDetail singleAllocation=new AllocationDetail();
-
-        return singleAllocation;
+    public AllocationDetail GetMLAllocation(DisasterDetail data, Context context){
+        ResearchAllocation researchAllocation = new ResearchAllocation();
+        String[][] inputData = new String[1][2];
+        inputData[0][0] = String.valueOf(data.getRadius());
+        inputData[0][1] = String.valueOf(data.getInjureNum());
+        try{
+            // (int ambulance, int bus, int police, int fireTruck)
+            AllocationDetail singleAllocation = new AllocationDetail(
+                    researchAllocation.getAllocation(context, inputData, 1),
+                    researchAllocation.getAllocation(context, inputData, 4),
+                    researchAllocation.getAllocation(context, inputData,2),
+                    researchAllocation.getAllocation(context, inputData, 3));
+            return singleAllocation;
+        } catch (Exception exception) {
+            Log.d("allocation error:" , String.valueOf(exception));
+        }
+        return null;
     }
 
 

@@ -19,22 +19,18 @@ import com.example.testdisasterevent.ml.Ambulance;
 
 public class ResearchAllocation {
     // Load the TFLite model from assets folder
-    public double getResource(Context context, double[][] input) {
+    public int getAllocation (Context context, String[][] input, int modelType) {
         try {
-            Interpreter tflite = new Interpreter(loadModelFile(context), new Interpreter.Options());
-//            // Prepare input data
-//            double[][] input = new double[1][2];
-//            input[0][0] = 1.0f;
-//            input[0][1] = 2.0f;
+            Interpreter tflite = new Interpreter(loadModelFile(context, modelType), new Interpreter.Options());
+            // Run inference
+            double[][] input1 = new double[1][2];
+            input1[0][0] = 1.0f;
+            input1[0][1] = 2.0f;
 
-// Run inference
-            double[][] output = new double[1][1];
-            tflite.run(input, output);
-
-// Get inference result
-            return output[0][0];
-//            double result = output[0][0];
-//            return result;
+            String[][] output = new String[1][1];
+            tflite.run(input1, output);
+            // Get inference result
+            return Integer.parseInt(output[0][0]);
         } catch (IOException ex) {
             // Handle the exception
             return 0;
@@ -42,8 +38,12 @@ public class ResearchAllocation {
     }
 
     // Helper function to load model file from assets folder
-    private MappedByteBuffer loadModelFile(Context context) throws IOException {
-        AssetFileDescriptor fileDescriptor = context.getAssets().openFd("Ambulance.tflite");
+    private MappedByteBuffer loadModelFile(Context context, int modelType) throws IOException {
+        AssetFileDescriptor fileDescriptor;
+        if (modelType == 1) fileDescriptor = context.getAssets().openFd("Ambulance.tflite");
+        else if (modelType == 2) fileDescriptor = context.getAssets().openFd("Police.tflite");
+        else if (modelType == 3) fileDescriptor = context.getAssets().openFd("Trunk.tflite");
+        else fileDescriptor = context.getAssets().openFd("Bus.tflite");
         FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
         FileChannel fileChannel = inputStream.getChannel();
         long startOffset = fileDescriptor.getStartOffset();

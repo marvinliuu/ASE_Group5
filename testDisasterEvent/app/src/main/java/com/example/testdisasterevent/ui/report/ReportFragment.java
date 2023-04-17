@@ -220,9 +220,6 @@ public class ReportFragment extends Fragment {
                 fragmentTransaction.replace(R.id.report_container, reportMapFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-
-
-
             }
         });
 
@@ -291,11 +288,6 @@ public class ReportFragment extends Fragment {
         });
 
 
-
-
-
-
-
         /**
          * submit Button click
          * -------------
@@ -314,14 +306,6 @@ public class ReportFragment extends Fragment {
                 String notification="";
                 boolean submitCompleted=true;
                 boolean informationCompleted=true;
-
-
-
-
-
-
-
-
 
                 if(reportData.getDisasterType()=="0"){
                     notification=notification+"DISASTER TYPE ";
@@ -360,8 +344,6 @@ public class ReportFragment extends Fragment {
                     String timeStamp=getCurrentTime();
                     reportData.setTimestamp(timeStamp);
                     if(AccountType!=1){
-
-
                         /**
                          * check the whether the request tokens available
                          */
@@ -370,18 +352,14 @@ public class ReportFragment extends Fragment {
                             dialog.show(getFragmentManager(), "");
                             return;
                         }
-
-
                         reportViewModel.CitizenSubmit(reportData);
-
                         /**
                          * here to upload image with timestamp as its name
                          * */
                         uploadImage(timeStamp);
                         replaceFragment(new SubmitSucessFragment());
-                    }
-                    else{
-                        reportViewModel.GardaSubmit(reportData);
+                    } else{
+                        reportViewModel.GardaSubmit(reportData, getContext());
 
                         replaceFragment(new GardaSubmitSucessFragment());
                     }
@@ -456,10 +434,7 @@ public class ReportFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        reportViewModel = new ViewModelProviders.of(this).get(ReportViewModel.class);
-
         reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
-
     }
 
 // navigate to submitSuccess Fragment
