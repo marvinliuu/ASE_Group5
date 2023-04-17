@@ -37,11 +37,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
+import com.example.testdisasterevent.data.RerouteDataSource;
 import com.example.testdisasterevent.data.model.AccountUserInfo;
 import com.example.testdisasterevent.data.model.DisasterDetail;
 import com.example.testdisasterevent.data.model.HospitalDetails;
 import com.example.testdisasterevent.data.model.TaskDetail;
 import com.example.testdisasterevent.databinding.FragmentDisasterBinding;
+import com.example.testdisasterevent.utils.GeoHelpers;
 import com.example.testdisasterevent.utils.IconSettingUtils;
 import com.example.testdisasterevent.utils.LocationTracker;
 import com.example.testdisasterevent.utils.LayoutUtils;
@@ -52,14 +54,23 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.RoundCap;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.maps.DirectionsApi;
+import com.google.maps.GeoApiContext;
+import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.TravelMode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -69,7 +80,7 @@ import java.util.Map;
  * Author: Siyu Liao
  * Version: Week 3
  */
-public class DisasterFragment extends Fragment implements OnMapReadyCallback, LocationTracker.LocationUpdateListener {
+public class DisasterFragment extends Fragment implements OnMapReadyCallback, LocationTracker.LocationUpdateListener, RerouteDataSource.RouteCallback {
     public DisasterViewModel disasterViewModel;  // Type: DisasterViewModel, used for managing disaster-related data
     private FragmentDisasterBinding binding;  // Type: FragmentDisasterBinding, used for binding data to the UI
     private PopupWindow popupWindow_task, popupWindow_disaster;  // Type: PopupWindow, used for displaying pop-up windows
@@ -90,26 +101,27 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     private LocationTracker locationTracker;  // Type: LocationTracker, used for tracking the user's location
     private PopupwindowUtils popupwindowUtils;  // Type: PopupwindowUtils, used for displaying pop-up windows
     private LayoutUtils layoutUtils;  // Type: LayoutUtils, used for managing the layout of UI elements
+    private Polyline prePolyLine;  // Type: Polyline, used for displaying a polyline on the map
     private ImageView task_complete;
     private ImageView task_direction;
     public AccountUserInfo accountUserInfoData;
+    private TaskDetail taskDetails;
+    private GeoHelpers geoHelper;
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         disasterViewModel =
                 new ViewModelProvider(this).get(DisasterViewModel.class);
-        String res;
 
 
 
         MainActivity mainActivity = (MainActivity) getActivity();
         accountUserInfoData = mainActivity.getAccountUserInfo();
 
-
-
         // init utils
         iconSettingUtils = new IconSettingUtils();
         popupwindowUtils = new PopupwindowUtils();
+        geoHelper = new GeoHelpers();
         layoutUtils = new LayoutUtils();
 
         // init layout inflater
@@ -153,41 +165,19 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         mapFragment.getMapAsync(this);
 
         bindSubView();
-        //initViewConfig();
 
         setClickListeners();
         setDataObserver();
 
-
-
-        // click the close btn, dismiss the popup window
-        closeBtn_disaster.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow_disaster.dismiss();
-            }
-        });
-
-        // click the show btn, open the popup window
-        showDisasterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow_disaster.showAtLocation(disasterView, Gravity.BOTTOM, 0, 0);
-            }
-        });
         // Load the custom font from the assets folder
         Typeface topTitleType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
         // Set the font of the TextView to the custom font
         txt_show_disaster.setTypeface(topTitleType);
         txt_show_disaster.setTextSize(25);
 
-
-
         return root;
     }
-
-
-
+    
     /**
      * Date: 23.04.06
      * Function: bind all the subViews
@@ -259,20 +249,16 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         showTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TaskDetail[] posts = disasterViewModel.getTaskDetails().getValue();
+                TaskDetail posts = disasterViewModel.getTaskDetails().getValue();
 
                 if (accountUserInfoData != null) {
-                    if (posts.length > 0) {
+                    if (posts != null) {
                         popupWindow_task.showAtLocation(taskView, Gravity.BOTTOM, 0, 0);
                     } else {
                         String notask =  "No Task Now.";
                         midToast(notask);
                     }
                 }
-//                else{
-//                    String citizentask = "Citizens have no tasks.";
-//                    midToast(citizentask);
-//                }
             }
         });
 
@@ -300,11 +286,12 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
                 disasterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
                     @Override
                     public void onChanged(DisasterDetail[] posts) {
-                        popupWindow_disaster.showAtLocation(disasterView, Gravity.BOTTOM, 0, 0);
                         if (posts.length > 0) {
+                            popupWindow_disaster.showAtLocation(disasterView, Gravity.BOTTOM, 0, 0);
                             // Update the UI with the new data
                             createDisasterPopupWindow(posts);
                         } else {
+                            popupWindow_disaster.showAtLocation(disasterView, Gravity.BOTTOM, 0, 0);
                             // Update the UI when no disaster happen
                             createNoDisasterPopWindow();
                         }
@@ -333,15 +320,8 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
                 myRef.child(newNodeKey).setValue(avaOfficerData);
                 Log.d("Task", "task officer write back success");
 
-
-
-
-
-
                 popupWindow_task.dismiss();
                 midToast("Task completed!");
-
-
 
             }
         });
@@ -352,11 +332,13 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         task_direction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LatLng end = new LatLng(taskDetails.getLatitude(), taskDetails.getLongitude());
+                LatLng start = new LatLng(currentLatitude, currentLongitude);
+                rerouteSetting(start, end);
+                geoHelper.addOnePointMarker(false, end, map, getResources());
                 Log.d("Task", "task direction click");
             }
         });
-
-
     }
 
     /**
@@ -366,20 +348,17 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
      * Version: Week 10
      */
     private void setDataObserver() {
-
-
         // details observer - task & disaster
         if (accountUserInfoData != null && accountUserInfoData.getUserTypeID() != 0) {
-            disasterViewModel.getTaskDetails().observe(getActivity(), new Observer<TaskDetail[]>() {
+            disasterViewModel.getTaskDetails().observe(getActivity(), new Observer<TaskDetail>() {
                 @Override
-                public void onChanged(TaskDetail[] posts) {
-                    int lon = posts.length;
-                    if (lon > 0 ) {
+                public void onChanged(TaskDetail posts) {
+                    if (posts != null) {
+                        taskDetails = posts;
                         popupWindow_task = popupwindowUtils.showPopwindow(taskView);
                         popupWindow_task.showAtLocation(taskView, Gravity.BOTTOM, 0, 0);
                         // Update the UI with the new data
                         createTaskDetailsPopupWindow(posts);
-
                     } else {
                         String notask = "No Task Now";
                         midToast(notask);
@@ -395,9 +374,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
                     }
                 }
             });
-        }
-
-        else {
+        } else {
             // disaster details observer
             disasterViewModel.getDisasterDetails().observe(getActivity(), new Observer<DisasterDetail[]>() {
                 @Override
@@ -621,8 +598,8 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         map.addMarker(markerOptions);
     }
 
-    public void createTaskDetailsPopupWindow(TaskDetail[] details) {
-        String titleText = details[0].getDisasterTitle();
+    public void createTaskDetailsPopupWindow(TaskDetail tasks) {
+        String titleText = tasks.getDisasterTitle();
         // Load the custom font from the assets folder
         Typeface topTitleType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
         // Set the font of the TextView to the custom font
@@ -633,9 +610,9 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         // SET THE INTRODUCTION WORD TEXT STYLE
         setTaskGeneralType();
 
-        locDetail.setText(details[0].getLocation());
-        ftDetail.setText(details[0].getHappenTime());
-        injuryDetail.setText(Integer.toString(details[0].getInjury()));
+        locDetail.setText(tasks.getLocation());
+        ftDetail.setText(tasks.getHappenTime());
+        injuryDetail.setText(Integer.toString(tasks.getInjury()));
         injuryDetail.setTextColor(Color.RED);
         typeDetail.setText(titleText);
         taskDetail.setText("unknown");
@@ -689,6 +666,61 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         toast.setDuration(Toast.LENGTH_LONG);
         toast.setView(view);
         toast.show();
+    }
+
+    /**
+     * Date: 23.04.17
+     * Function: set the click "direction" button, reroute for the police from current point to disaster area
+     * Author: Siyu Liao
+     * Version: Week 14
+     */
+    void rerouteSetting(LatLng start, LatLng end) {
+        // Set up the GeoApiContext with your API key
+        GeoApiContext context = new GeoApiContext.Builder()
+                .apiKey("AIzaSyDrYjvowVSGRHTyi5vO7CZx2Py32G1BoaY")
+                .build();
+
+        // Set the travel mode
+        TravelMode travelMode = TravelMode.WALKING;
+
+        // Set the route restrictions
+        DirectionsApi.RouteRestriction[] restrictions = { DirectionsApi.RouteRestriction.FERRIES };
+
+        // Get the route information
+        RerouteDataSource rerouteDataDataSource = new RerouteDataSource(context);
+        rerouteDataDataSource.getRoute(start, end, travelMode, restrictions, this);
+    }
+
+    @Override
+    public void onRouteReady(DirectionsResult result) {
+        PolylineOptions polylineOptions = new PolylineOptions();
+        polylineOptions.color(Color.RED);
+        List<LatLng> points = new ArrayList<>();
+        if (result == null) {
+            return;
+        }
+        List<com.google.maps.model.LatLng> path = result.routes[0].overviewPolyline.decodePath();
+        for (com.google.maps.model.LatLng latLng : path) {
+            points.add(new LatLng(latLng.lat, latLng.lng));
+        }
+        polylineOptions.addAll(points);
+        polylineOptions.width(20f);
+
+        polylineOptions.startCap(new RoundCap());
+        polylineOptions.endCap(new RoundCap());
+        polylineOptions.jointType(JointType.ROUND);
+        polylineOptions.geodesic(true);
+        if (prePolyLine != null) {
+            prePolyLine.remove();
+        }
+        prePolyLine = map.addPolyline(polylineOptions);
+    }
+
+    @Override
+    public void onError(String errorMessage) {
+        Toast.makeText(getContext(),
+                "Error: " + errorMessage,
+                Toast.LENGTH_LONG).show();
     }
 
     @Override

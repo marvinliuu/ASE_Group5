@@ -4,6 +4,7 @@ import static android.view.View.VISIBLE;
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 import android.Manifest;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.content.Context;
@@ -51,6 +52,8 @@ import com.example.testdisasterevent.utils.LocationTracker;
 import com.example.testdisasterevent.utils.PopupwindowUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -58,6 +61,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -168,7 +172,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         if(mapFragment == null) {
             FragmentManager fm= getFragmentManager();
             FragmentTransaction ft= fm.beginTransaction();
-            mapFragment= SupportMapFragment.newInstance();
+            mapFragment= SupportMapFragment.newInstance(new GoogleMapOptions()
+                    .mapId(getResources().getString(R.string.map_id)));
             ft.add(R.id.map, mapFragment).commit();
         }
         mapFragment.getMapAsync(this);
@@ -259,25 +264,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     private void addOriDesMarkers(String start, String end) {
         LatLng startPoint = geoHelper.getLocLatLng(start);
         LatLng endPoint = geoHelper.getLocLatLng(end);
-        addOnePointMarker(true, startPoint);
-        addOnePointMarker(false, endPoint);
+        geoHelper.addOnePointMarker(true, startPoint, map, getResources());
+        geoHelper.addOnePointMarker(false, endPoint, map, getResources());
     }
 
-    private void addOnePointMarker(boolean ori, LatLng point) {
-        Bitmap bitmap = iconSettingUtils.setOriDesIcon(ori, getResources());
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        float scaledWidth = width * 0.4f;
-        float scaledHeight = height * 0.4f;
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
-        BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
-
-        MarkerOptions markerOptions = new MarkerOptions()
-                .position(point)
-                .icon(markerIcon)
-                .anchor(0.5f, 0.5f);;
-        map.addMarker(markerOptions);
-    }
 
     /**
      * Date: 23.04.12
@@ -385,6 +375,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         shapeDrawable.setCornerRadii(new float[] { 16, 16, 16, 16, 0, 0, 0, 0 });
 
         FrameLayout overlay = binding.mapOverlay;
+
         overlay.setBackground(shapeDrawable);
 
         map = googleMap;

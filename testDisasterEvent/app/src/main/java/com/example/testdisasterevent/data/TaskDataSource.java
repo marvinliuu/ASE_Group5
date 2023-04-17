@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TaskDataSource {
-    public TaskDetail[] details;
+    public TaskDetail details;
 
     /**
      * Date: 23.04.14
@@ -24,8 +24,8 @@ public class TaskDataSource {
      * Author: Siyu Liao
      * Version: Week 12
      */
-    public LiveData<TaskDetail[]> getTaskDetails() {
-        final MutableLiveData<TaskDetail[]> taskLiveData = new MutableLiveData<>();
+    public LiveData<TaskDetail> getTaskDetails() {
+        final MutableLiveData<TaskDetail> taskLiveData = new MutableLiveData<>();
 
         if (details != null) {
             taskLiveData.setValue(details);
@@ -57,9 +57,7 @@ public class TaskDataSource {
                         }
                     }
                 }
-                details = new TaskDetail[1];
-                details[0] = earliestDetail;
-                taskLiveData.setValue(details);
+                taskLiveData.setValue(earliestDetail);
             }
 
             @Override

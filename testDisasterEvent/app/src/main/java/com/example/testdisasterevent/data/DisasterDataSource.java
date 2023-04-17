@@ -37,7 +37,6 @@ public class DisasterDataSource {
         long startOfDay = System.currentTimeMillis() - 43200000*3;
         // fake and test data
 
-//        startOfDay = System.currentTimeMillis() - 43200000 * 5;
         long endOfDay = System.currentTimeMillis() + 86400000;
 
 

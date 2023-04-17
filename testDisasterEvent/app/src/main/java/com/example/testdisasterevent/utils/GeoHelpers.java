@@ -1,8 +1,15 @@
 package com.example.testdisasterevent.utils;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+
 import com.example.testdisasterevent.data.HereRerouteDataSource;
 import com.example.testdisasterevent.data.model.DisasterDetail;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
@@ -12,6 +19,8 @@ import com.here.sdk.core.errors.InstantiationErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.opencensus.resource.Resource;
 
 public class GeoHelpers {
     /**
@@ -97,6 +106,24 @@ public class GeoHelpers {
         locations[1] = swLocation;
 
         return locations;
+    }
+
+
+    public void addOnePointMarker(boolean ori, LatLng point, GoogleMap map, Resources resources) {
+        IconSettingUtils iconSettingUtils = new IconSettingUtils();
+        Bitmap bitmap = iconSettingUtils.setOriDesIcon(ori,resources);
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        float scaledWidth = width * 0.4f;
+        float scaledHeight = height * 0.4f;
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) scaledWidth, (int) scaledHeight, false);
+        BitmapDescriptor markerIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap);
+
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(point)
+                .icon(markerIcon)
+                .anchor(0.5f, 0.5f);;
+        map.addMarker(markerOptions);
     }
 
 }

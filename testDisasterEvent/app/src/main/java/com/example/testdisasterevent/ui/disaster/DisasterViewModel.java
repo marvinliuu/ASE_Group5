@@ -50,7 +50,7 @@ public class DisasterViewModel extends ViewModel {
         return disasterDataSource.getDisasterDetails();
     }
 
-    public LiveData<TaskDetail[]> getTaskDetails() {
+    public LiveData<TaskDetail> getTaskDetails() {
         return taskDataSource.getTaskDetails();
     }
 
