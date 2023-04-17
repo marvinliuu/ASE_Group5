@@ -572,6 +572,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     }
 
 
+
     @Override
     public void onRouteReady(DirectionsResult result) {
         PolylineOptions polylineOptions = new PolylineOptions();

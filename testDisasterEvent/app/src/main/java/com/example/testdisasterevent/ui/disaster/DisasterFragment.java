@@ -4,6 +4,7 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -112,9 +113,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
                              ViewGroup container, Bundle savedInstanceState) {
         disasterViewModel =
                 new ViewModelProvider(this).get(DisasterViewModel.class);
-
-
-
         MainActivity mainActivity = (MainActivity) getActivity();
         accountUserInfoData = mainActivity.getAccountUserInfo();
 
@@ -206,6 +204,13 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
 
 
 
+
+    /**
+     * Date: 23.04.06
+     * Function: Get Current Location
+     * Author: Haoxian Liu
+     * Version: Week 12
+     */
     @Override
     public void onLocationUpdated(Location location) {
         Log.i(TAG, String.format("Updated location: Latitude = %f, Longitude = %f",
@@ -372,6 +377,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     public void createNoDisasterPopWindow() {
         // Find the ScrollView in the layout and add content to it
         ScrollView scrollView = disasterView.findViewById(R.id.disasterScrollView);
+        if (getContext() == null) return;
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 

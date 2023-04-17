@@ -76,7 +76,7 @@
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/drawable/nav_item.xml" value="0.37135416666666665" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/drawable/report_input.xml" value="0.2462962962962963" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/activity_disaster_details2.xml" value="0.31521739130434784" />
-        <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/activity_home.xml" value="0.5" />
+        <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/activity_home.xml" value="0.3070652173913043" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/activity_login.xml" value="0.3070652173913043" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Study/ASE/testDisasterEvent/app/src/main/res/layout/disasterdetails_popupwindow.xml" value="0.5299539170506913" />
@@ -140,6 +140,8 @@
         <entry key="app/src/main/res/layout/taskdetails_popupwindow.xml" value="0.13177083333333334" />
         <entry key="app/src/main/res/layout/view_toast_custom.xml" value="0.10989583333333333" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.5161458333333333" />
+        <entry key="app/src/main/res/menu/menu_disaster_details.xml" value="0.196875" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.25277777777777777" />
       </map>
     </option>
