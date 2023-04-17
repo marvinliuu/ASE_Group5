@@ -85,31 +85,48 @@ public class ReportDataSource {
         try {
             UserDatabase = FirebaseDatabase.getInstance().getReference().child("DisasterInfo");
 
-            UserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+            String name = "Disaster";
 
-                    String name = "Disaster";
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("type", disasterData.getDisasterType());
+            userData.put("GardaID", disasterData.getGardaUID());
+            userData.put("happenTime", disasterData.getHappenTime());
+            userData.put("injury", disasterData.getInjureNum());
+            userData.put("isUpdate", disasterData.getUpdate());
+            userData.put("latitude", disasterData.getLatitude());
+            userData.put("longitude", disasterData.getLongitude());
+            userData.put("radius", disasterData.getRadius());
+            userData.put("location", disasterData.getLocation());
 
-                    Map<String, String> userData = new HashMap<>();
-                    userData.put("type", disasterData.getDisasterType());
-                    userData.put("GardaID", disasterData.getGardaUID());
-                    userData.put("happenTime", disasterData.getHappenTime());
-                    userData.put("isUpdate", Integer.toString(disasterData.getUpdate()));
-                    userData.put("latitude", Double.toString(disasterData.getLatitude()));
-                    userData.put("longitude", Double.toString(disasterData.getLongitude()));
-                    userData.put("radius", Integer.toString(disasterData.getRadius()));
-                    userData.put("location", disasterData.getLocation());
+            name += disasterData.getHappenTime();
+            UserDatabase.child(name).setValue(userData);
 
-                    name += disasterData.getHappenTime();
-                    UserDatabase.child(name).setValue(userData);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.w("disaster", "disaster database error", databaseError.toException());
-                }
-            });
+//            UserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                    String name = "Disaster";
+//
+//                    Map<String, Object> userData = new HashMap<>();
+//                    userData.put("type", disasterData.getDisasterType());
+//                    userData.put("GardaID", disasterData.getGardaUID());
+//                    userData.put("happenTime", disasterData.getHappenTime());
+//                    userData.put("injury", disasterData.getInjureNum());
+//                    userData.put("isUpdate", disasterData.getUpdate());
+//                    userData.put("latitude", disasterData.getLatitude());
+//                    userData.put("longitude", disasterData.getLongitude());
+//                    userData.put("radius", disasterData.getRadius());
+//                    userData.put("location", disasterData.getLocation());
+//
+//                    name += disasterData.getHappenTime();
+//                    UserDatabase.child(name).setValue(userData);
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//                    Log.w("disaster", "disaster database error", databaseError.toException());
+//                }
+//            });
             return new Result.Success<>("report from garda push Success");
         } catch (Exception e) {
             return new Result.Error(new IOException("Error garda report submit", e));
@@ -126,7 +143,7 @@ public class ReportDataSource {
         DisasterDetail disasterData = new DisasterDetail(
                 reportData.getRadius(),
                 reportData.getLocation(),
-                Long.toString(reportData.getTimestamp()),
+                reportData.getTimestamp(),
                 reportData.getLatitude(),
                 reportData.getLongitude(),
                 reportData.getInjuredNum(),

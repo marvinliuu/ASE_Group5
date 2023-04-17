@@ -273,9 +273,9 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         setDisasterGeneralType();
 
         locDetail.setText(details[index].getLocation());
-        ftDetail.setText(details[index].getHappenTime());
+        ftDetail.setText(Long.toString(details[index].getHappenTime()));
         typeDetail.setText(details[index].getDisasterType());
-        upDetail.setText(details[index].getHappenTime());
+        upDetail.setText(Long.toString(details[index].getHappenTime()));
         radiusDetail.setText(Integer.toString(details[index].getRadius()) + " m");
         setDisasterDetailsType();
 

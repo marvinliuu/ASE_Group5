@@ -40,7 +40,7 @@ public class DisasterDataSource {
         long endOfDay = System.currentTimeMillis() + 86400000;
 
 
-        Query postsQuery = postsRef.orderByChild("otime").startAt(startOfDay).endAt(endOfDay);
+        Query postsQuery = postsRef.orderByChild("happenTime").startAt(startOfDay).endAt(endOfDay);
         // post query to database
         postsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -50,16 +50,17 @@ public class DisasterDataSource {
                 int count = 0;
                 // Process the retrieved data here
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Long otime = postSnapshot.child("otime").getValue(Long.class);
-                    String happenTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(otime));
+                    Long happenTime = postSnapshot.child("happenTime").getValue(Long.class);
+                    //String happenTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(otime));
                     int radius = postSnapshot.child("radius").getValue(int.class);
                     float latitude = postSnapshot.child("latitude").getValue(float.class);
                     float longitude = postSnapshot.child("longitude").getValue(float.class);
                     String location = postSnapshot.child("location").getValue(String.class);
-                    String rtype = postSnapshot.child("disasterType").getValue(String.class);
+                    String rtype = postSnapshot.child("type").getValue(String.class);
                     int injury=postSnapshot.child("injury").getValue(int.class);
+                    long gardaID = postSnapshot.child("GardaID").getValue(Long.class);
                     details[count++] = new DisasterDetail(radius, location, happenTime, latitude,
-                            longitude, injury,rtype,"123",0);                }
+                            longitude, injury,rtype,gardaID,0);                }
                 disasterLiveData.setValue(details);
             }
 

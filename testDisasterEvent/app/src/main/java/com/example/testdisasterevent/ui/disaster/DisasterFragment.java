@@ -439,7 +439,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
 
             location.setText(details[i].getLocation());
 
-            time.setText(details[i].getHappenTime());
+            time.setText(Long.toString(details[i].getHappenTime()));
             time.setId(View.generateViewId());
             time.setTextColor(Color.BLACK);
 

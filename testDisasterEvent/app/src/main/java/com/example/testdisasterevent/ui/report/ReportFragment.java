@@ -65,7 +65,7 @@ public class ReportFragment extends Fragment {
     private ReportViewModel reportViewModel;
     public ReportFromCitizen reportData = new ReportFromCitizen();
     public int AccountType;
-    public String AccountUID;
+    public long AccountUID;
     private ImageView cameraIcon;
     private static final int PERMISSION_REQUEST_CODE = 1;
     private ImageView mapIcon;
@@ -96,7 +96,7 @@ public class ReportFragment extends Fragment {
         AccountUserInfo accountUserInfoData = mainActivity.getAccountUserInfo();
         if (accountUserInfoData != null) {
             AccountType=accountUserInfoData.getUserTypeID();
-            AccountUID=Long.toString(accountUserInfoData.getUid());
+            AccountUID=accountUserInfoData.getUid();
         }
 
         reportData.setDisasterType("0");

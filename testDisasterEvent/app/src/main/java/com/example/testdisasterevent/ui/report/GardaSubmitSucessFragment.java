@@ -57,7 +57,7 @@ public class GardaSubmitSucessFragment extends Fragment {
         });
 
         ImageView submitUpdateButton = root.findViewById(R.id.report_submit_update);
-
+        submitUpdateButton.setVisibility(View.INVISIBLE);
         submitUpdateButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View secondView){

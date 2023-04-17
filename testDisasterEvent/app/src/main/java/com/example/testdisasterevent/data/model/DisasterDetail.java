@@ -3,15 +3,15 @@ package com.example.testdisasterevent.data.model;
 public class DisasterDetail {
     private int radius;
     private String location;
-    private String happenTime;
+    private long happenTime;
     private double latitude;
     private double longitude;
     private int injureNum;
     private String disasterType;
-    private String GardaUID;
+    private long GardaUID;
     private int isUpdate;
 
-    public DisasterDetail(int radius, String location, String happenTime, double latitude, double longitude, int injureNum, String disasterType, String gardaUID, int isUpdate) {
+    public DisasterDetail(int radius, String location, long happenTime, double latitude, double longitude, int injureNum, String disasterType, long gardaUID, int isUpdate) {
         this.radius = radius;
         this.location = location;
         this.happenTime = happenTime;
@@ -47,10 +47,10 @@ public class DisasterDetail {
     public void setLocation(String location) {
         this.location = location;
     }
-    public String getHappenTime() {
+    public long getHappenTime() {
         return happenTime;
     }
-    public void setHappenTime(String happenTime) {
+    public void setHappenTime(long happenTime) {
         this.happenTime = happenTime;
     }
     public double getLatitude() {
@@ -71,10 +71,10 @@ public class DisasterDetail {
     public void setDisasterType(String disasterType) {
         this.disasterType = disasterType;
     }
-    public String getGardaUID() {
+    public long getGardaUID() {
         return GardaUID;
     }
-    public void setGardaUID(String gardaUID) {
+    public void setGardaUID(long gardaUID) {
         this.GardaUID = gardaUID;
     }
     public int getUpdate() {
