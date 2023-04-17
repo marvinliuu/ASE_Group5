@@ -15,12 +15,12 @@ import com.example.testdisasterevent.R;
  */
 public class PopupwindowUtils {
 
-    public PopupWindow showPopwindow (View view) {
+    public PopupWindow showPopwindow (View view, int height) {
         PopupWindow popupWindow = new PopupWindow(view,
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                700);
+                height);
         // set SelectPicPopupWindow height
-        popupWindow.setHeight(700);
+        popupWindow.setHeight(height);
         // get focus point
         popupWindow.setFocusable(true);
         // set background color of blank area

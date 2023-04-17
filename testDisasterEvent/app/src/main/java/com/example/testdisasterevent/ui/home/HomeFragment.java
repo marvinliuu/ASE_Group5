@@ -178,6 +178,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         if(mapFragment == null) {
             FragmentManager fm= getFragmentManager();
             FragmentTransaction ft= fm.beginTransaction();
+
             mapFragment= SupportMapFragment.newInstance(new GoogleMapOptions()
                     .mapId(getResources().getString(R.string.map_id)));
             ft.add(R.id.map, mapFragment).commit();
@@ -289,10 +290,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         currentLatitude = location.getLatitude();
         LatLng currentPosition = new LatLng(currentLatitude, currentLongitude);
         if (marker == null) {
-            marker = map.addMarker(new MarkerOptions().position(currentPosition).title("Marker in Target Location"));
+            if (map == null) return;
+            marker = map.addMarker(new MarkerOptions().position(currentPosition).title("Your Location"));
         } else {
             marker.setPosition(currentPosition);
-
         }
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
     }
@@ -380,10 +381,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         shapeDrawable.setShape(GradientDrawable.RECTANGLE);
         shapeDrawable.setCornerRadii(new float[] { 16, 16, 16, 16, 0, 0, 0, 0 });
 
-        FrameLayout overlay = binding.mapOverlay;
-
-        overlay.setBackground(shapeDrawable);
-
         map = googleMap;
 
         hereRerouteDataSource.livePointData.observe(getActivity(), new Observer<List<LatLng>>() {
@@ -418,7 +415,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
             homeViewModel.getReportInfo().observe(getActivity(), new Observer<ReportInfo[]>() {
                 @Override
                 public void onChanged(ReportInfo[] posts) {
-                    popupWindow = popupwindowUtils.showPopwindow(contentView);
+                    popupWindow = popupwindowUtils.showPopwindow(contentView, 700);
                     popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
                     if (posts.length > 0) {
                         // Update the UI with the new data

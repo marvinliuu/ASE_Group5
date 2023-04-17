@@ -287,7 +287,7 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
             @Override
             public void onChanged(ReportInfo[] posts) {
                 if (posts.length > 0) {
-                    popupWindow = popupwindowUtils.showPopwindow(contentView);
+                    popupWindow = popupwindowUtils.showPopwindow(contentView, 800);
                     popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
                     popupWindow.setHeight(400);
                     createReportDetailPopupWindow(posts);

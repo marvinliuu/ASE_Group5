@@ -298,7 +298,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         if (isWithinRadius(currentLatitude, currentLongitude, details[index].getLatitude(), details[index].getLongitude(), details[index].getRadius())) {
             test = new LatLng(currentLatitude, currentLongitude);
             if (marker == null) {
-                marker = map.addMarker(new MarkerOptions().position(test).title("Marker in Target Location"));
+                marker = map.addMarker(new MarkerOptions().position(test).title("Your Position"));
             }
         } else {
             test = center;
@@ -390,7 +390,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
             @Override
             public void onChanged(DisasterDetail[] posts) {
                 if (posts.length > 0) {
-                    popupWindow = popupwindowUtils.showPopwindow(contentView);
+                    popupWindow = popupwindowUtils.showPopwindow(contentView, 700);
                     popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
                     createDisasterDetailsPopupWindow(posts);
                     selectRoadFromData(posts[index].getLatitude(), posts[index].getLongitude(), posts[index].getRadius());
@@ -570,6 +570,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         super.onDestroyView();
         binding = null;
     }
+
 
 
     @Override

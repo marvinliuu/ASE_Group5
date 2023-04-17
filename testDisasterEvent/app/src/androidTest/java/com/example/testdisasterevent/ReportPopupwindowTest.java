@@ -39,7 +39,7 @@ public class ReportPopupwindowTest {
         // wait for 5 seconds until PopupWindow shows
         Thread.sleep(3000);
 
-        //colse the DisasterInfo popupwindow
+        //colse the ReportInfo popupwindow
         onView(withId(R.id.close_btn)).perform(click());
 
     }
