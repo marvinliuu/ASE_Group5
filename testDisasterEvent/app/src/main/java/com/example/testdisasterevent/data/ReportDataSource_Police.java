@@ -1,5 +1,7 @@
 package com.example.testdisasterevent.data;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -45,16 +47,19 @@ public class ReportDataSource_Police {
                 infos = new ReportInfo[len];
                 int count = 0;
                 // Process the retrieved data here
+                Log.d("AAA","Here2");
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Long rtime = postSnapshot.child("rtime").getValue(Long.class);
-                    String happenTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(rtime));
+                    String reportTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(rtime));
                     float latitude = postSnapshot.child("latitude").getValue(float.class);
                     float longitude = postSnapshot.child("longitude").getValue(float.class);
                     String location = postSnapshot.child("location").getValue(String.class);
-                    String rtype = postSnapshot.child("report_type").getValue(String.class);
-                    int reportState = postSnapshot.child("report_state").getValue(int.class);
-                    infos[count++] = new ReportInfo(location, happenTime, latitude,
-                            longitude, rtype, reportState, postSnapshot.getKey());
+                    String rtype = postSnapshot.child("type").getValue(String.class);
+                    int injury = postSnapshot.child("injury").getValue(int.class);
+                    int reportState = postSnapshot.child("state").getValue(int.class);
+                    String description = postSnapshot.child("description").getValue(String.class);
+                    infos[count++] = new ReportInfo(injury, location, reportTime, latitude,
+                            longitude, rtype, reportState, postSnapshot.getKey(), description);
                 }
                 reportLiveData.setValue(infos);
             }

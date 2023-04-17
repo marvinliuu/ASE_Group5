@@ -62,7 +62,9 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
     private TextView locIntro, locDetail;  // Type: TextView, used for displaying text
     private TextView typeIntro, typeDetail;  // Type: TextView, used for displaying text
     private TextView rtIntro, rtDetail;  // Type: TextView, used for displaying text
-    private TextView htIntro, htDetail;  // Type: TextView, used for displaying text
+    //private TextView htIntro, htDetail;  // Type: TextView, used for displaying text
+    private TextView injuryIntro, injuryDetail;
+    private TextView desIntro, desDetail;
     private int index;  // Type: int, used for storing an index value
     private PopupwindowUtils popupwindowUtils;  // Type: PopupwindowUtils, used for displaying pop-up windows
     private IconSettingUtils iconSettingUtils;  // Type: IconSettingUtils, used for setting icons
@@ -98,10 +100,16 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
         locDetail = contentView.findViewById(R.id.location_details);
         rtIntro = contentView.findViewById(R.id.rtime_intro);
         rtDetail = contentView.findViewById(R.id.rtime_details);
-        htIntro = contentView.findViewById(R.id.htime_intro);
-        htDetail = contentView.findViewById(R.id.htime_details);
+        //htIntro = contentView.findViewById(R.id.htime_intro);
+        //htDetail = contentView.findViewById(R.id.htime_details);
         typeIntro = contentView.findViewById(R.id.type_intro);
         typeDetail = contentView.findViewById(R.id.type_details);
+        injuryIntro = contentView.findViewById(R.id.report_injured_intro);
+        injuryDetail = contentView.findViewById(R.id.report_injured_details);
+        desIntro = contentView.findViewById(R.id.otherinfo_intro);
+        desDetail = contentView.findViewById(R.id.otherinfo_details);
+
+
 
         // init Utils
         popupwindowUtils = new PopupwindowUtils();
@@ -179,8 +187,11 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
 
         locDetail.setText(infos[index].getLocation());
         rtDetail.setText(infos[index].getReportTime());
-        htDetail.setText(infos[index].getHappenTime());
-        typeDetail.setText("unknown");
+        //htDetail.setText(infos[index].getHappenTime());
+        typeDetail.setText(infos[index].getReportTitle());
+        injuryDetail.setText(Integer.toString(infos[index].getInjured()));
+        desDetail.setText(infos[index].getDescription());
+
 
         report_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,8 +250,10 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
         Typeface detailsType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_regular.ttf");
         locDetail.setTypeface(detailsType);
         rtDetail.setTypeface(detailsType);
-        htDetail.setTypeface(detailsType);
+        //htDetail.setTypeface(detailsType);
         typeDetail.setTypeface(detailsType);
+        injuryDetail.setTypeface(detailsType);
+        desDetail.setTypeface(detailsType);
     }
 
 
@@ -250,8 +263,10 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
         // Set the font of the TextView to the custom font
         locIntro.setTypeface(generalType);
         rtIntro.setTypeface(generalType);
-        htIntro.setTypeface(generalType);
+        //htIntro.setTypeface(generalType);
         typeIntro.setTypeface(generalType);
+        injuryIntro.setTypeface(generalType);
+        desIntro.setTypeface(generalType);
     }
 
 

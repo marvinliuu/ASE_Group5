@@ -13,7 +13,9 @@ public class ReportInfo {
     private String reportNumber;
 
 
-    public ReportInfo( String location, String happenTime, float latitude, float longitude, String disasterTitle,  int reportState, String reportNumber) {
+    public ReportInfo( int injured, String location, String reportTime, float latitude,
+                       float longitude, String disasterTitle,  int reportState,
+                       String reportNumber, String description) {
 
         this.injured = injured;
         this.location = location;

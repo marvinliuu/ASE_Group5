@@ -422,6 +422,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                     popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
                     if (posts.length > 0) {
                         // Update the UI with the new data
+                        Log.d("AAA","Here1");
                         createReportPopupWindow(posts);
                     } else {
                         // Update the UI when no disaster happen
@@ -508,10 +509,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                 RelativeLayout.LayoutParams locationParams = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 locationParams.addRule(RelativeLayout.BELOW, title.getId());
+                String location_Str = infos[i].getLocation();
+                location.setText(location_Str);
 
                 // Create and add a TextView to the RelativeLayout - Time
                 TextView time = createTimeView();
-                time.setText(infos[i].getHappenTime());
+                time.setText(infos[i].getReportTime());
 
                 RelativeLayout.LayoutParams timeParams = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -522,7 +525,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                 ImageView reportImage=new ImageView(getContext());
 
 
-                String imageName =infos[i].getHappenTime();
+                String imageName =infos[i].getReportTime();
                 StorageReference mStroageRef= FirebaseStorage.getInstance().getReference().child(imageName);
 
                 mStroageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {

@@ -49,15 +49,16 @@ public class ReportDataSource {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String name = "report";
 
-                    Map<String, String> userData = new HashMap<>();
+                    Map<String, Object> userData = new HashMap<>();
                     userData.put("type", reportData.getDisasterType());
                     userData.put("description", reportData.getOtherInfo());
-                    userData.put("rtime", Long.toString(reportData.getTimestamp()));
-                    userData.put("injury", Integer.toString(reportData.getInjuredNum()));
-                    userData.put("latitude", Double.toString(reportData.getLatitude()));
-                    userData.put("longitude", Double.toString(reportData.getLongitude()));
-                    userData.put("state", Integer.toString(reportData.getReportState()));
+                    userData.put("rtime", reportData.getTimestamp());
+                    userData.put("injury", reportData.getInjuredNum());
+                    userData.put("latitude", reportData.getLatitude());
+                    userData.put("longitude", reportData.getLongitude());
+                    userData.put("state", reportData.getReportState());
                     userData.put("imageURL",reportData.getImageURL());
+                    userData.put("location", reportData.getLocation());
 
                     name += reportData.getTimestamp();
                     UserDatabase.child(name).setValue(userData);

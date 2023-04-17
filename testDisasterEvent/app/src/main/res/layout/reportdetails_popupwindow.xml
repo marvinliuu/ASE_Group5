@@ -129,34 +129,34 @@
                 android:layout_toRightOf="@+id/rtime_intro"
                 android:textColor="@color/black" />
 
-            <TextView
-                android:id="@+id/htime_intro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rtime_intro"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="2dp"
-                android:textSize="15sp"
-                android:text="Happened Time:"
-                android:textColor="@color/black" />
+<!--            <TextView-->
+<!--                android:id="@+id/htime_intro"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/rtime_intro"-->
+<!--                android:layout_alignParentLeft="true"-->
+<!--                android:layout_marginLeft="8dp"-->
+<!--                android:layout_marginTop="2dp"-->
+<!--                android:textSize="15sp"-->
+<!--                android:text="Happened Time:"-->
+<!--                android:textColor="@color/black" />-->
 
-            <TextView
-                android:id="@+id/htime_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rtime_details"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="2dp"
-                android:textSize="15sp"
-                android:layout_toRightOf="@+id/htime_intro"
-                android:textColor="@color/black" />
+<!--            <TextView-->
+<!--                android:id="@+id/htime_details"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/rtime_details"-->
+<!--                android:layout_marginLeft="8dp"-->
+<!--                android:layout_marginTop="2dp"-->
+<!--                android:textSize="15sp"-->
+<!--                android:layout_toRightOf="@+id/htime_intro"-->
+<!--                android:textColor="@color/black" />-->
 
             <TextView
                 android:id="@+id/report_injured_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/htime_intro"
+                android:layout_below="@+id/rtime_intro"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
@@ -168,7 +168,7 @@
                 android:id="@+id/report_injured_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/htime_details"
+                android:layout_below="@+id/rtime_details"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
                 android:textSize="15sp"
@@ -183,9 +183,9 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
-                android:textSize="15sp"
                 android:text="Other Information:"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/otherinfo_details"

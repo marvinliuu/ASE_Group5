@@ -66,11 +66,14 @@ public class RegisterDataSource {
                     }
                     userData.put("type", type);
                     userDatabase.child(UserKey).setValue(userData);
-                    String tempKey = mDatabase.child("AvailableOfficer").push().getKey();
-                    Map<String, Object> ava_data = new HashMap<>();
-                    ava_data.put("uid", count + 1);
-                    ava_data.put("type", type);
-                    mDatabase.child("AvailableOfficer").child(tempKey).setValue(ava_data);
+                    if(type != 0){
+                        String tempKey = mDatabase.child("AvailableOfficer").push().getKey();
+                        Map<String, Object> ava_data = new HashMap<>();
+                        ava_data.put("uid", count + 1);
+                        ava_data.put("type", type);
+                        mDatabase.child("AvailableOfficer").child(tempKey).setValue(ava_data);
+                    }
+
 
                 }
 
