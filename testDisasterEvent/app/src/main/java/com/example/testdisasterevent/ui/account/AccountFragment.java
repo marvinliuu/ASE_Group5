@@ -28,6 +28,7 @@ public class AccountFragment extends Fragment {
     private TextView mail;  // Type: TextView, used for displaying the user's email
     private TextView mobile;  // Type: TextView, used for displaying the user's mobile number
 
+    // Method to create a new instance of AccountFragment
     public static AccountFragment newInstance() {
         return new AccountFragment();
     }
@@ -36,27 +37,36 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // Get the MainActivity instance to access its getAccountUserInfo() method
         MainActivity mainActivity = (MainActivity) getActivity();
+        // Retrieve the user account information from the MainActivity
         AccountUserInfo accountUserInfoData = mainActivity.getAccountUserInfo();
 
+        // Inflate the layout for this fragment and get the root view
         binding = FragmentAccountBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        // Get references to the TextView elements in the layout
         name = binding.accountNameInfo;
         mail = binding.accountEmailInfo;
         mobile = binding.accountMobileInfo;
         accountType = binding.accountTypeText;
+
+        // If the account user info is not null, set the text for the TextViews
         if (accountUserInfoData != null) {
             name.setText(accountUserInfoData.getUsername());
             mail.setText(accountUserInfoData.getEmail());
             mobile.setText(accountUserInfoData.getMobile());
             accountType.setText(accountUserInfoData.getUserType());
         }
+        // Return the root view of the fragment layout
         return root;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        // No additional logic is implemented in this method
     }
 
 }

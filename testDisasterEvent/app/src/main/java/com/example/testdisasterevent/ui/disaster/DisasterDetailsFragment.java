@@ -298,7 +298,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         if (isWithinRadius(currentLatitude, currentLongitude, details[index].getLatitude(), details[index].getLongitude(), details[index].getRadius())) {
             test = new LatLng(currentLatitude, currentLongitude);
             if (marker == null) {
-                marker = map.addMarker(new MarkerOptions().position(test).title("Marker in Target Location"));
+                marker = map.addMarker(new MarkerOptions().position(test).title("Your Position"));
             }
         } else {
             test = center;

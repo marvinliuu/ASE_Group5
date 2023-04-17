@@ -291,10 +291,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
         LatLng currentPosition = new LatLng(currentLatitude, currentLongitude);
         if (marker == null) {
             if (map == null) return;
-            marker = map.addMarker(new MarkerOptions().position(currentPosition).title("Marker in Target Location"));
+            marker = map.addMarker(new MarkerOptions().position(currentPosition).title("Your Location"));
         } else {
             marker.setPosition(currentPosition);
-
         }
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
     }
