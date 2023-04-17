@@ -208,7 +208,7 @@ public class HosAllocationDataSource {
 
     /**
      * Date: 23.04.14
-     * Function: get task infos from database
+     * Function: write task infos to database
      * Author: Siyu Liao
      * Version: Week 12
      */
@@ -328,7 +328,6 @@ public class HosAllocationDataSource {
      * Version: Week 12
      */
     public void evaluateGardaResource(double latitude, double longitude, int need_car) {
-
         Log.d("task", "evaluate garda resource");
         Map<Integer, Double> disIndex = new HashMap<Integer, Double>();
         double targetLat = Math.toRadians(latitude);
@@ -373,8 +372,6 @@ public class HosAllocationDataSource {
             res.add(temp);
         }
         writebackToDatabase(res,"Garda","n_ava_car");
-
-
         TaskGen(need_car,1);
     }
 

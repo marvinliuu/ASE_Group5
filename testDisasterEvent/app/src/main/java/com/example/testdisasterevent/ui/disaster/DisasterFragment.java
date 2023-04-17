@@ -137,7 +137,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
 
 
         showTaskButton = binding.showTaskdetails;
-        popupWindow_disaster = popupwindowUtils.showPopwindow(disasterView);
+        popupWindow_disaster = popupwindowUtils.showPopwindow(disasterView, 700);
 
         if(accountUserInfoData!=null && accountUserInfoData.getUserTypeID() == 0){
             showTaskButton.setVisibility(View.INVISIBLE);
@@ -325,7 +325,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
                 public void onChanged(TaskDetail posts) {
                     if (posts != null) {
                         taskDetails = posts;
-                        popupWindow_task = popupwindowUtils.showPopwindow(taskView);
+                        popupWindow_task = popupwindowUtils.showPopwindow(taskView, 700);
                         popupWindow_task.showAtLocation(taskView, Gravity.BOTTOM, 0, 0);
                         // Update the UI with the new data
                         createTaskDetailsPopupWindow(posts);

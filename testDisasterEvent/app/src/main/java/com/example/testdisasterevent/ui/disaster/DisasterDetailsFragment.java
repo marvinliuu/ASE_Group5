@@ -390,7 +390,7 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
             @Override
             public void onChanged(DisasterDetail[] posts) {
                 if (posts.length > 0) {
-                    popupWindow = popupwindowUtils.showPopwindow(contentView);
+                    popupWindow = popupwindowUtils.showPopwindow(contentView, 700);
                     popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
                     createDisasterDetailsPopupWindow(posts);
                     selectRoadFromData(posts[index].getLatitude(), posts[index].getLongitude(), posts[index].getRadius());

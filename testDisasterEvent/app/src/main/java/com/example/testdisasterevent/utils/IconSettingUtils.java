@@ -13,6 +13,12 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 public class IconSettingUtils {
+    /**
+     * Date: 23.04.17
+     * Function: create disaster icon on relativelayout
+     * Author: Siyu Liao
+     * Version: Week 13
+     */
     public ImageView createDisIconOnWindow (String title, Context context) {
         // Create and add an ImageView to the RelativeLayout - disaster logo
         ImageView imageView = new ImageView(context);
@@ -26,6 +32,12 @@ public class IconSettingUtils {
         return imageView;
     }
 
+    /**
+     * Date: 23.04.17
+     * Function: create report event icon on relativelayout
+     * Author: Siyu Liao
+     * Version: Week 13
+     */
     public ImageView createReportEvenIconOnWindow (String title, Context context) {
         // Create and add an ImageView to the RelativeLayout - disaster logo
         ImageView imageView = new ImageView(context);
@@ -39,6 +51,12 @@ public class IconSettingUtils {
         return imageView;
     }
 
+    /**
+     * Date: 23.04.17
+     * Function: create disaster icon on map
+     * Author: Siyu Liao
+     * Version: Week 13
+     */
     public Bitmap createDisIconOnMap (String title, Resources resources) {
         // Create and add an ImageView to the RelativeLayout - disaster logo
         Bitmap bitmap;
@@ -52,6 +70,12 @@ public class IconSettingUtils {
         return bitmap;
     }
 
+    /**
+     * Date: 23.04.17
+     * Function: set disaster icon resource
+     * Author: Siyu Liao
+     * Version: Week 13
+     */
     public void setDisIconResource (String title, ImageView disaster_logo) {
         if (title.equals("fire")) {
             disaster_logo.setImageResource(R.drawable.fire_logo);
@@ -62,6 +86,12 @@ public class IconSettingUtils {
         }
     }
 
+    /**
+     * Date: 23.04.17
+     * Function: set officer task title
+     * Author: Siyu Liao
+     * Version: Week 13
+     */
     public void setTaskTitle (String title, TextView txt_show_task) {
         if (title.equals("fire")) {
             txt_show_task.setText("Task");
@@ -75,6 +105,12 @@ public class IconSettingUtils {
         }
     }
 
+    /**
+     * Date: 23.04.17
+     * Function: set report title
+     * Author: Siyu Liao
+     * Version: Week 13
+     */
     public void setReportTitle (String title, TextView txt_show) {
         if (title.equals("Fire")) {
             txt_show.setText(title);
@@ -88,6 +124,12 @@ public class IconSettingUtils {
         }
     }
 
+    /**
+     * Date: 23.04.17
+     * Function: set ori / des icon on map
+     * Author: Siyu Liao
+     * Version: Week 13
+     */
     public Bitmap setOriDesIcon (Boolean ori, Resources resources) {
         // Create and add an ImageView to the RelativeLayout - disaster logo
         Bitmap bitmap;

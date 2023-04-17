@@ -36,6 +36,12 @@ public class GeoHelpers {
         hereRerouteDataSource.addRoute(startPoint, endPoint, geoBoxes);
     }
 
+    /**
+     * Date: 23.04.17
+     * Function: get location latitude & longitude info
+     * Author: Siyu Liao
+     * Version: Week 13
+     */
     public LatLng getLocLatLng(String locName) {
         LatLng res = null;
         try {
@@ -43,7 +49,6 @@ public class GeoHelpers {
             GeoApiContext context = new GeoApiContext.Builder()
                     .apiKey("AIzaSyDrYjvowVSGRHTyi5vO7CZx2Py32G1BoaY")
                     .build();
-
 
             // Initiating geocoding requests
             GeocodingResult[] results = GeocodingApi.geocode(context, locName).await();
@@ -63,6 +68,12 @@ public class GeoHelpers {
     }
 
 
+    /**
+     * Date: 23.04.17
+     * Function: get location GeoBox Info
+     * Author: Siyu Liao
+     * Version: Week 13
+     */
     List<GeoBox> calDisAreaGeoInfo(DisasterDetail[] details) {
         List<GeoBox> geoBoxes = new ArrayList<GeoBox>();
         if (details == null)
@@ -109,6 +120,12 @@ public class GeoHelpers {
     }
 
 
+    /**
+     * Date: 23.04.17
+     * Function: add ori / des marker on the map
+     * Author: Siyu Liao
+     * Version: Week 13
+     */
     public void addOnePointMarker(boolean ori, LatLng point, GoogleMap map, Resources resources) {
         IconSettingUtils iconSettingUtils = new IconSettingUtils();
         Bitmap bitmap = iconSettingUtils.setOriDesIcon(ori,resources);
