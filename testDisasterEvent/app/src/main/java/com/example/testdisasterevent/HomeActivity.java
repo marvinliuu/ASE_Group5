@@ -33,8 +33,8 @@ public class HomeActivity extends AppCompatActivity {
         animationDrawable.setExitFadeDuration(4000);
         animationDrawable.start();
 
-        final Button registerButton = binding.signUp;
-        final TextView loginButton = binding.logIn;
+        final Button loginButton = binding.logIn;
+        final TextView registerButton = binding.signUp;
         final ImageView welcome_gif = (ImageView) findViewById(R.id.welcome);
         Glide.with(this).load(R.drawable.test).into(welcome_gif);
         final ImageView logo = (ImageView) findViewById(R.id.app_logo);
