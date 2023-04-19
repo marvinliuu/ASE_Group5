@@ -15,11 +15,6 @@ import com.example.testdisasterevent.R;
 
 
 public class GardaSubmitSucessFragment extends Fragment {
-
-
-
-
-
     public GardaSubmitSucessFragment() {
         // Required empty public constructor
     }

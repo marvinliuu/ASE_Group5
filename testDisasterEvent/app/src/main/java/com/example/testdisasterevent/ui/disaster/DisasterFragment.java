@@ -143,8 +143,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
             showTaskButton.setVisibility(View.INVISIBLE);
         }
 
-
-
         // Map API initialize
         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
@@ -201,7 +199,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         task_complete=taskView.findViewById(R.id.task_complete);
         task_direction=taskView.findViewById(R.id.task_direction);
     }
-
 
 
 
@@ -304,11 +301,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
                 });
             }
         });
-
-
-
-
-
     }
 
     /**
@@ -569,6 +561,12 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         map.addMarker(markerOptions);
     }
 
+    /**
+     * Date: 23.04.06
+     * Function: create task details popup window - including direction and confirmation function
+     * Author: Siyu Liao
+     * Version: Week 11
+     */
     public void createTaskDetailsPopupWindow(TaskDetail tasks) {
 
         setTaskButtonListener(tasks);
@@ -599,12 +597,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
 
         // set the title color & text
         iconSettingUtils.setTaskTitle(titleText, txt_show_task);
-
-
-
-
-
-
     }
 
     private void setTaskButtonListener(TaskDetail details){
@@ -621,32 +613,21 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
 
                 String newNodeKey = myRef.push().getKey();
 
-                Map<String, String> avaOfficerData = new HashMap<>();
-                avaOfficerData.put("type", Integer.toString(accountUserInfoData.getUserTypeID()));
-                avaOfficerData.put("uid", Long.toString(accountUserInfoData.getUid()));
+                Map<String, Integer> avaOfficerData = new HashMap<>();
+                avaOfficerData.put("type", accountUserInfoData.getUserTypeID());
+                avaOfficerData.put("uid", Math.toIntExact(accountUserInfoData.getUid()));
 
                 DatabaseReference taskRef = FirebaseDatabase.getInstance().getReference("TaskInfo").child(details.getTaskKey());
                 taskRef.child("state").setValue("1");
 
-
-
                 myRef.child(newNodeKey).setValue(avaOfficerData);
                 Log.d("Task", "task officer write back success");
-
-
 
                 popupWindow_task.dismiss();
                 midToast("Task completed!");
 
             }
         });
-
-
-
-
-
-
-
 
     /**button clicked to navigate map to the disaster zone
      *
@@ -661,16 +642,11 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
             Log.d("Task", "task direction click");
         }
     });
-
-
-
-
-
     }
 
     /**
      * Date: 23.04.06
-     * Function: set Task Popup Window Text Type
+     * Function: set Task Popup Window Text Type - details & general type
      * Author: Siyu Liao
      * Version: Week 11
      */
@@ -694,7 +670,12 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         taskIntro.setTypeface(generalType);
     }
 
-
+    /**
+     * Date: 23.04.17
+     * Function: show message toast
+     * Author: Siyu Liao
+     * Version: Week 13
+     */
     private void midToast(String str) {
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.view_toast_custom,
@@ -710,7 +691,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
 
     /**
      * Date: 23.04.17
-     * Function: set the click "direction" button, reroute for the police from current point to disaster area
+     * Function: RouteCallback - call reroute for officer to reach the disaster center
      * Author: Siyu Liao
      * Version: Week 14
      */
@@ -731,6 +712,13 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         rerouteDataDataSource.getRoute(start, end, travelMode, restrictions, this);
     }
 
+
+    /**
+     * Date: 23.04.17
+     * Function:  callback override functions for route
+     * Author: Siyu Liao
+     * Version: Week 14
+     */
     @Override
     public void onRouteReady(DirectionsResult result) {
         PolylineOptions polylineOptions = new PolylineOptions();
@@ -771,5 +759,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
             popupWindow_disaster.dismiss();
         }
         disasterViewModel.getDisasterDetails().removeObservers(this);
+        disasterViewModel.getTaskDetails().removeObservers(this);
     }
 }
