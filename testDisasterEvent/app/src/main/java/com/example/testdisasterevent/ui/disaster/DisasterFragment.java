@@ -115,8 +115,8 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
                              ViewGroup container, Bundle savedInstanceState) {
         disasterViewModel =
                 new ViewModelProvider(this).get(DisasterViewModel.class);
-        MainActivity mainActivity = (MainActivity) getActivity();
-        accountUserInfoData = mainActivity.getAccountUserInfo();
+//        MainActivity mainActivity = (MainActivity) getActivity();
+//        accountUserInfoData = mainActivity.getAccountUserInfo();
 
         // init utils
         iconSettingUtils = new IconSettingUtils();
@@ -141,7 +141,9 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         showTaskButton = binding.showTaskdetails;
         popupWindow_disaster = popupwindowUtils.showPopwindow(disasterView, 700);
 
-        if(accountUserInfoData!=null && accountUserInfoData.getUserTypeID() == 0){
+        if(accountUserInfoData != null && accountUserInfoData.getUserTypeID() == 0){
+            showTaskButton.setVisibility(View.INVISIBLE);
+        } else if (accountUserInfoData == null) {
             showTaskButton.setVisibility(View.INVISIBLE);
         }
 
@@ -175,7 +177,14 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
 
         return root;
     }
-    
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        MainActivity mainActivity = (MainActivity) getActivity();
+        accountUserInfoData = mainActivity.getAccountUserInfo();
+    }
+
     /**
      * Date: 23.04.06
      * Function: bind all the subViews
@@ -305,6 +314,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     private void setDataObserver() {
         // details observer - task & disaster
         if (accountUserInfoData != null && accountUserInfoData.getUserTypeID() != 0) {
+            disasterViewModel.getDisasterDetails().removeObservers(this);
             disasterViewModel.getTaskDetails().observe(getActivity(), new Observer<TaskDetail>() {
                 @Override
                 public void onChanged(TaskDetail posts) {

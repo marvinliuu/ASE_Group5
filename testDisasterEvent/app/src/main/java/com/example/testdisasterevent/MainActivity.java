@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         accountUserInfoJson = intent.getStringExtra("accountUserInfoJson");
         Gson gson = new Gson();
-        accountUserInfo = gson.fromJson(accountUserInfoJson, AccountUserInfo.class);
+        if (accountUserInfo != null) accountUserInfo = gson.fromJson(accountUserInfoJson, AccountUserInfo.class);
 
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -140,10 +140,6 @@ public class MainActivity extends AppCompatActivity {
     public AccountUserInfo getAccountUserInfo() {
         return accountUserInfo;
     }
-
-
-
-
 
     @Override
     protected void onDestroy() {
