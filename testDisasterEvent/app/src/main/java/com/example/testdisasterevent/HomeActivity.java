@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
-import android.graphics.Paint;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -30,13 +29,13 @@ public class HomeActivity extends AppCompatActivity {
         ConstraintLayout constraintLayout = findViewById(R.id.container);
         AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
         animationDrawable.setEnterFadeDuration(2000);
-        animationDrawable.setExitFadeDuration(4000);
+        animationDrawable.setExitFadeDuration(3000);
         animationDrawable.start();
 
         final Button loginButton = binding.logIn;
         final TextView registerButton = binding.signUp;
         final ImageView welcome_gif = (ImageView) findViewById(R.id.welcome);
-        Glide.with(this).load(R.drawable.test).into(welcome_gif);
+        Glide.with(this).load(R.drawable.welcom_4).into(welcome_gif);
         final ImageView logo = (ImageView) findViewById(R.id.app_logo);
         Glide.with(this).load(R.drawable.disaster_fire_logo).into(logo);
 
