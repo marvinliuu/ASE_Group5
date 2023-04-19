@@ -341,7 +341,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                         .position(center)
                         .icon(markerIcon)
                         .anchor(0.5f, 0.5f);
-                if (map == null) return;
+                if (map == null || markerOptions == null) continue;
                 map.addMarker(markerOptions);
 
                 CircleOptions circleOptions = new CircleOptions();

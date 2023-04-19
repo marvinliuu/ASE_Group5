@@ -69,7 +69,9 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.TravelMode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -432,7 +434,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
 
             location.setText(details[i].getLocation());
 
-            time.setText(Long.toString(details[i].getHappenTime()));
+            time.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(details[i].getHappenTime())));
             time.setId(View.generateViewId());
             time.setTextColor(Color.BLACK);
 
