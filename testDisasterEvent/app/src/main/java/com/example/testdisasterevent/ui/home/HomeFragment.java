@@ -95,7 +95,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
-
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback, LocationTracker.LocationUpdateListener {
     private PopupWindow popupWindow;  // Type: PopupWindow, used for displaying pop-up windows
@@ -524,6 +525,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
 
 
                 String imageName =infos[i].getReportTime();
+
+
+                Log.d("fuzhipeng show image from cloud name",imageName);
                 StorageReference mStroageRef= FirebaseStorage.getInstance().getReference().child(imageName);
 
                 mStroageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {

@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -35,6 +36,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.testdisasterevent.MainActivity;
 import com.example.testdisasterevent.R;
+import com.example.testdisasterevent.algorithms.DownsampleImage;
 import com.example.testdisasterevent.algorithms.TokenBucketAlgorithm;
 import com.example.testdisasterevent.data.model.AccountUserInfo;
 import com.google.android.gms.maps.model.LatLng;
@@ -47,6 +49,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.ByteArrayOutputStream;
@@ -57,7 +60,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+
 
 
 public class ReportFragment extends Fragment {
@@ -373,21 +381,28 @@ public class ReportFragment extends Fragment {
 
 
     private void uploadImage(String timeStamp) {
-        mStroageRef = FirebaseStorage.getInstance().getReference().child(timeStamp);
-        //mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("imageUpload");
+        long absoluteTime = Long.parseLong(timeStamp);
+
+        // Convert to an Instant object in the UTC timezone
+        Instant instant = Instant.ofEpochMilli(absoluteTime);
+
+        // Convert the Instant object to a LocalDateTime object in the UTC timezone
+        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
+
+        // Format the LocalDateTime object to a string in the desired format
+        String formattedTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        mStroageRef = FirebaseStorage.getInstance().getReference().child(formattedTime);
         Context context = getContext();
 
 
-
-
-
         if (mImageUri != null) {
+            DownsampleImage downsampleImage=new DownsampleImage();
 
-
-            Bitmap compressedBitmap = compressImage(mImageUri);
+            Bitmap BilinearBitmap= downsampleImage.DownsampleImage(mImageUri,context);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            BilinearBitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
             byte[] data = baos.toByteArray();
 
 
@@ -427,31 +442,12 @@ public class ReportFragment extends Fragment {
     }
 
 
-    private Bitmap compressImage(Uri imageUri) {
 
-        // Get the original bitmap from the imageUri
-        Bitmap bitmap = null;
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        // Calculate the new width and height
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        int newWidth = 280;
-        int newHeight = (int) (height * ((float) newWidth / width));
 
-        // Create a new bitmap with the new width and height
-        Bitmap newBitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, false);
 
-        // Compress the new bitmap to JPEG format
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        newBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
 
-        return newBitmap;
-    }
+
 
 
     @Override
