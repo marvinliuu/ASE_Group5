@@ -657,7 +657,12 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
      * Version: Week 11
      */
     private void setTaskDetailsType() {
-        Typeface detailsType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_regular.ttf");
+        Typeface detailsType;
+        if (getContext() == null) {
+            detailsType = Typeface.create("sans-serif", Typeface.NORMAL);
+        } else {
+            detailsType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
+        }
         locDetail.setTypeface(detailsType);
         ftDetail.setTypeface(detailsType);
         injuryDetail.setTypeface(detailsType);
@@ -668,7 +673,12 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     private void setTaskGeneralType() {
         // Load the custom font from the assets folder
         // Set the font of the TextView to the custom font
-        Typeface generalType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
+        Typeface generalType;
+        if (getContext() == null) {
+            generalType = Typeface.create("sans-serif", Typeface.NORMAL);
+        } else {
+            generalType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
+        }
         locIntro.setTypeface(generalType);
         ftIntro.setTypeface(generalType);
         typeIntro.setTypeface(generalType);

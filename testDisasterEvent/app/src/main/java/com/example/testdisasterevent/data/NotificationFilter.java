@@ -30,7 +30,8 @@ public class NotificationFilter {
             public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
                 if(snapshot.hasChild("uid")) {
                     long taskID = snapshot.child("uid").getValue(Long.class);
-                    if(taskID == uid) {
+                    String state = snapshot.child("state").getValue(String.class);
+                    if(taskID == uid && !state.equals("1")) {
                         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                         String channelID = "AAA";
                         Notification notification = new Notification.Builder(context, channelID)
