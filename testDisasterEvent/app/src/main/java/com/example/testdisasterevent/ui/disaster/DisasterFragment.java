@@ -253,16 +253,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         showTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TaskDetail posts = disasterViewModel.getTaskDetails().getValue();
-
-                if (accountUserInfoData != null) {
-                    if (posts != null) {
-                        popupWindow_task.showAtLocation(taskView, Gravity.BOTTOM, 0, 0);
-                    } else {
-                        String notask =  "No Task Now.";
-                        midToast(notask);
-                    }
-                }
+                setDataObserver();
             }
         });
 

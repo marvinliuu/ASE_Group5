@@ -42,7 +42,8 @@ public class TaskDataSource {
                 // Process the retrieved data here
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Long uid = postSnapshot.child("uid").getValue(Long.class);
-                    if (uid != null && uid.equals(MainActivity.currentUserId)) {
+                    String state = postSnapshot.child("state").getValue(String.class);
+                    if (uid != null && uid.equals(MainActivity.currentUserId) && !state.equals("1")) {
                         Long otime = postSnapshot.child("otime").getValue(Long.class);
                         if (otime != null && otime < minOtime) {
                             minOtime = otime;
