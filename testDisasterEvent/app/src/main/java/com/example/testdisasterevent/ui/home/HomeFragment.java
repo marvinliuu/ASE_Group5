@@ -341,7 +341,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
                         .position(center)
                         .icon(markerIcon)
                         .anchor(0.5f, 0.5f);
-
+                if (map == null) return;
                 map.addMarker(markerOptions);
 
                 CircleOptions circleOptions = new CircleOptions();
@@ -474,6 +474,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     public void createReportPopupWindow(ReportInfo[] infos) {
         // Find the ScrollView in the layout and add content to it
         ScrollView scrollView = contentView.findViewById(R.id.disasterReportScrollView);
+        if (getContext() == null) return;
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         boolean showReport = false;
