@@ -406,6 +406,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     public void createDisasterPopupWindow(DisasterDetail[] details) {
         // Find the ScrollView in the layout and add content to it
         ScrollView scrollView = disasterView.findViewById(R.id.disasterScrollView);
+        if (getContext() == null) return;
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
