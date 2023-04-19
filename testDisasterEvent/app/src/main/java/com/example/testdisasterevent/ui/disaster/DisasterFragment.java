@@ -574,7 +574,12 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
 
         String titleText = tasks.getDisasterTitle();
         // Load the custom font from the assets folder
-        Typeface topTitleType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
+        Typeface topTitleType;
+        if (getContext() == null) {
+            topTitleType = Typeface.create("sans-serif", Typeface.NORMAL);
+        } else {
+            topTitleType = Typeface.createFromAsset(getContext().getAssets(), "alibaba_extrabold.ttf");
+        }
         // Set the font of the TextView to the custom font
         txt_show_task.setTypeface(topTitleType);
         txt_show_task.setTextSize(25);
