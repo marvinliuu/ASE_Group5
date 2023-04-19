@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         accountUserInfoJson = intent.getStringExtra("accountUserInfoJson");
         Gson gson = new Gson();
-        if (accountUserInfo != null) accountUserInfo = gson.fromJson(accountUserInfoJson, AccountUserInfo.class);
+        accountUserInfo = gson.fromJson(accountUserInfoJson, AccountUserInfo.class);
 
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
