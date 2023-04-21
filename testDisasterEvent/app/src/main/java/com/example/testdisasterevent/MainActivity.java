@@ -80,21 +80,11 @@ public class MainActivity extends AppCompatActivity {
         tokenUpdateObserver = new TokenUpdateObserver();
 
         getSupportActionBar().hide();
-//              Intent intent;
-//        if (savedInstanceState != null) {
-//            accountUserInfoJson = savedInstanceState.getString("my_key");
-//            Gson gson = new Gson();
-//            accountUserInfo = gson.fromJson(accountUserInfoJson, AccountUserInfo.class);
-//        } else {
-//            intent = getIntent();
-//            accountUserInfoJson = intent.getStringExtra("accountUserInfoJson");
-//            Gson gson = new Gson();
-//            accountUserInfo = gson.fromJson(accountUserInfoJson, AccountUserInfo.class);
-//        }
 
         Intent intent = getIntent();
         accountUserInfoJson = intent.getStringExtra("accountUserInfoJson");
         Gson gson = new Gson();
+        System.out.println(accountUserInfoJson);
         accountUserInfo = gson.fromJson(accountUserInfoJson, AccountUserInfo.class);
 
 

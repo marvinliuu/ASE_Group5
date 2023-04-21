@@ -61,7 +61,9 @@ import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.TravelMode;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -273,9 +275,11 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
         setDisasterGeneralType();
 
         locDetail.setText(details[index].getLocation());
-        ftDetail.setText(Long.toString(details[index].getHappenTime()));
+//        ftDetail.setText(Long.toString(details[index].getHappenTime()));
+        ftDetail.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.toString(details[index].getHappenTime()))));
         typeDetail.setText(details[index].getDisasterType());
-        upDetail.setText(Long.toString(details[index].getHappenTime()));
+        upDetail.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.toString(details[index].getHappenTime()))));
+//        upDetail.setText(Long.toString(details[index].getHappenTime()));
         radiusDetail.setText(Integer.toString(details[index].getRadius()) + " m");
         setDisasterDetailsType();
 

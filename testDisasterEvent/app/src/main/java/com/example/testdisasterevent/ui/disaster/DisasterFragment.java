@@ -143,8 +143,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
 
         if(accountUserInfoData != null && accountUserInfoData.getUserTypeID() == 0){
             showTaskButton.setVisibility(View.INVISIBLE);
-        } else if (accountUserInfoData == null) {
-            showTaskButton.setVisibility(View.INVISIBLE);
         }
 
         // Map API initialize
@@ -505,7 +503,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     /**
      * Date: 23.03.31
      * Function: set disaster item click listener
-     * Author: Siyu Liao
+     * Author: Siyu Liao, Haoxian Liu
      * Version: Week 10
      */
     private void setDisasterItemClickListener(RelativeLayout relativeLayout) {

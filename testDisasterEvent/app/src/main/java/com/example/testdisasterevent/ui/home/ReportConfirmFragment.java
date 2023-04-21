@@ -46,6 +46,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ReportConfirmFragment extends Fragment implements OnMapReadyCallback {
 
     private HomeViewModel homeViewModel;  // Type: HomeViewModel, used for managing home-related data
@@ -196,8 +199,7 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
         report_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Report");
-                ref.child(infos[index].getReportNumber()).child("report_state").setValue(1);
+                updateReportStatus(infos);
                 popupWindow.dismiss();
             }
         });
@@ -209,6 +211,11 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
         iconSettingUtils.setReportTitle(titleText, txt_show);
 
         addReportLocMarker(titleText, infos);
+    }
+
+    private void updateReportStatus(ReportInfo[] infos) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Report");
+        ref.child(infos[index].getReportNumber()).child("report_state").setValue(1);
     }
 
     /**

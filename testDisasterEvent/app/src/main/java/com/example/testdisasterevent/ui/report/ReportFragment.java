@@ -114,6 +114,11 @@ public class ReportFragment extends Fragment {
 
     public View onCreateView( LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        return postReportInfoToServer(inflater, container, savedInstanceState);
+    }
+
+    private View postReportInfoToServer( LayoutInflater inflater,
+                                         ViewGroup container, Bundle savedInstanceState) {
         Boolean isChosen=false;
         View rootView = inflater.inflate(R.layout.fragment_report_garda, container, false);
 
@@ -140,13 +145,6 @@ public class ReportFragment extends Fragment {
             reportData.setLocation(locName);
             //mapIcon.setImageResource(R.drawable.firstaid);
         }
-
-//        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
-//                != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(getActivity(),
-//                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-//                    PERMISSION_REQUEST_CODE);
-//        }
 
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
