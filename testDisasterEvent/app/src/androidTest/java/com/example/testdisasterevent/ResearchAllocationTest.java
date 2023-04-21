@@ -1,17 +1,12 @@
 package com.example.testdisasterevent;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import android.content.Context;
-
 import androidx.test.platform.app.InstrumentationRegistry;
-
-import com.example.testdisasterevent.algorithms.PasswordEncryption;
 import com.example.testdisasterevent.algorithms.ResearchAllocation;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 
 public class ResearchAllocationTest {

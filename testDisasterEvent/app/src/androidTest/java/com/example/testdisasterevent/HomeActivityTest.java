@@ -14,8 +14,9 @@ import android.app.Activity;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
 
 
 import com.example.testdisasterevent.ui.login.LoginActivity;
@@ -26,21 +27,30 @@ import org.junit.runner.RunWith;
 
 public class HomeActivityTest {
     @Rule
-    public ActivityScenarioRule<HomeActivity> activityScenarioRule =
-            new ActivityScenarioRule<>(HomeActivity.class);
+    public ActivityTestRule<HomeActivity> ActivityTestRule =
+            new ActivityTestRule<>(HomeActivity.class);
 
 
     @Test
-    public void testUI() {
-        // Check if the logo and gif are displayed
-        onView(ViewMatchers.withId(R.id.app_logo))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-        onView(ViewMatchers.withId(R.id.welcome))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    public void HomeActivityUITest() {
+        // Check if app_logo ImageView exists
+        onView(withId(R.id.app_logo)).check(matches(isDisplayed()));
 
-        // Click on the "Register" button
-        onView(ViewMatchers.withId(R.id.sign_up))
-                .perform(ViewActions.click());
+        // Check if textView ImageView exists
+        onView(withId(R.id.textView)).check(matches(isDisplayed()));
+
+        // Check if welcome ImageView exists
+        onView(withId(R.id.welcome)).check(matches(isDisplayed()));
+
+        // Check if log_in Button exists and has the correct text
+        onView(withId(R.id.log_in))
+                .check(matches(isDisplayed()))
+                .check(matches(withText(R.string.action_sign_in)));
+
+        // Check if sign_up TextView exists and has the correct text
+        onView(withId(R.id.sign_up))
+                .check(matches(isDisplayed()))
+                .check(matches(withText(R.string.action_register)));
 
     }
 }

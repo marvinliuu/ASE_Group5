@@ -14,7 +14,8 @@ import static androidx.test.core.app.ActivityScenario.*;
 import static androidx.test.espresso.matcher.RootMatchers.isSystemAlertWindow;
 
 
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.rule.ActivityTestRule;
+
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
@@ -28,8 +29,8 @@ import org.junit.Test;
 
 public class BusStopInfoShow {
     @Rule
-    public ActivityScenarioRule<MainActivity> activityScenarioRule
-            = new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> ActivityTestRule
+            = new ActivityTestRule<>(MainActivity.class);
 
 
     @Test

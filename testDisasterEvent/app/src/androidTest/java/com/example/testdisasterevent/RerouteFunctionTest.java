@@ -7,15 +7,16 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
+import androidx.test.rule.ActivityTestRule;
 
 import org.junit.Rule;
 import org.junit.Test;
 
 public class RerouteFunctionTest {
     @Rule
-    public ActivityScenarioRule<MainActivity> activityScenarioRule
-            = new ActivityScenarioRule<>(MainActivity.class);
+    public androidx.test.rule.ActivityTestRule<MainActivity> ActivityTestRule
+            = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void RerouteInfoShow() throws InterruptedException {
@@ -38,7 +39,7 @@ public class RerouteFunctionTest {
         onView(withId(R.id.start_location)).perform(click());
 
         // Enter the starting location in the input box
-        onView(withId(R.id.start_location)).perform(typeText("100 Main St."));
+        onView(withId(R.id.start_location)).perform(typeText("buswells"));
 
         // Close the keyboard
         closeSoftKeyboard();
@@ -47,7 +48,7 @@ public class RerouteFunctionTest {
         onView(withId(R.id.des_location)).perform(click());
 
         // Enter the destination location in the input box
-        onView(withId(R.id.des_location)).perform(typeText("200 Market St."));
+        onView(withId(R.id.des_location)).perform(typeText("tara street"));
 
         // Close the keyboard
         closeSoftKeyboard();

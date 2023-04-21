@@ -1,6 +1,5 @@
 package com.example.testdisasterevent;
 
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
@@ -23,14 +22,33 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class RegisteActivityTest {
     @Rule
-    public ActivityScenarioRule<RegisterActivity> activityScenarioRule
-            = new ActivityScenarioRule<>(RegisterActivity.class);
+    public ActivityTestRule<RegisterActivity> ActivityTestRule
+            = new ActivityTestRule<>(RegisterActivity.class);
 
+    @Test
+    public void RegistrationUITest() {
+        onView(withId(R.id.app_logo)).check(matches(isDisplayed()));
+        onView(withId(R.id.textView)).check(matches(isDisplayed()));
+        onView(withId(R.id.mustFilledIn)).check(matches(isDisplayed()));
+        onView(withId(R.id.mustFilledIn1)).check(matches(isDisplayed()));
+        onView(withId(R.id.mustFilledIn2)).check(matches(isDisplayed()));
+        onView(withId(R.id.mustFilledIn3)).check(matches(isDisplayed()));
+        onView(withId(R.id.registerFinish)).check(matches(isDisplayed()));
+        onView(withId(R.id.registerBack)).check(matches(isDisplayed()));
+        onView(withId(R.id.ActivationExplanation)).check(matches(isDisplayed()));
+        onView(withId(R.id.registerEmail)).check(matches(isDisplayed()));
+        onView(withId(R.id.registerName)).check(matches(isDisplayed()));
+        onView(withId(R.id.registerPassword)).check(matches(isDisplayed()));
+        onView(withId(R.id.registerPhone)).check(matches(isDisplayed()));
+        onView(withId(R.id.registerActivationCode)).check(matches(isDisplayed()));
+        onView(withId(R.id.passwordVisible)).check(matches(isDisplayed()));
+    }
     @Test
     public void testValidRegistration() {
         onView(withId(R.id.registerName)).perform(typeText("John Doe"));
         onView(withId(R.id.registerEmail)).perform(typeText("johndoe@example.com"));
         onView(withId(R.id.registerPassword)).perform(typeText("P@ssw0rd"));
+        onView(withId(R.id.registerPhone)).perform(typeText("123456"));
         onView(withId(R.id.registerActivationCode)).perform(typeText("111"));
         onView(withId(R.id.registerFinish)).perform(click());
         onView(withId(R.id.container)).check(matches(isDisplayed()));
@@ -38,10 +56,10 @@ public class RegisteActivityTest {
 
     @Test
     public void testRegistrationWithDefaultActdode() {
-        onView(withId(R.id.registerName)).perform(typeText("John Doe"));
-        onView(withId(R.id.registerEmail)).perform(typeText("johndoe@example.com"));
+        onView(withId(R.id.registerName)).perform(typeText("aa"));
+        onView(withId(R.id.registerEmail)).perform(typeText("aa@example.com"));
         onView(withId(R.id.registerPassword)).perform(typeText("P@ssw0rd"));
-
+        onView(withId(R.id.registerPhone)).perform(typeText("123456"));
         onView(withId(R.id.registerFinish)).perform(click());
         onView(withId(R.id.container)).check(matches(isDisplayed()));
     }

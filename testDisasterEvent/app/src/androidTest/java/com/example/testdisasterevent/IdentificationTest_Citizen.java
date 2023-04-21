@@ -11,8 +11,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
 
 
 import com.example.testdisasterevent.ui.login.LoginActivity;
@@ -21,14 +21,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-public class CitizenAccountTest {
+public class IdentificationTest_Citizen {
     @Rule
-    public ActivityScenarioRule<LoginActivity> loginActivityScenarioRule
-            = new ActivityScenarioRule<>(LoginActivity.class);
+    public ActivityTestRule<LoginActivity> loginActivityTestRule
+            = new ActivityTestRule<>(LoginActivity.class);
 
     @Rule
-    public ActivityScenarioRule<MainActivity> mainActivityScenarioRule
-            = new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> mainActivityTestRule
+            = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void CitizenAccountIdentification() throws InterruptedException {

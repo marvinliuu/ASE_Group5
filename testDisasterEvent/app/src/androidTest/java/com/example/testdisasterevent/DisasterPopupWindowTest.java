@@ -12,18 +12,19 @@ import androidx.test.espresso.matcher.RootMatchers.*;
 
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.rule.ActivityTestRule;
 
 
-
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 
 public class DisasterPopupWindowTest {
     @Rule
-    public ActivityScenarioRule<MainActivity> activityScenarioRule
-            = new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> ActivityTestRule
+            = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void DisasterInfoShow() throws InterruptedException {

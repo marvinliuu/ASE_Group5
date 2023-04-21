@@ -5,30 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97330892-c278-4e6f-b24b-ad2547638c43" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/ASE_Group5.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ASE_Group5.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/.idea/deploymentTargetDropDown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/.idea/deploymentTargetDropDown.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/AppTest_Officer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/Apptest_Citizen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/testDisasterEvent/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/DisasterDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/DisasterDataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/HereRerouteDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/HereRerouteDataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/HosAllocationDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/HosAllocationDataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/LoginDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/LoginDataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/LoginRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/LoginRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/MessagingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/MessagingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/NotificationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/NotificationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/RegisterDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/RegisterDataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/RegisterRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/RegisterRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/ReportDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/ReportDataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/ReportDataSource_Police.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/ReportDataSource_Police.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/model/AllocationDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/model/AllocationDetail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/model/DisasterDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/model/DisasterDetail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/model/FireFighterDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/model/FireFighterDetail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/model/GardaDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/model/GardaDetail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/model/LoggedInUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/model/LoggedInUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/model/ReportFromCitizen.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/data/model/ReportFromCitizen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/ui/login/LoginViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/java/com/example/testdisasterevent/ui/login/LoginViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/CitizenAccountTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/IdentificationTest_Citizen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/OfficerAccountTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/Identification_Officer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/ReportFunctionTest_Officer.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/ReportFunctionTest_Officer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/ReportPopupwindowTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/ReportPopupwindowTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/RerouteFunctionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/testDisasterEvent/app/src/androidTest/java/com/example/testdisasterevent/RerouteFunctionTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,8 +95,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Data_generate_py$Data_generate.coverage" NAME="Data_generate Coverage Results" MODIFIED="1681399129219" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

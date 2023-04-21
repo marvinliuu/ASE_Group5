@@ -11,8 +11,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
 
 
 import com.example.testdisasterevent.ui.login.LoginActivity;
@@ -22,10 +22,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class LoginActivityTest<ActivityTestRule> {
+public class LoginActivityTest{
     @Rule
-    public ActivityScenarioRule<LoginActivity> activityScenarioRule
-            = new ActivityScenarioRule<>(LoginActivity.class);
+    public ActivityTestRule<LoginActivity> activityTestRule
+            = new ActivityTestRule<>(LoginActivity.class);
+
 
     @Test
     public void testValidLogin() {
@@ -38,8 +39,6 @@ public class LoginActivityTest<ActivityTestRule> {
         // Check that the next activity is launched
         onView(withId(R.id.container)).check(matches(isDisplayed()));
     }
-
-
     @Test
     public void testInvalidLogin() {
         onView(withId(R.id.username)).perform(typeText("wwwwww"));

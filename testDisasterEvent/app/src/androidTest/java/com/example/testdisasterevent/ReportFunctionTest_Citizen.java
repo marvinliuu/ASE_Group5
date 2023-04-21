@@ -13,7 +13,8 @@ import static com.example.testdisasterevent.EspressoUtils.setProgress;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.rule.ActivityTestRule;
+
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,11 +22,11 @@ import org.junit.Test;
 
 public class ReportFunctionTest_Citizen {
     @Rule
-    public ActivityScenarioRule<MainActivity> activityScenarioRule
-            = new ActivityScenarioRule<>(MainActivity.class);
+    public androidx.test.rule.ActivityTestRule<MainActivity> ActivityTestRule
+            = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void ReportInfoShow() {
+    public void ReportUITest() {
         onView(withId(R.id.navigation_notifications)).perform(click());
 
         // check the layout and controls
@@ -117,7 +118,6 @@ public class ReportFunctionTest_Citizen {
         onView(ViewMatchers.withId(R.id.report_container))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
-
     @Test
     public void testReportMapCancel() {
         onView(withId(R.id.navigation_notifications)).perform(click());
@@ -139,7 +139,6 @@ public class ReportFunctionTest_Citizen {
         onView(ViewMatchers.withId(R.id.report_container))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
-
     @Test
     public void testReportSubmission() {
         onView(withId(R.id.navigation_notifications)).perform(click());

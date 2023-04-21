@@ -14,18 +14,19 @@ import static com.example.testdisasterevent.EspressoUtils.setProgress;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
+import androidx.test.rule.ActivityTestRule;
 
 import org.junit.Rule;
 import org.junit.Test;
 
 public class ReportFunctionTest_Officer {
     @Rule
-    public ActivityScenarioRule<MainActivity> activityScenarioRule
-            = new ActivityScenarioRule<>(MainActivity.class);
+    public androidx.test.rule.ActivityTestRule<MainActivity> ActivityTestRule
+            = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void ReportInfoShow() {
+    public void ReportUITest() {
         onView(withId(R.id.navigation_notifications)).perform(click());
 
         // check the layout and controls
@@ -142,34 +143,40 @@ public class ReportFunctionTest_Officer {
 
     @Test
     public void testReportSubmission() {
+        // Click on the notification button
         onView(withId(R.id.navigation_notifications)).perform(click());
 
-        // check the layout and controls
-        onView(withId(R.id.report_container))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        // Check if the report container is displayed
+        onView(withId(R.id.report_container));
 
-        // Click on the "Water" radio button
-        onView(withId(R.id.report_water)).perform(click());
-
-        // Click on the map button and set the radius
+        // Click on the map marker icon
         onView(withId(R.id.report_mark_map_icon)).perform(click());
 
+        // Check if the seek bar is displayed
         onView(withId(R.id.mSeekBar)).check(matches(isDisplayed()));
+
+        // Set the progress of the seek bar to 50
         onView(withId(R.id.mSeekBar)).perform(setProgress(50));
 
-        // Test submit button
+        // Click on the submit button for the map
         onView(withId(R.id.reportMap_submit)).perform(click());
 
+        // Click on the water disaster option
+        onView(withId(R.id.report_water)).perform(click());
 
-        // Enter the number of injured people
+        // Type the number of injured people
         onView(withId(R.id.report_injured)).perform(typeText("5"));
 
-        // Enter additional information
+        // Type additional information about the disaster
         onView(withId(R.id.report_otherinfo)).perform(typeText("Additional information about the water disaster"));
 
+        // Close the soft keyboard
+        closeSoftKeyboard();
+
+        // Click on the submit button for the report
         onView(ViewMatchers.withId(R.id.report_submit)).perform(click());
 
-        // Check if the TextView with the text "Report submit successfully" is displayed
+        // Check if the success message is displayed
         onView(withText("Report submit successfully")).check(matches(isDisplayed()));
 
     }

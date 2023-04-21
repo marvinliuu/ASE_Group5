@@ -9,21 +9,21 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.rule.ActivityTestRule;
 
 import com.example.testdisasterevent.ui.login.LoginActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
 
-public class OfficerAccountTest {
+public class Identification_Officer {
     @Rule
-    public ActivityScenarioRule<LoginActivity> loginActivityScenarioRule
-            = new ActivityScenarioRule<>(LoginActivity.class);
+    public ActivityTestRule<LoginActivity> loginActivityTestRule
+            = new ActivityTestRule<>(LoginActivity.class);
 
     @Rule
-    public ActivityScenarioRule<MainActivity> mainActivityScenarioRule
-            = new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> mainActivityTestRule
+            = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void OfficerAccountIdentification() throws InterruptedException {

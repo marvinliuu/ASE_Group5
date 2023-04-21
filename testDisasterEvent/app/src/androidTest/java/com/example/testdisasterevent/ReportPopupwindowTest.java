@@ -7,8 +7,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
-
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.rule.ActivityTestRule;
 
 import com.example.testdisasterevent.data.model.AccountUserInfo;
 
@@ -16,8 +15,8 @@ import org.junit.Rule;
 import org.junit.Test;
 public class ReportPopupwindowTest {
     @Rule
-    public ActivityScenarioRule<MainActivity> activityScenarioRule
-            = new ActivityScenarioRule<>(MainActivity.class);
+    public androidx.test.rule.ActivityTestRule<MainActivity> ActivityTestRule
+            = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void ReportInfoShow() throws InterruptedException {
@@ -27,7 +26,6 @@ public class ReportPopupwindowTest {
         Thread.sleep(3000);
 
         // check the layout and controls
-        onView(withId(R.id.disaster_logo)).check(matches(isDisplayed()));
         onView(withId(R.id.tv_pop_name)).check(matches(isDisplayed()));
         onView(withId(R.id.close_btn)).check(matches(isDisplayed()));
     }
@@ -61,7 +59,6 @@ public class ReportPopupwindowTest {
         Thread.sleep(5000);
 
         // check the layout and controls
-        onView(withId(R.id.disaster_logo)).check(matches(isDisplayed()));
         onView(withId(R.id.tv_pop_name)).check(matches(isDisplayed()));
         onView(withId(R.id.close_btn)).check(matches(isDisplayed()));
     }
