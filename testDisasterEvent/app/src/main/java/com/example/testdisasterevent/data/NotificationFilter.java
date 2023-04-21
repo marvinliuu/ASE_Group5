@@ -17,7 +17,6 @@ public class NotificationFilter {
     /**
      * Date: 23.04.14
      * Function: add task listener of the task data in order to get he latest task for the user
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public void addTaskListener(Context context, long uid){

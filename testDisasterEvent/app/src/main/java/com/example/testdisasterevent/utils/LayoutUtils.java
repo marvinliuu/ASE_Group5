@@ -7,7 +7,6 @@ public class LayoutUtils {
     /**
      * Date: 23.04.05
      * Following Function: create Single RelativeLayout For Popup window
-     * Author: Siyu Liao
      * Version: Week 11
      */
     public RelativeLayout createSingleRelativeLayout(int i, Context context) {

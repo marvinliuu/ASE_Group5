@@ -58,7 +58,6 @@ public class HosAllocationDataSource {
     /**
      * Date: 23.04.14
      * Function: get hospital resource infos from database
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public LiveData<HospitalDetails[]> getHospitalData() {
@@ -104,7 +103,6 @@ public class HosAllocationDataSource {
     /**
      * Date: 23.04.14
      * Function: get garda resource infos from database
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public LiveData<GardaDetail[]> getGardaData() {
@@ -149,7 +147,6 @@ public class HosAllocationDataSource {
     /**
      * Date: 23.04.14
      * Function: get fire brigade resource infos from database
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public LiveData<FireFighterDetail[]> getFireBrigadeData() {
@@ -195,7 +192,6 @@ public class HosAllocationDataSource {
     /**
      * Date: 23.04.14
      * Function: write info back to database
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private void writebackToDatabase(List<int[]> info,String dataBaseName,String dataAvaItem) {
@@ -209,7 +205,6 @@ public class HosAllocationDataSource {
     /**
      * Date: 23.04.14
      * Function: write task infos to database
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private void TaskGen(int need_resource,int officerType){
@@ -255,7 +250,6 @@ public class HosAllocationDataSource {
     /**
      * Date: 23.04.14
      * Function: evaluate generator for resource information
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public void evaluateAll(double latitude, double longitude, int need_ambulance, int need_car, int need_fireTruck){
@@ -267,7 +261,6 @@ public class HosAllocationDataSource {
     /**
      * Date: 23.04.14
      * Function: evaluate hospital resources
-     * Author: Siyu Liao
      * Version: Week 12
      */
     @TargetApi(Build.VERSION_CODES.N)
@@ -324,7 +317,6 @@ public class HosAllocationDataSource {
     /**
      * Date: 23.04.14
      * Function: evaluate garda resources
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public void evaluateGardaResource(double latitude, double longitude, int need_car) {
@@ -378,7 +370,6 @@ public class HosAllocationDataSource {
     /**
      * Date: 23.04.14
      * Function: evaluate fire brigade resources
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public void evaluateFirebrigadeResource(double latitude, double longitude, int need_truck) {
@@ -433,7 +424,6 @@ public class HosAllocationDataSource {
     /**
      * Date: 23.04.14
      * Function: calculate the distance between two points
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private double calcDistance(double targetLat, double targetLong, double sourLat, double sourLong) {

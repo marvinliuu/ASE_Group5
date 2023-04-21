@@ -80,7 +80,6 @@ import java.util.Map;
 /**
  * Date: 23.02.07
  * Function: Disaster Show Fragment - including the map & disaster popup window
- * Author: Siyu Liao
  * Version: Week 3
  */
 public class DisasterFragment extends Fragment implements OnMapReadyCallback, LocationTracker.LocationUpdateListener, RerouteDataSource.RouteCallback {
@@ -186,7 +185,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     /**
      * Date: 23.04.06
      * Function: bind all the subViews
-     * Author: Siyu Liao
      * Version: Week 11
      */
     private void bindSubView() {
@@ -252,7 +250,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     /**
      * Date: 23.03.31
      * Function: set all the button click listeners - task, disaster
-     * Author: Siyu Liao
      * Version: Week 10
      */
     private void setClickListeners () {
@@ -306,7 +303,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     /**
      * Date: 23.03.31
      * Function: set all the viewmodel data observer
-     * Author: Siyu Liao
      * Version: Week 10
      */
     private void setDataObserver() {
@@ -358,13 +354,14 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         map = googleMap;
+
     }
 
     /**
      * Date: 23.04.06
      * Function: create no disaster popup window
-     * Author: Siyu Liao
      * Version: Week 11
      */
     public void createNoDisasterPopWindow() {
@@ -401,7 +398,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     /**
      * Date: 23.04.06
      * Function: create disasters listing popup window
-     * Author: Siyu Liao
      * Version: Week 11
      */
     public void createDisasterPopupWindow(DisasterDetail[] details) {
@@ -475,7 +471,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     /**
      * Date: 23.04.05
      * Following Function: create Text View for the popupwindow item - Title, Location
-     * Author: Siyu Liao
      * Version: Week 11
      */
 
@@ -503,7 +498,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     /**
      * Date: 23.03.31
      * Function: set disaster item click listener
-     * Author: Siyu Liao, Haoxian Liu
      * Version: Week 10
      */
     private void setDisasterItemClickListener(RelativeLayout relativeLayout) {
@@ -540,7 +534,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     /**
      * Date: 23.04.06
      * Function: add Disaster popupWindow
-     * Author: Siyu Liao
      * Version: Week 11
      */
     private void setMapMarkerAboutDisaster (String titleText, int i, DisasterDetail[] details) {
@@ -566,7 +559,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     /**
      * Date: 23.04.06
      * Function: create task details popup window - including direction and confirmation function
-     * Author: Siyu Liao
      * Version: Week 11
      */
     public void createTaskDetailsPopupWindow(TaskDetail tasks) {
@@ -594,7 +586,7 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
         injuryDetail.setText(Integer.toString(tasks.getInjury()));
         injuryDetail.setTextColor(Color.RED);
         typeDetail.setText(titleText);
-        taskDetail.setText("unknown");
+        taskDetail.setText("go to" + tasks.getLocation());
 
         // set the task textview text type
         setTaskDetailsType();
@@ -654,7 +646,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     /**
      * Date: 23.04.06
      * Function: set Task Popup Window Text Type - details & general type
-     * Author: Siyu Liao
      * Version: Week 11
      */
     private void setTaskDetailsType() {
@@ -690,7 +681,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     /**
      * Date: 23.04.17
      * Function: show message toast
-     * Author: Siyu Liao
      * Version: Week 13
      */
     private void midToast(String str) {
@@ -709,7 +699,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     /**
      * Date: 23.04.17
      * Function: RouteCallback - call reroute for officer to reach the disaster center
-     * Author: Siyu Liao
      * Version: Week 14
      */
     void rerouteSetting(LatLng start, LatLng end) {
@@ -733,7 +722,6 @@ public class DisasterFragment extends Fragment implements OnMapReadyCallback, Lo
     /**
      * Date: 23.04.17
      * Function:  callback override functions for route
-     * Author: Siyu Liao
      * Version: Week 14
      */
     @Override

@@ -59,7 +59,6 @@ public class HereRerouteDataSource {
     /**
      * Date: 23.04.14
      * Function: search the here api engine, find a proper route
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public void addRoute(LatLng startPoint, LatLng desPoint, List<GeoBox> geoBoxes) throws InstantiationErrorException {
@@ -97,7 +96,6 @@ public class HereRerouteDataSource {
     /**
      * Date: 23.04.14
      * Function: collect the route geo points and return the points array
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private void showRouteOnMap(Route route) {

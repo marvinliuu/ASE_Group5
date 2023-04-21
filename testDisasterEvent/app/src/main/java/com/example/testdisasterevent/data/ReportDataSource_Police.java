@@ -22,7 +22,6 @@ public class ReportDataSource_Police {
     /**
      * Date: 23.04.14
      * Function: get unconfirm report info for police from database
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public LiveData<ReportInfo[]> getReportInfo() {

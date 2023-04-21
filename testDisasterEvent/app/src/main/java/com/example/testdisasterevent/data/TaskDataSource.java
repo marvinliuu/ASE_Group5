@@ -21,7 +21,6 @@ public class TaskDataSource {
     /**
      * Date: 23.04.14
      * Function: get task details info from database
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public LiveData<TaskDetail> getTaskDetails() {

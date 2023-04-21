@@ -86,7 +86,6 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Date: 23.04.12
      * Function: set all the viewmodel data observer
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private void setDataObserver() {
@@ -149,7 +148,6 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Date: 23.03.31
      * Function: set all the data and button listeners
-     * Author: Siyu Liao
      * Version: Week 10
      */
     private void setListeners () {

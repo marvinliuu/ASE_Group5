@@ -26,7 +26,6 @@ public class GeoHelpers {
     /**
      * Date: 23.04.12
      * Function: init here api sdk
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public void getRouteLatLngInfo (String start, String end, HereRerouteDataSource hereRerouteDataSource, DisasterDetail[] details) throws InstantiationErrorException {
@@ -39,7 +38,6 @@ public class GeoHelpers {
     /**
      * Date: 23.04.17
      * Function: get location latitude & longitude info
-     * Author: Siyu Liao
      * Version: Week 13
      */
     public LatLng getLocLatLng(String locName) {
@@ -71,7 +69,6 @@ public class GeoHelpers {
     /**
      * Date: 23.04.17
      * Function: get location GeoBox Info
-     * Author: Siyu Liao
      * Version: Week 13
      */
     List<GeoBox> calDisAreaGeoInfo(DisasterDetail[] details) {
@@ -123,7 +120,6 @@ public class GeoHelpers {
     /**
      * Date: 23.04.17
      * Function: add ori / des marker on the map
-     * Author: Siyu Liao
      * Version: Week 13
      */
     public void addOnePointMarker(boolean ori, LatLng point, GoogleMap map, Resources resources) {

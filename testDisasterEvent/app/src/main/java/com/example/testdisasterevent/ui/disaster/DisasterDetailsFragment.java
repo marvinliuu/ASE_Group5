@@ -203,7 +203,6 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     /**
      * Date: 23.04.06
      * Function: bind all the subViews
-     * Author: Siyu Liao
      * Version: Week 11
      */
     private void bindSubView() {
@@ -225,7 +224,6 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     /**
      * Date: 23.04.06
      * Function: set all the button click listeners
-     * Author: Siyu Liao
      * Version: Week 11
      */
     private void setClickListeners () {
@@ -276,9 +274,10 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
 
         locDetail.setText(details[index].getLocation());
 //        ftDetail.setText(Long.toString(details[index].getHappenTime()));
-        ftDetail.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.toString(details[index].getHappenTime()))));
+        Long rtime = details[index].getHappenTime();
+        ftDetail.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(rtime)));
         typeDetail.setText(details[index].getDisasterType());
-        upDetail.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.toString(details[index].getHappenTime()))));
+        upDetail.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(rtime)));
 //        upDetail.setText(Long.toString(details[index].getHappenTime()));
         radiusDetail.setText(Integer.toString(details[index].getRadius()) + " m");
         setDisasterDetailsType();
@@ -330,7 +329,6 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     /**
      * Date: 23.04.06
      * Function: set Disaster Details Popup Window Text Type
-     * Author: Siyu Liao
      * Version: Week 11
      */
     private void setDisasterDetailsType() {
@@ -356,7 +354,6 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     /**
      * Date: 23.04.06
      * Function: calculate zoom level
-     * Author: Siyu Liao
      * Version: Week 11
      */
     private float calZoomLevel (int radius) {
@@ -419,7 +416,6 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     /**
      * Date: 23.04.06
      * Function: set disaster detials click listener
-     * Author: Siyu Liao
      * Version: Week 11
      */
     void observeButtonClick(List<LatLng> selectedRoad) {
@@ -478,7 +474,6 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     /**
      * Date: 23.04.06
      * Function: set the click map marker - trigger reroute setting logic
-     * Author: Siyu Liao
      * Version: Week 11
      */
     void rerouteSetting(LatLng start, LatLng end) {
@@ -616,7 +611,6 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     /**
      * Date: 23.04.06
      * Function: when the route ready, plot on the map
-     * Author: Siyu Liao
      * Version: Week 11
      */
     public void onOptimalRouteReady(DirectionsRoute route) {
@@ -643,7 +637,6 @@ public class DisasterDetailsFragment extends Fragment implements OnMapReadyCallb
     /**
      * Date: 23.04.06
      * Function: set the polyline options info for polyline shows
-     * Author: Siyu Liao
      * Version: Week 11
      */
     private PolylineOptions setPolyLineOptions(List<LatLng> points) {

@@ -37,7 +37,6 @@ public class ReportDataSource {
     /**
      * Date: 23.04.14
      * Function: submit the citizen report into database
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public Result<String> SubmitCitizenReport(ReportFromCitizen reportData) {
@@ -78,7 +77,6 @@ public class ReportDataSource {
     /**
      * Date: 23.04.14
      * Function: submit the garda report into database
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public Result<String> SubmitGardaReport(DisasterDetail disasterData) {
@@ -136,7 +134,6 @@ public class ReportDataSource {
     /**
      * Date: 23.04.14
      * Function: transfer report to disaster
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public DisasterDetail Report2Disaster(ReportFromCitizen reportData) {

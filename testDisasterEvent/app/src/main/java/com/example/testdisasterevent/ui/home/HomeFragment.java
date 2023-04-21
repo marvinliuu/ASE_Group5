@@ -199,7 +199,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     /**
      * Date: 23.04.12
      * Function: set all the viewmodel data observer
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private void setDataObserver() {
@@ -218,7 +217,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     /**
      * Date: 23.03.31
      * Function: set all the button click listeners
-     * Author: Siyu Liao
      * Version: Week 10
      */
     private void setClickListeners () {
@@ -266,7 +264,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     /**
      * Date: 23.04.12
      * Function: add reroute start & end marker on the map
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private void addOriDesMarkers(String start, String end) {
@@ -280,7 +277,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     /**
      * Date: 23.04.12
      * Function: current location update callback
-     * Author: Siyu Liao
      * Version: Week 12
      */
     @Override
@@ -322,7 +318,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     /**
      * Date: 23.04.12
      * Function: create circle on the map about disaster radius
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private void createDisasterCircleOnMap() {
@@ -359,7 +354,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     /**
      * Date: 23.04.12
      * Function: init here api sdk
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private void initializeHERESDK() {
@@ -436,7 +430,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     /**
      * Date: 23.04.12
      * Function: create no report popup window
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public void createNoReportPopWindow() {
@@ -469,7 +462,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     /**
      * Date: 23.04.12
      * Function: create report listing popup window
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public void createReportPopupWindow(ReportInfo[] infos) {
@@ -590,7 +582,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     /**
      * Date: 23.04.05
      * Following Function: create Text View for the popupwindow item - Title, Location
-     * Author: Siyu Liao
      * Version: Week 11
      */
 
@@ -626,7 +617,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     /**
      * Date: 23.03.31
      * Function: set report item click listener
-     * Author: Siyu Liao
      * Version: Week 10
      */
     private void setReportItemClickListener(RelativeLayout relativeLayout) {
@@ -662,7 +652,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     /**
      * Date: 23.04.13
      * Function: parase the real time bus data info
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private void parseRealTimeData() {
@@ -704,7 +693,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     /**
      * Date: 23.04.13
      * Function: read bus real time data from api or defautl data
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private void readBusContent (JsonObject jsonObject) {
@@ -746,7 +734,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     /**
      * Date: 23.04.13
      * Function: request the bus info api
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private void getRealTimeData() {
@@ -795,7 +782,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Locati
     /**
      * Date: 23.04.13
      * Function: add bus marker for each bus on the map
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private void addBusMarker(double latitude, double longitude) {

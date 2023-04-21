@@ -42,7 +42,6 @@ public class RerouteDataSource {
     /**
      * Date: 23.04.14
      * Function: find the route that takes the minimum time from origin to destination
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public DirectionsRoute findMinTimeRoute(List<LatLng> exits, LatLng currentLocation) throws InterruptedException, ApiException, IOException {
@@ -91,7 +90,6 @@ public class RerouteDataSource {
     /**
      * Date: 23.04.14
      * Function: Execute the reroute directions task - Google Map
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private static class DirectionsTask extends AsyncTask<Void, Void, DirectionsResult> {

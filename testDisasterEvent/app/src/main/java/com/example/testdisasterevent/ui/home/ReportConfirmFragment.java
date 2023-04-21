@@ -141,7 +141,6 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
     /**
      * Date: 23.04.13
      * Function: set all the button click listeners
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private void setClickListeners () {
@@ -221,7 +220,6 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
     /**
      * Date: 23.04.13
      * Function: add report location marker
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private void addReportLocMarker(String titleText, ReportInfo[] infos) {
@@ -250,7 +248,6 @@ public class ReportConfirmFragment extends Fragment implements OnMapReadyCallbac
     /**
      * Date: 23.04.13
      * Function: set Disaster report Popup Window Text Type
-     * Author: Siyu Liao
      * Version: Week 12
      */
     private void setReportDetailsType() {

@@ -27,7 +27,6 @@ public class RoadsInfoDatasource {
     /**
      * Date: 23.04.14
      * Function: select 8 points near the disaster effect radius
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public List<LatLng> selectNearByLocation (double latitude, double longitude, double radius) {
@@ -50,7 +49,6 @@ public class RoadsInfoDatasource {
     /**
      * Date: 23.04.14
      * Function: get the roads near by a geo points - calc more than one point function
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public LiveData<List<LatLng>> getNearbyRoads(double latitude, double longitude, double radius) {
@@ -113,7 +111,6 @@ public class RoadsInfoDatasource {
     /**
      * Date: 23.04.14
      * Function: get the nearest road close to the user current point - calc one point function
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public LiveData<List<LatLng>> getUserNearbyRoads(double latitude, double longitude) {

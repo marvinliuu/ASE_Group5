@@ -22,7 +22,6 @@ public class RegisterRepository {
     /**
      * Date: 23.04.14
      * Function: execute the register process
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public Result<String> register(String username, String password, String email, String phone, String actCode) {

@@ -10,7 +10,6 @@ import com.example.testdisasterevent.R;
 /**
  * Date: 23.04.06
  * Function: Popupwindow Relative Utils
- * Author: Siyu Liao
  * Version: Week 11
  */
 public class PopupwindowUtils {

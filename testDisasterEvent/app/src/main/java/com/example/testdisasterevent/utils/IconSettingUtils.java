@@ -16,7 +16,6 @@ public class IconSettingUtils {
     /**
      * Date: 23.04.17
      * Function: create disaster icon on relativelayout
-     * Author: Siyu Liao
      * Version: Week 13
      */
     public ImageView createDisIconOnWindow (String title, Context context) {
@@ -35,7 +34,6 @@ public class IconSettingUtils {
     /**
      * Date: 23.04.17
      * Function: create report event icon on relativelayout
-     * Author: Siyu Liao
      * Version: Week 13
      */
     public ImageView createReportEvenIconOnWindow (String title, Context context) {
@@ -54,7 +52,6 @@ public class IconSettingUtils {
     /**
      * Date: 23.04.17
      * Function: create disaster icon on map
-     * Author: Siyu Liao
      * Version: Week 13
      */
     public Bitmap createDisIconOnMap (String title, Resources resources) {
@@ -73,7 +70,6 @@ public class IconSettingUtils {
     /**
      * Date: 23.04.17
      * Function: set disaster icon resource
-     * Author: Siyu Liao
      * Version: Week 13
      */
     public void setDisIconResource (String title, ImageView disaster_logo) {
@@ -89,7 +85,6 @@ public class IconSettingUtils {
     /**
      * Date: 23.04.17
      * Function: set officer task title
-     * Author: Siyu Liao
      * Version: Week 13
      */
     public void setTaskTitle (String title, TextView txt_show_task) {
@@ -108,7 +103,6 @@ public class IconSettingUtils {
     /**
      * Date: 23.04.17
      * Function: set report title
-     * Author: Siyu Liao
      * Version: Week 13
      */
     public void setReportTitle (String title, TextView txt_show) {
@@ -127,7 +121,6 @@ public class IconSettingUtils {
     /**
      * Date: 23.04.17
      * Function: set ori / des icon on map
-     * Author: Siyu Liao
      * Version: Week 13
      */
     public Bitmap setOriDesIcon (Boolean ori, Resources resources) {

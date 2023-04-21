@@ -22,7 +22,6 @@ public class DisasterDataSource {
     /**
      * Date: 23.04.14
      * Function: get disaster details info from database
-     * Author: Siyu Liao
      * Version: Week 12
      */
     public LiveData<DisasterDetail[]> getDisasterDetails() {
